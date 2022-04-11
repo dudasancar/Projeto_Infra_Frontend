@@ -1,7 +1,9 @@
 import React from "react";
+import EditUserModal from "./components/EditUserModal/EditUserModal";
+
 
 function App() {
-  return <div className="App"></div>;
+  return <EditUserModal/>;
 }
 
 export default App;
