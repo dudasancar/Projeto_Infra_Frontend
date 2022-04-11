@@ -1,5 +1,5 @@
 import React from "react";
-import EditUserModal from "./components/EditUserModal/EditUserModal";
+import EditUserModal from "./components/EditUserModal/Index";
 
 
 function App() {

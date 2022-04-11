@@ -16,6 +16,7 @@ export const Container = styled.div`
 export const ModalForm = styled.form`
   height: 60%;
   width: 50%;
+  max-width: 1400px;
   box-sizing: border-box;
   padding: 25px;
   background-color: white;
