@@ -1,7 +1,6 @@
 import React from "react";
 import { Container, ContainerButtons, GridForm } from "./Style";
 import { Button, MenuItem, TextField } from "@mui/material";
-import Stack from "@mui/material/Stack";
 import { useFormik } from "formik";
 import { object, string } from "yup";
 import { getUser } from "../../services/getUsers";
@@ -24,7 +23,6 @@ interface Props {
 const AddEditUser = (props: Props) => {
   const ArrayUsers: User[] = [];
   const location = useLocation();
-  const [users, setUsers] = React.useState<typeof ArrayUsers>();
   const [editedUser, setEditedUser] = React.useState<User>();
 
   useEffect(() => {
@@ -34,14 +32,13 @@ const AddEditUser = (props: Props) => {
           setEditedUser(response.find((user) => user.id == props.userId)),
         )
         .catch((error) => console.log(error));
-    } else {
-      console.log("Fazer teu get aqui");
     }
   }, []);
 
   const validationSchema = object({
     name: string().required("Obrigatório"),
     email: string().email("Email inválido").required("Obrigatório"),
+    userType: string().required('Obrigatório')
   });
 
   const formik = useFormik({
@@ -59,7 +56,7 @@ const AddEditUser = (props: Props) => {
         },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      location.pathname == "editarUsuario"
+      location.pathname == "/editarUsuario"
         ? editedUser &&
           editUsers(editedUser!.id, values.name, values.email, values.userType)
             .then((response) => alert(response))
@@ -96,7 +93,7 @@ const AddEditUser = (props: Props) => {
   return (
     <Container>
       <form onSubmit={formik.handleSubmit}>
-        {location.pathname == "editarUsuario" ? (
+        {location.pathname == "/editarUsuario" ? (
           <h2>Editar usuário</h2>
         ) : (
           <h2>Cadastrar novo usuário</h2>
