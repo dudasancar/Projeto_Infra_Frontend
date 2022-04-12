@@ -59,12 +59,12 @@ const AddEditUser = (props: Props) => {
         editedUser &&
         (editUsers(editedUser!.id, values.name, values.email, values.userType)
             .then((response) => alert(response)) 
-            .catch((err: string) => alert('Deu erro')) 
+            .catch((err: string) => alert(err)) 
            
         )
         : 
         (addUsers(values.name, values.email, values.userType)
-            .then((response) => console.log(response))
+            .then((response) => alert(response))
             .catch((err: string) => alert(err))
         )
     },
