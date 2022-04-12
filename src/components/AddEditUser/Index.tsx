@@ -21,7 +21,6 @@ interface Props {
 }
 
 const AddEditUser = (props: Props) => {
-  const ArrayUsers: User[] = [];
   const location = useLocation();
   const [editedUser, setEditedUser] = React.useState<User>();
 
