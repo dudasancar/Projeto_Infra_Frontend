@@ -6,26 +6,26 @@ export const Container = styled.div`
   left: 0;
   top: 0;
   position: fixed;
+  background-color: #F7F7F7;
   height: 100vh;
   width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
-`;
-
-export const ModalForm = styled.form`
-  height: 60%;
-  width: 50%;
-  max-width: 1400px;
-  box-sizing: border-box;
-  padding: 25px;
-  background-color: white;
-  border: solid thin #e6e6e6;
-  border-radius: 5px;
-  display: flex;
-  flex-flow: column nowrap;
-  gap: 25px;
-
+  form {
+    box-shadow: 0px 0px 10px #00000029;
+    height: 60%;
+    width: 50%;
+    max-width: 1400px;
+    box-sizing: border-box;
+    padding: 25px;
+    background-color: white;
+    border: solid thin #e6e6e6;
+    border-radius: 5px;
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 25px;
+  }
   h2 {
     font-size: 2rem;
   }

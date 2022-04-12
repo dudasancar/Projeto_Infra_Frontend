@@ -1,11 +1,12 @@
 import React from 'react'
-import { Container, ModalForm, ContainerButtons, GridForm } from './Style'
+import { Container, ContainerButtons, GridForm } from './Style'
 import {Button, MenuItem, TextField} from '@mui/material'
 import {useFormik} from 'formik';
-import {object, string, ref, number}  from 'yup';
-import { boolean } from 'yup/lib/locale';
-import { EditUser, getUser } from '../../services/getUsers';
+import {object, string}  from 'yup';
+import { getUser } from '../../services/getUsers';
+import { editUsers } from '../../services/editUsers'
 import { useEffect } from 'react';
+
 
 interface Props {
   setDisplay: boolean
@@ -20,9 +21,9 @@ interface User {
 
 
 
-const EditUserModal = (props: Props) => {
+const EditUser = (props: Props) => {
 
-
+  const [modalDisplay, setModalDisplay] = React.useState<boolean>(false);
   const [users, setUsers] = React.useState<User>();
 
   useEffect(() =>{
@@ -30,18 +31,12 @@ const EditUserModal = (props: Props) => {
       .then(response => setUsers(response))
       .catch(error => console.log(error))
 
-
   }, [])
 
-
-  
-
   const validationSchema = object({
-    nome: string().required('Obrigatório'),
+    name: string().required('Obrigatório'),
     email: string().email('Email inválido').required('Obrigatório'),
   });
-
-
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -51,10 +46,14 @@ const EditUserModal = (props: Props) => {
       userType: '',
     },
     validationSchema: validationSchema,
-    onSubmit: (values: {name: string, email: string, userType: string} ) => {
-
-       users && EditUser(users.id, values.name, values.email, values.userType)
-    },
+    onSubmit: (values) => {
+    
+       users && editUsers(users.id, values.name, values.email, values.userType)
+       .then((response) => console.log(response) 
+       
+       )
+       .catch((err:string) => console.log(err))
+    }
   });
 
 
@@ -85,7 +84,8 @@ const EditUserModal = (props: Props) => {
 
   return (
     <Container>
-      <ModalForm onSubmit={formik.handleSubmit}>
+       
+            <form onSubmit={formik.handleSubmit}>
         <h2>Editar usuário</h2>
 
         <GridForm>
@@ -133,13 +133,17 @@ const EditUserModal = (props: Props) => {
         </GridForm>
         <ContainerButtons>
           <Button 
-          id='CancelButton' onClick={(e) => props.setDisplay}>CANCELAR</Button>
+          id='CancelButton' onClick={(e) =>(props.setDisplay)}
+          
+          type="reset">CANCELAR</Button>
           <Button
-          id='SaveButton'>SALVAR</Button>
+          type='submit'
+          id='SaveButton'
+          value='SALVAR'>SALVAR</Button>
           </ContainerButtons>
-      </ModalForm>
+      </form>
     </Container>
   )
 }
 
-export default EditUserModal
+export default EditUser

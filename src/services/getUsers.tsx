@@ -1,15 +1,15 @@
 
 
 
-export const getUser = async() {
+export const getUser = async() => {
 
 const data = 
   { id: 1,
   name: 'Mateus',
   email: 'mateus.lammel@gmail.com',
-  type: 'Administração'}
+  type: 'Administração'
+}
 
- 
   try {
    return Promise.resolve(data)
   } catch (error) {
