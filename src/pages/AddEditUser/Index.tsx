@@ -56,11 +56,11 @@ const AddEditUser = (props: Props) => {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       location.pathname == "/editarUsuario"  ? 
-        (editedUser ?
-          editUsers(editedUser!.id, values.name, values.email, values.userType)
+        editedUser &&
+        (editUsers(editedUser!.id, values.name, values.email, values.userType)
             .then((response) => alert(response)) 
             .catch((err: string) => alert('Deu erro')) 
-            : alert('Erro na requisição do usuário a ser editado')
+           
         )
         : 
         (addUsers(values.name, values.email, values.userType)
