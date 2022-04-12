@@ -2,7 +2,7 @@
 
 
 export const editUsers = async(
-    id: number,
+    id: string,
     name: string,
     email: string,
     type: string,

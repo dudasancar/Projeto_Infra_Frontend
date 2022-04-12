@@ -10,14 +10,14 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 interface User {
-  id: number;
+  id: string;
   name: string;
   email: string;
   type: string;
 }
 
 interface Props {
-  userId: number | null;
+  userId: string | null;
 }
 
 const AddEditUser = (props: Props) => {
@@ -55,14 +55,18 @@ const AddEditUser = (props: Props) => {
         },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      location.pathname == "/editarUsuario"
-        ? editedUser &&
+      location.pathname == "/editarUsuario"  ? 
+        (editedUser ?
           editUsers(editedUser!.id, values.name, values.email, values.userType)
-            .then((response) => alert(response))
-            .catch((err: string) => alert(err))
-        : addUsers(values.name, values.email, values.userType)
+            .then((response) => alert(response)) 
+            .catch((err: string) => alert('Deu erro')) 
+            : alert('Erro na requisição do usuário a ser editado')
+        )
+        : 
+        (addUsers(values.name, values.email, values.userType)
             .then((response) => console.log(response))
-            .catch((err: string) => alert(err));
+            .catch((err: string) => alert(err))
+        )
     },
   });
 
