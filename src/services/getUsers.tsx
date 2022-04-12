@@ -9,7 +9,6 @@ const data =
   email: 'mateus.lammel@gmail.com',
   type: 'Administração'
 }
-
   try {
    return Promise.resolve(data)
   } catch (error) {

@@ -1,21 +1,18 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  position: fixed;
-  background-color: #F7F7F7;
+export const Container = styled.section`
+  box-sizing: border-box;
+  background-color: #f7f7f7;
   height: 100vh;
   width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
+
   form {
     box-shadow: 0px 0px 10px #00000029;
     height: 60%;
-    width: 50%;
+    width: 55%;
     max-width: 1400px;
     box-sizing: border-box;
     padding: 25px;
@@ -24,10 +21,13 @@ export const Container = styled.div`
     border-radius: 5px;
     display: flex;
     flex-flow: column nowrap;
-    gap: 25px;
+    justify-content: space-between;
   }
   h2 {
     font-size: 2rem;
+    margin:0;
+    padding:0;
+    color: #3E4756;
   }
 `;
 
@@ -50,10 +50,5 @@ export const ContainerButtons = styled.div`
   #CancelButton {
     border: solid thin #ff5f5d;
     color: #ff5f5d;
-  }
-
-  #SaveButton {
-    background-color: #0dcd9a;
-    color: white;
   }
 `;

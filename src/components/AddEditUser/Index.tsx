@@ -1,6 +1,7 @@
 import React from 'react'
 import { Container, ContainerButtons, GridForm } from './Style'
 import {Button, MenuItem, TextField} from '@mui/material'
+import Stack from '@mui/material/Stack';
 import {useFormik} from 'formik';
 import {object, string}  from 'yup';
 import { getUser } from '../../services/getUsers';
@@ -19,14 +20,15 @@ interface User {
   type: string
 };
 
+const AddEditUser = (props: Props) => {
 
-
-const EditUser = (props: Props) => {
-
-  const [modalDisplay, setModalDisplay] = React.useState<boolean>(false);
   const [users, setUsers] = React.useState<User>();
 
-  useEffect(() =>{
+  const [OqueFazer, setOqueFazer] = React.useState();
+
+
+
+  useEffect(() => {
       getUser()
       .then(response => setUsers(response))
       .catch(error => console.log(error))
@@ -49,12 +51,13 @@ const EditUser = (props: Props) => {
     onSubmit: (values) => {
     
        users && editUsers(users.id, values.name, values.email, values.userType)
-       .then((response) => console.log(response) 
+       .then((response) => alert(response) 
        
        )
-       .catch((err:string) => console.log(err))
+       .catch((err:string) => alert(err))
     }
   });
+
 
 
   const userType = [
@@ -134,11 +137,10 @@ const EditUser = (props: Props) => {
         <ContainerButtons>
           <Button 
           id='CancelButton' onClick={(e) =>(props.setDisplay)}
-          
           type="reset">CANCELAR</Button>
           <Button
+          variant="contained"
           type='submit'
-          id='SaveButton'
           value='SALVAR'>SALVAR</Button>
           </ContainerButtons>
       </form>
@@ -146,4 +148,4 @@ const EditUser = (props: Props) => {
   )
 }
 
-export default EditUser
+export default AddEditUser

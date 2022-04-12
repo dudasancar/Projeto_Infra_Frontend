@@ -8,7 +8,7 @@ export const editUsers = async(
     type: string,
     ) => {
       try {
-       return Promise.resolve('Sucesso na postagem')
+       return Promise.resolve('Sucesso na postagem');
       } catch (error) {
         return Promise.reject(error);
       }
