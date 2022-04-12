@@ -7,11 +7,8 @@ import {object, string}  from 'yup';
 import { getUser } from '../../services/getUsers';
 import { editUsers } from '../../services/editUsers'
 import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
-
-interface Props {
-  setDisplay: boolean
-}
 
 interface User {
   id: number,
@@ -20,20 +17,30 @@ interface User {
   type: string
 };
 
+
+interface Props {
+  userId: number
+}
+
 const AddEditUser = (props: Props) => {
 
-  const [users, setUsers] = React.useState<User>();
-
-  const [OqueFazer, setOqueFazer] = React.useState();
-
-
+  const ArrayUsers: User[] = [];
+  const location = useLocation();
+  const [users, setUsers] = React.useState<typeof ArrayUsers>();
+  const [editedUser, setEditedUser] = React.useState<User>();
+ 
 
   useEffect(() => {
+    if(location.pathname == '/editarUsuario'){
       getUser()
-      .then(response => setUsers(response))
-      .catch(error => console.log(error))
-
+      .then(response => setEditedUser(response.find(user => user.id == props.userId)))
+      .catch(error => console.log(error));
+  } else{ console.log('Fazer teu get aqui')}
   }, [])
+
+
+  
+
 
   const validationSchema = object({
     name: string().required('Obrigatório'),
@@ -42,23 +49,26 @@ const AddEditUser = (props: Props) => {
 
   const formik = useFormik({
     enableReinitialize: true,
-    initialValues: {
-      name:'',
+    initialValues:  editedUser ? ( {
+      name: editedUser!.name,
+      email: editedUser!.email,
+      userType: editedUser!.type ,
+    }) :
+    ({
+      name: '',
       email: '',
       userType: '',
-    },
+    }),
     validationSchema: validationSchema,
     onSubmit: (values) => {
     
-       users && editUsers(users.id, values.name, values.email, values.userType)
-       .then((response) => alert(response) 
-       
-       )
-       .catch((err:string) => alert(err))
+      
+      location.pathname == 'editarUsuario' ?  ( 
+        editedUser && editUsers(editedUser!.id, values.name, values.email, values.userType)
+       .then((response) => alert(response))
+       .catch((err:string) => alert(err))) : (console.log('Colocar aqui'))
     }
   });
-
-
 
   const userType = [
     {
@@ -84,12 +94,13 @@ const AddEditUser = (props: Props) => {
  
   ];
 
-
   return (
     <Container>
        
             <form onSubmit={formik.handleSubmit}>
-        <h2>Editar usuário</h2>
+          
+          {location.pathname == 'editarUsuario' ? 
+          <h2>Editar usuário</h2> : <h2>Cadastrar novo usuário</h2>}
 
         <GridForm>
           <TextField
@@ -136,7 +147,7 @@ const AddEditUser = (props: Props) => {
         </GridForm>
         <ContainerButtons>
           <Button 
-          id='CancelButton' onClick={(e) =>(props.setDisplay)}
+          id='CancelButton' onClick={formik.handleReset}
           type="reset">CANCELAR</Button>
           <Button
           variant="contained"

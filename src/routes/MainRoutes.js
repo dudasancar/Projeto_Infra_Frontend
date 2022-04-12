@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import EditUser from "../components/AddEditUser/Index";
+import EditUser from "../pages/EditUser/Index";
 import GlobalStyle from "../components/GlobalStyle";
 
 const MainRoutes = () => {
@@ -8,7 +8,7 @@ const MainRoutes = () => {
     <BrowserRouter>
       <GlobalStyle />
       <Routes>
-        <Route path="/" element={<EditUser />} />
+        <Route path="/editarUsuario" element={<EditUser />} />
       </Routes>
     </BrowserRouter>
   );
