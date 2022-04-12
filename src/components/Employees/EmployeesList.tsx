@@ -2,14 +2,13 @@ import React from "react";
 import ReactDOM from "react-dom";
 import MaterialTable from "material-table";
 import { listEmployees } from "../../services/Employees/ListEmployees";
-import { Tittle } from "../../style";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import AssignmentIcon from "@mui/icons-material/Assignment";
-import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
-import ThreeDRotation from "@mui/icons-material/ThreeDRotation";
-import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+
+
+
 
 interface Employee{
   id?: number,
@@ -42,6 +41,10 @@ const EmployessList = (props: Props) => {
 
   const [employeesList, setEmployeesList] = React.useState<Employee[]>()
 
+  const handleClick = (() => {
+    alert("Fui chamado!")
+  })
+
 
 
   React.useEffect(() => {
@@ -52,34 +55,28 @@ const EmployessList = (props: Props) => {
 
   return (
     <div style={{ maxWidth: "80%", margin: "0 auto" }}>
-      <Tittle>
-        <VisibilityIcon />
-        Projeto Infraestrutura
-        <VisibilityIcon />
-      </Tittle>
       {employeesList && (
         <MaterialTable
+          title="Lista de Funcionarios"
           editable={{
             onRowAdd:()=>new Promise((resolve,reject)=>{
 
             })
           }}
-          title=""
           columns={[
             { title: "ID", field: "id" },
             { title: "Nome", field: "name" },
             { title: "Email", field: "email" },
             { title: "Cargo", field: "type" },
-            {
-              title: "",
+            { title: "",
               render: () => (
                 <Tooltip title="Mais Detalhes">
                   <AssignmentIcon
+                    onClick={handleClick}
                     style={{
                       cursor: "pointer",
                       color: "black",
                     }}
-                    alt="Icone de Prancheta"
                   />
                 </Tooltip>
               ),
@@ -90,10 +87,8 @@ const EmployessList = (props: Props) => {
           }}
           data={employeesList}
           options={{
-            title: false,
             filtering: true,
             search: true,
-            searchAutoFocus: true,
             paging: false,
             headerStyle: {
               backgroundColor: "#DFDFDF",
