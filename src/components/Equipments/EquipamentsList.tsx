@@ -1,11 +1,9 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import MaterialTable from "material-table";
 import { listEquipments } from "../../services/Equipments/ListEquipments";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import Button from '@mui/material/Button';
+import MaterialTable  from 'material-table';
 
 
 
@@ -48,7 +46,7 @@ interface Props {
 
 const EquipmentsList = (props: Props) => {
 
-
+  const MaterialTable = require("material-table").default;
 
   const [equipmentsList, setEquipmentsList] = React.useState<Equipment[]>()
 
@@ -67,7 +65,7 @@ const EquipmentsList = (props: Props) => {
   console.log(equipmentsList)
 
   return (
-    <div style={{ maxWidth: "80%", margin: "0 auto" }}>
+    <div style={{ maxWidth: "100%", margin: "0 auto", fontStyle: "sans-serif" }}>
       {equipmentsList && (
         <MaterialTable
           title="Lista de Equipamentos"
@@ -84,8 +82,16 @@ const EquipmentsList = (props: Props) => {
             { title: "Tipo", field: "type" },
             { title: "Status", field: "stats" },
             { title: "Usuario", field: "user" },
-            { title: "Departamento", field: "department" },
-            { title: "Cargo", field: "type" },
+            { title: "Departamento", field: "departament" },
+            { title: "Processador", field: "cpu" },
+            { title: "Memoria", field: "memory" },
+            { title: "Armazenamento", field: "storage" },
+            { title: "Cargo", field: "system" },
+            { title: "Office", field: "office" },
+            { title: "Ultimo Usuario", field: "lastUser" },
+            { title: "Nota Fiscal", field: "fiscalNote" },
+            { title: "Data de Compra", field: "buyDate" },
+            { title: "Termo de Responsabilidade", field: "term" },
             {
               title: "",
               render: () => (
