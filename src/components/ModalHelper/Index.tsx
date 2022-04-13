@@ -1,9 +1,25 @@
+import { Alert } from '@mui/material';
 import React from 'react'
+import { useMessage } from '../../context/MessageContext/Index'
+import { ContainerModal } from './style';
 
-const Index = () => {
+const ModalMessage = () => {
+  const { setMessage, message} = useMessage();
+
+  message.display &&
+  setTimeout(() => {
+    setMessage({
+      content: '',
+      display: false,
+      severity: 'success'
+    })
+  }, 3000)
+
   return (
-    <div>Index</div>
+    <ContainerModal display={message.display}>
+      <Alert style={{width: '100%'}} severity={message.severity}>{message.content}</Alert>
+    </ContainerModal>
   )
 }
 
-export default Index
+export default ModalMessage

@@ -1,9 +1,19 @@
-import React from 'react'
+import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import ModalMessage from "../components/ModalHelper/Index";
+import { useMessage } from '../context/MessageContext/Index'
 
 const MainRoutes = () => {
-  return (
-    <div>MainRoutes</div>
-  )
-}
 
-export default MainRoutes
+   const {message} = useMessage();
+   
+  return (
+    <BrowserRouter>
+   {message.display && <ModalMessage />}
+      <Routes>
+      </Routes>
+    </BrowserRouter>
+  );
+};
+
+export default MainRoutes;

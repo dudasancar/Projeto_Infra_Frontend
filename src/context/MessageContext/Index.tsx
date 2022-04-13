@@ -1,23 +1,32 @@
+import { AlertColor } from "@mui/material";
 import React, { useContext } from "react";
 
-interface MessageContent{
+interface MessageModal{
   content: string,
   display: boolean,
-  type: string
+  severity: AlertColor
 }
 
+interface MessageContext{
+  message: MessageModal,
+  setMessage: any
+}
 
 interface Props {
-  children: JSX.Element | JSX.Element[];
+  children: JSX.Element;
 }
 
-export const MessageContext = React.createContext({
-  message: {},
+export const MessageContext = React.createContext<MessageContext>({
+  message:{
+    content: '',
+    display: false,
+    severity: 'success'
+  },
   setMessage: {}
 });
 
 export const MessageProvider = (props: Props) => {
-  const [message, setMessage] = React.useState<MessageContent>({ content: '', display: false,  type: '' });
+  const [message, setMessage] = React.useState<MessageModal>({content: '', display: false, severity: 'success'});
 
   return (
     <MessageContext.Provider value={{ message, setMessage }}>
