@@ -1,6 +1,8 @@
 import React from 'react'
 import { object, string } from 'yup';
 import { useFormik } from 'formik';
+import {TextField} from '@mui/material';
+import { Container } from './style';
 
 const Login = () => {
 
@@ -11,7 +13,7 @@ const Login = () => {
 
       const formik = useFormik({
         initialValues: {
-            name: '',
+            email: '',
             password: ''
         },
         validationSchema: validationSchema,
@@ -20,7 +22,37 @@ const Login = () => {
 
 
   return (
-    <div>Login</div>
+    <Container>
+
+
+        <div>
+
+            <form>
+            <TextField
+            variant="outlined"
+            type="email"
+            name="email"
+            id="email"
+            label="Nome do usuário"
+            onChange={formik.handleChange}
+            value={formik.values.email}
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
+          />
+           <TextField
+            variant="outlined"
+            type="text"
+            name="password"
+            id="password"
+            label="Nome do usuário"
+            onChange={formik.handleChange}
+            value={formik.values.password}
+            error={formik.touched.password && Boolean(formik.errors.password)}
+            helperText={formik.touched.password && formik.errors.password}
+          />
+            </form>
+        </div>
+    </Container>
   )
 }
 
