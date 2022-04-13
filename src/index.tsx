@@ -1,10 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./App";
+import GlobalStyle from "./GlobalStyles";
+import MainRoutes from "./routes";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <GlobalStyle />
+    <MainRoutes />
   </React.StrictMode>,
-  document.getElementById("root")
+  document.getElementById("root"),
 );
