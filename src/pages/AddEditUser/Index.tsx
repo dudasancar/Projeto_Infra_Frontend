@@ -20,10 +20,36 @@ interface Props {
   userId: string | null;
 }
 
-const AddEditUser = (props: Props) => {
-  const location = useLocation();
-  const [editedUser, setEditedUser] = React.useState<User>();
+const userType = [
+  {
+    value: "administrador",
+    label: "Administrador",
+  },
+  {
+    value: "departamentoPessoal",
+    label: "Departamento Pessoal",
+  },
+  {
+    value: "infraestrutura",
+    label: "Infraestrutura",
+  },
+  {
+    value: "marketing",
+    label: "Marketing",
+  },
+  {
+    value: "recursosHumanos",
+    label: "Recursos Humanos",
+  },
+];
 
+
+
+const AddEditUser = (props: Props) => {
+
+  const [editedUser, setEditedUser] = React.useState<User>();
+  const location = useLocation();
+  
   useEffect(() => {
     if (location.pathname == "/editarUsuario") {
       getUser()
@@ -34,12 +60,25 @@ const AddEditUser = (props: Props) => {
     }
   }, []);
 
-  const validationSchema = object({
-    name: string().required("Obrigatório"),
-    email: string().email("Email inválido").required("Obrigatório"),
-    userType: string().required('Obrigatório')
-  });
+  const CreateOrEditRequest = (values: {name: string, email: string, userType: string}) => {
+    location.pathname == "/editarUsuario" && editedUser ? 
+    (editUsers(editedUser!.id, values.name, values.email, values.userType)
+        .then((response) => alert(response)) 
+        .catch((err: string) => alert(err))   
+    )
+    : 
+    (addUsers(values.name, values.email, values.userType)
+        .then((response) => alert(response))
+        .catch((err: string) => alert(err))
+    )
+  };
 
+  const validationSchema = object({
+    name: string().required("O nome é obrigatório"),
+    email: string().email("Email inválido").required("E-mail obrigatório"),
+    userType: string().required('O tipo de usuário é obrigatório')
+  });
+  
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: editedUser
@@ -55,48 +94,15 @@ const AddEditUser = (props: Props) => {
         },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      location.pathname == "/editarUsuario"  ? 
-        editedUser &&
-        (editUsers(editedUser!.id, values.name, values.email, values.userType)
-            .then((response) => alert(response)) 
-            .catch((err: string) => alert(err)) 
-           
-        )
-        : 
-        (addUsers(values.name, values.email, values.userType)
-            .then((response) => alert(response))
-            .catch((err: string) => alert(err))
-        )
+      CreateOrEditRequest(values);
     },
   });
 
-  const userType = [
-    {
-      value: "administrador",
-      label: "Administrador",
-    },
-    {
-      value: "departamentoPessoal",
-      label: "Departamento Pessoal",
-    },
-    {
-      value: "infraestrutura",
-      label: "Infraestrutura",
-    },
-    {
-      value: "marketing",
-      label: "Marketing",
-    },
-    {
-      value: "recursosHumanos",
-      label: "Recursos Humanos",
-    },
-  ];
 
   return (
     <Container>
       <form onSubmit={formik.handleSubmit}>
-        {location.pathname == "/editarUsuario" ? (
+        {location.pathname == '/editarUsuario' ? (
           <h2>Editar usuário</h2>
         ) : (
           <h2>Cadastrar novo usuário</h2>

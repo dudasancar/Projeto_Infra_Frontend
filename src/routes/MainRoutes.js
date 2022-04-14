@@ -1,14 +1,14 @@
 import React from "react";
 import { BrowserRouter, Navigate, Route, Routes, useParams } from "react-router-dom";
 
-import GlobalStyle from "../components/GlobalStyle";
+import GlobalStyle from "../styles/GlobalStyle";
 import AddEditUser from "../pages/AddEditUser/Index";
 
 const MainRoutes = () => {
-  const { id } = useParams();
+  const  id = 1;
 
   function IdPrivateRoute({ children }) {
-    return id != undefined ? children : <Navigate to="/cadastroUsuario" />;
+    return id ? children : <Navigate to="/cadastroUsuario" />;
   }
 
   return (

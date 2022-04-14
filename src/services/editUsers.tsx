@@ -1,6 +1,4 @@
 
-
-
 export const editUsers = async(
     id: string,
     name: string,
