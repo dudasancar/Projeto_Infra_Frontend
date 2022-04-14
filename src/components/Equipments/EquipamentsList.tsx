@@ -9,6 +9,7 @@ import Box from '@material-ui/core/Box';
 import Typography from '@mui/material/Typography';
 import MaterialTable from 'material-table';
 import style from './style'
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 
 
@@ -33,25 +34,8 @@ interface Equipment {
   term: string,
 }
 
-interface Options {
-  title: boolean,
-  filtering: boolean,
-  search: boolean,
-  searchAutoFocus: boolean,
-  paging: boolean,
 
-}
-
-interface Props {
-
-
-}
-
-
-
-const EquipmentsList = (props: Props): React.ReactElement => {
-
-  const MaterialTable = require("material-table").default;
+const EquipmentsList = () => {
 
   const [equipmentsList, setEquipmentsList] = React.useState<Equipment[]>()
   const [open, setOpen] = React.useState<boolean>(false)
@@ -82,46 +66,40 @@ const EquipmentsList = (props: Props): React.ReactElement => {
   console.log(equipmentsList)
 
   return (
-    <div style={{ maxWidth: "100%", margin: "0 auto", fontStyle: "sans-serif" }}>
+    <div style={{ maxWidth: "80%", margin: "0 auto", fontStyle: "sans-serif" }}>
       {equipmentsList && (
         <MaterialTable
           title="Lista de Equipamentos"
-          editable={{
-            onRowAdd: () => new Promise((resolve, reject) => {
-
-            })
-          }}
           columns={[
-            { title: "ID", field: "id", type: "string" },
+            { title: "ID", field: "id" },
             { title: "Nome", field: "name" },
-            { title: "Modelo", field: "model" },
             { title: "Tipo", field: "type" },
             { title: "Status", field: "stats" },
             { title: "Usuario", field: "user" },
             { title: "Departamento", field: "departament" },
-            { title: "Sistema", field: "system" },
             {
               title: "",
               render: () => (
                 <>
-                  <Tooltip title="Mais Detalhes">
-                    <AssignmentIcon
-                      onClick={handleClick}
-                      style={{
-                        cursor: "pointer",
-                        color: "black",
-                      }}
-                    />
-                  </Tooltip>
-                  <Tooltip title="Inativar">
-                    <DeleteForeverIcon
-                      onClick={handleOpen}
-                      style={{
-                        cursor: "pointer",
-                        color: "red",
-                      }}
-                    />
-                  </Tooltip>
+                  <div style={{ display: "flex" }}>
+                      <Tooltip title="Mais Detalhes"> 
+                        <AssignmentIcon
+                          style={{
+                            cursor: "pointer",
+                            color: "black",
+                          }}
+                        />
+                      </Tooltip>
+                    <Tooltip title="Inativar">
+                      <DeleteForeverIcon
+                        onClick={handleOpen}
+                        style={{
+                          cursor: "pointer",
+                          color: "red",
+                        }}
+                      />
+                    </Tooltip>
+                  </div>
                   <Modal
                     open={open}
                     onClose={handleClose}
@@ -141,14 +119,11 @@ const EquipmentsList = (props: Props): React.ReactElement => {
               ),
             },
           ]}
-          icons={{
-            Add: () => <Button variant="contained">Adicionar</Button>
-          }}
           data={equipmentsList}
           options={{
             filtering: true,
             search: true,
-            paging: false,
+            paging: true,
             headerStyle: {
               backgroundColor: "#DFDFDF",
               color: "#334B48",
