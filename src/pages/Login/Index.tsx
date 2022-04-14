@@ -4,14 +4,14 @@ import { useFormik } from 'formik';
 import {Button, TextField} from '@mui/material';
 import { Container, ContainerLoginForm } from './style';
 import {Link} from 'react-router-dom';
-import logo from '../../assets/logo.png';
+import logo from '../../assets/logo.png'
 import { authenticateUser } from '../../services/authenticateUser';
 
 const Login = () => {
 
     const validationSchema = object({
-        email: string().email("Email inválido").required("Obrigatório"),
-        password: string().min(8, "No minímo 8 caracteres").required("Obrigatório"),
+        email: string().email("Email inválido").required("E-mail obrigatório"),
+        password: string().min(8, "A senha deve possuír no mínimo 8 caracteres").required("Senha obrigatória"),
       });
 
       const formik = useFormik({
@@ -33,6 +33,7 @@ const Login = () => {
         <form onSubmit={formik.handleSubmit}>
           <img src={`${logo}`}/>
           <TextField
+            fullWidth
             variant="outlined"
             type="email"
             name="email"
@@ -44,6 +45,7 @@ const Login = () => {
             helperText={formik.touched.email && formik.errors.email}
           />
           <TextField
+            fullWidth
             variant="outlined"
             type="text"
             name="password"
@@ -55,7 +57,12 @@ const Login = () => {
             helperText={formik.touched.password && formik.errors.password}
           />
           <Link to='/'>Esqueci minha senha</Link>
-          <Button type='submit' variant="contained">ENTRAR</Button>
+          <Button 
+            type='submit' 
+            variant="contained" 
+            fullWidth
+            size='large'
+          >ENTRAR</Button>
         </form>
       </ContainerLoginForm>
     </Container>
