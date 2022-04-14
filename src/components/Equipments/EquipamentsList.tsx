@@ -2,6 +2,7 @@ import React from "react";
 import { listEquipments } from "../../services/Equipments/ListEquipments";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import AssignmentIcon from "@mui/icons-material/Assignment";
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Button from '@mui/material/Button';
 import MaterialTable  from 'material-table';
 
@@ -54,6 +55,10 @@ const EquipmentsList = (props: Props) => {
     alert("Fui chamado!")
   })
 
+  const handleDelete = (() => {
+    alert("Fui chamado!")
+  })
+
 
 
   React.useEffect(() => {
@@ -87,6 +92,7 @@ const EquipmentsList = (props: Props) => {
             {
               title: "",
               render: () => (
+                <>
                 <Tooltip title="Mais Detalhes">
                   <AssignmentIcon
                     onClick={handleClick}
@@ -96,6 +102,16 @@ const EquipmentsList = (props: Props) => {
                     }}
                   />
                 </Tooltip>
+                <Tooltip title="Excluir Equipamento">
+                <DeleteForeverIcon
+                  onClick={handleDelete}
+                  style={{
+                    cursor: "pointer",
+                    color: "black",
+                  }}
+                />
+              </Tooltip>
+              </>
               ),
             },
           ]}
@@ -104,7 +120,7 @@ const EquipmentsList = (props: Props) => {
           }}
           data={equipmentsList}
           options={{
-            filtering: false,
+            filtering: true,
             search: true,
             paging: false,
             headerStyle: {
