@@ -1,10 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./App";
+import LateralMenu from "./components/LateralMenu/Index";
+
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <LateralMenu />
   </React.StrictMode>,
   document.getElementById("root")
 );
