@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import MaterialTable from "material-table";
 import { listEmployees } from "../../services/Employees/ListEmployees";
 import Tooltip from "@mui/material/Tooltip";
@@ -7,10 +7,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 
-
-
-
-interface Employee{
+interface Employee {
   id?: number,
   name?: string,
   email?: string,
@@ -19,20 +16,13 @@ interface Employee{
 
 }
 
-
-
-
 const EmployessList = () => {
-
-
 
   const [employeesList, setEmployeesList] = useState<Employee[]>()
 
   const handleClick = (() => {
     alert("Fui chamado!")
   })
-
-
 
   useEffect(() => {
     listEmployees()
@@ -42,7 +32,6 @@ const EmployessList = () => {
 
   return (
     <div style={{ maxWidth: "80%", margin: "0 auto" }}>
-      <div>
       {employeesList && (
         <MaterialTable
           title="Lista de Funcionarios"
@@ -63,16 +52,29 @@ const EmployessList = () => {
                     }}
                   />
                 </Tooltip>
-                <Tooltip title="Mais Detalhes">
-                  <DeleteForeverIcon
-                    onClick={handleClick}
-                    style={{
-                      cursor: "pointer",
-                      color: "red",
-                    }}
-                  />
-                </Tooltip>
-                </div>
+                <Tooltip title="Inativar">
+                      <DeleteForeverIcon
+                        onClick={handleOpen}
+                        style={{
+                          cursor: "pointer",
+                          color: "red",
+                        }}
+                      />
+                    </Tooltip>
+                  <Modal
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                  >
+                    <div>
+                      <h1>Tem certeza que deseja Inativar este item?
+                        <p>item name</p>
+                      </h1>
+                      <Button variant="contained">Inativar</Button>
+                      <Button onClick={handleClose} variant="contained">Cancelar</Button>
+                    </div>
+                  </Modal>
               ),
             },
           ]}
@@ -92,11 +94,10 @@ const EmployessList = () => {
           }}
         />
       )}
-      </div>
       <div>
         <Button>Adicionar</Button>
       </div>
-    </div>
+    </div >
   );
 };
 
