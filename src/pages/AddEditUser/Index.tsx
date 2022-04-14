@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, ContainerButtons, GridForm } from "./Style";
+import { Container, ContainerButtons, ContainerForm, GridForm } from "./Style";
 import { Button, MenuItem, TextField } from "@mui/material";
 import { useFormik } from "formik";
 import { object, string } from "yup";
@@ -15,11 +15,9 @@ interface User {
   email: string;
   type: string;
 }
-
 interface Props {
   userId: string | null;
 }
-
 const userType = [
   {
     value: "administrador",
@@ -43,8 +41,6 @@ const userType = [
   },
 ];
 
-
-
 const AddEditUser = (props: Props) => {
 
   const [editedUser, setEditedUser] = React.useState<User>();
@@ -60,7 +56,7 @@ const AddEditUser = (props: Props) => {
     }
   }, []);
 
-  const CreateOrEditRequest = (values: {name: string, email: string, userType: string}) => {
+  const CreateOrEditUser = (values: {name: string, email: string, userType: string}) => {
     location.pathname == "/editarUsuario" && editedUser ? 
     (editUsers(editedUser!.id, values.name, values.email, values.userType)
         .then((response) => alert(response)) 
@@ -94,20 +90,21 @@ const AddEditUser = (props: Props) => {
         },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      CreateOrEditRequest(values);
+      CreateOrEditUser(values);
     },
   });
 
-
   return (
     <Container>
+
+
+      <ContainerForm>
       <form onSubmit={formik.handleSubmit}>
         {location.pathname == '/editarUsuario' ? (
           <h2>Editar usuário</h2>
         ) : (
           <h2>Cadastrar novo usuário</h2>
         )}
-
         <GridForm>
           <TextField
             variant="outlined"
@@ -131,7 +128,6 @@ const AddEditUser = (props: Props) => {
             error={formik.touched.email && Boolean(formik.errors.email)}
             helperText={formik.touched.email && formik.errors.email}
           />
-
           <TextField
             id="userType"
             select
@@ -150,14 +146,15 @@ const AddEditUser = (props: Props) => {
           </TextField>
         </GridForm>
         <ContainerButtons>
-          <Button id="CancelButton" onClick={formik.handleReset} type="reset">
+          <Button id="CancelButton" onClick={formik.handleReset} type="reset" size='large'>
             CANCELAR
           </Button>
-          <Button variant="contained" type="submit" value="SALVAR">
+          <Button  variant="contained" type="submit" value="SALVAR" size='large' >
             SALVAR
           </Button>
         </ContainerButtons>
       </form>
+      </ContainerForm>
     </Container>
   );
 };
