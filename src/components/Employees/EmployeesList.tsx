@@ -5,6 +5,7 @@ import Tooltip from "@mui/material/Tooltip";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Button from '@mui/material/Button';
+import Modal from '@mui/material/Modal';
 import { Link } from 'react-router-dom';
 
 interface Employee {
@@ -48,27 +49,28 @@ const EmployessList = () => {
             { title: "Nome", field: "name" },
             { title: "Email", field: "email" },
             { title: "Cargo", field: "type" },
-            { title: "",
+            {
+              title: "",
               render: () => (
-              <div style={{display:"flex"}}>
-                <Tooltip title="Mais Detalhes">
-                  <AssignmentIcon
-                    onClick={handleClick}
-                    style={{
-                      cursor: "pointer",
-                      color: "black",
-                    }}
-                  />
-                </Tooltip>
-                <Tooltip title="Inativar">
-                      <DeleteForeverIcon
-                        onClick={handleOpen}
-                        style={{
-                          cursor: "pointer",
-                          color: "red",
-                        }}
-                      />
-                    </Tooltip>
+                <div style={{ display: "flex" }}>
+                  <Tooltip title="Mais Detalhes">
+                    <AssignmentIcon
+                      onClick={handleClick}
+                      style={{
+                        cursor: "pointer",
+                        color: "black",
+                      }}
+                    />
+                  </Tooltip>
+                  <Tooltip title="Inativar">
+                    <DeleteForeverIcon
+                      onClick={handleOpen}
+                      style={{
+                        cursor: "pointer",
+                        color: "red",
+                      }}
+                    />
+                  </Tooltip>
                   <Modal
                     open={open}
                     onClose={handleClose}
@@ -103,9 +105,6 @@ const EmployessList = () => {
           }}
         />
       )}
-      <div>
-        <Button>Adicionar</Button>
-      </div>
     </div >
   );
 };
