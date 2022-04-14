@@ -4,7 +4,11 @@ import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Button from '@mui/material/Button';
-import MaterialTable  from 'material-table';
+import Modal from '@mui/material/Modal';
+import Box from '@material-ui/core/Box';
+import Typography from '@mui/material/Typography';
+import MaterialTable from 'material-table';
+import style from './style'
 
 
 
@@ -45,11 +49,12 @@ interface Props {
 
 
 
-const EquipmentsList = (props: Props) => {
+const EquipmentsList = (props: Props): React.ReactElement => {
 
   const MaterialTable = require("material-table").default;
 
   const [equipmentsList, setEquipmentsList] = React.useState<Equipment[]>()
+  const [open, setOpen] = React.useState<boolean>(false)
 
   const handleClick = (() => {
     alert("Fui chamado!")
@@ -57,6 +62,13 @@ const EquipmentsList = (props: Props) => {
 
   const handleDelete = (() => {
     alert("Fui chamado!")
+  })
+
+  const handleOpen = (() => {
+    setOpen(true)
+  })
+  const handleClose = (() => {
+    setOpen(false)
   })
 
 
@@ -88,30 +100,44 @@ const EquipmentsList = (props: Props) => {
             { title: "Usuario", field: "user" },
             { title: "Departamento", field: "departament" },
             { title: "Sistema", field: "system" },
-            { title: "Termo de Responsabilidade", field: "term" },
             {
               title: "",
               render: () => (
                 <>
-                <Tooltip title="Mais Detalhes">
-                  <AssignmentIcon
-                    onClick={handleClick}
-                    style={{
-                      cursor: "pointer",
-                      color: "black",
-                    }}
-                  />
-                </Tooltip>
-                <Tooltip title="Excluir Equipamento">
-                <DeleteForeverIcon
-                  onClick={handleDelete}
-                  style={{
-                    cursor: "pointer",
-                    color: "black",
-                  }}
-                />
-              </Tooltip>
-              </>
+                  <Tooltip title="Mais Detalhes">
+                    <AssignmentIcon
+                      onClick={handleClick}
+                      style={{
+                        cursor: "pointer",
+                        color: "black",
+                      }}
+                    />
+                  </Tooltip>
+                  <Tooltip title="Inativar">
+                    <DeleteForeverIcon
+                      onClick={handleOpen}
+                      style={{
+                        cursor: "pointer",
+                        color: "red",
+                      }}
+                    />
+                  </Tooltip>
+                  <Modal
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                  >
+                    <div>
+                      <h1>Tem certeza que deseja Inativar este item?
+                        <p>item name</p>
+                      </h1>
+                      <Button variant="contained">Inativar</Button>
+                      <Button onClick={handleClose} variant="contained">Cancelar</Button>
+                    </div>
+                  </Modal>
+
+                </>
               ),
             },
           ]}
