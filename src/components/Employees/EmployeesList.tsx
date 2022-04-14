@@ -19,9 +19,17 @@ interface Employee {
 const EmployessList = () => {
 
   const [employeesList, setEmployeesList] = useState<Employee[]>()
+  const [open, setOpen] = useState<boolean>(false)
 
   const handleClick = (() => {
     alert("Fui chamado!")
+  })
+
+  const handleOpen = (() => {
+    setOpen(true)
+  })
+  const handleClose = (() => {
+    setOpen(false)
   })
 
   useEffect(() => {
@@ -42,7 +50,7 @@ const EmployessList = () => {
             { title: "Cargo", field: "type" },
             { title: "",
               render: () => (
-                <div style={{display:"flex"}}>
+              <div style={{display:"flex"}}>
                 <Tooltip title="Mais Detalhes">
                   <AssignmentIcon
                     onClick={handleClick}
@@ -75,6 +83,7 @@ const EmployessList = () => {
                       <Button onClick={handleClose} variant="contained">Cancelar</Button>
                     </div>
                   </Modal>
+                </div>
               ),
             },
           ]}
