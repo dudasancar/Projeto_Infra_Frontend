@@ -96,8 +96,6 @@ const AddEditUser = (props: Props) => {
 
   return (
     <Container>
-
-
       <ContainerForm>
       <form onSubmit={formik.handleSubmit}>
         {location.pathname == '/editarUsuario' ? (
@@ -107,7 +105,6 @@ const AddEditUser = (props: Props) => {
         )}
         <GridForm>
           <TextField
-        
             variant="outlined"
             type="text"
             name="name"
