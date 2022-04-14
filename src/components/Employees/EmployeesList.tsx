@@ -6,7 +6,6 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
-import { Link } from 'react-router-dom';
 
 interface Employee {
   id?: number,
