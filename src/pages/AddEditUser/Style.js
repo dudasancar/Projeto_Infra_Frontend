@@ -9,29 +9,30 @@ export const Container = styled.section`
   justify-content: center;
   align-items: center;
 
+
+  
 `;
 
 export const ContainerForm = styled.div`
   box-shadow: 0px 0px 10px #00000029;
-  height: 60%;
-  width: 55%;
-  min-height: 300px;
+  width: 60%;
   min-width: 300px;
-  max-width: 1400px;
-  max-height: 650px;
+  max-width: 1200px;
   box-sizing: border-box;
   padding: 2rem;
   background-color: white;
   border: solid thin #e6e6e6;
   border-radius: 5px;
+  @media (max-width: 800px) {
+    width: 90%;
+  }
 
   form {
     width: 100%;
-
     height: 100%;
     display: flex;
     flex-flow: column nowrap;
-    justify-content: space-between;
+    gap: 3rem;
   }
   h2 {
     font-size: 2rem;
@@ -60,3 +61,6 @@ export const ContainerButtons = styled.div`
   }
 
 `;
+
+
+
