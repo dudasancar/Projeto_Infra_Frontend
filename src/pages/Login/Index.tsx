@@ -5,6 +5,7 @@ import {Button, TextField} from '@mui/material';
 import { Container, ContainerLoginForm } from './style';
 import {Link} from 'react-router-dom';
 import logo from '../../assets/logo.png';
+import { authenticateUser } from '../../services/authenticateUser';
 
 const Login = () => {
 
@@ -19,24 +20,19 @@ const Login = () => {
             password: ''
         },
         validationSchema: validationSchema,
-        onSubmit: (values)=> {
-
-            
-
-
+        onSubmit: (values: { email: string, password: string})=> {
+          authenticateUser(values)
+          .then(response => alert('Login efetuado com sucesso'))
+          .catch(error => alert(error))
         }
       });
 
-
   return (
     <Container>
-
-
-        <ContainerLoginForm>
-
-            <form>
-                <img src={`${logo}`}/>
-            <TextField
+      <ContainerLoginForm>
+        <form onSubmit={formik.handleSubmit}>
+          <img src={`${logo}`}/>
+          <TextField
             variant="outlined"
             type="email"
             name="email"
@@ -47,7 +43,7 @@ const Login = () => {
             error={formik.touched.email && Boolean(formik.errors.email)}
             helperText={formik.touched.email && formik.errors.email}
           />
-           <TextField
+          <TextField
             variant="outlined"
             type="text"
             name="password"
@@ -58,11 +54,10 @@ const Login = () => {
             error={formik.touched.password && Boolean(formik.errors.password)}
             helperText={formik.touched.password && formik.errors.password}
           />
-
-            <Link to='/'>Esqueci minha senha</Link>
+          <Link to='/'>Esqueci minha senha</Link>
           <Button type='submit' variant="contained">ENTRAR</Button>
-            </form>
-        </ContainerLoginForm>
+        </form>
+      </ContainerLoginForm>
     </Container>
   )
 }
