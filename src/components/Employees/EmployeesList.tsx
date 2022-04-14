@@ -1,11 +1,11 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import {useEffect, useState} from "react";
 import MaterialTable from "material-table";
 import { listEmployees } from "../../services/Employees/ListEmployees";
-import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
-import VisibilityIcon from "@mui/icons-material/Visibility";
+import Tooltip from "@mui/material/Tooltip";
 import AssignmentIcon from "@mui/icons-material/Assignment";
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Button from '@mui/material/Button';
+import { Link } from "react-router-dom";
 
 
 
@@ -19,27 +19,14 @@ interface Employee{
 
 }
 
-interface Options{
-  title: boolean,
-  filtering: boolean,
-  search: boolean,
-  searchAutoFocus: boolean,
-  paging: boolean,
-
-}
-
-interface Props{
-  
-
-}
 
 
 
-const EmployessList = (props: Props) => {
+const EmployessList = () => {
 
 
 
-  const [employeesList, setEmployeesList] = React.useState<Employee[]>()
+  const [employeesList, setEmployeesList] = useState<Employee[]>()
 
   const handleClick = (() => {
     alert("Fui chamado!")
@@ -47,7 +34,7 @@ const EmployessList = (props: Props) => {
 
 
 
-  React.useEffect(() => {
+  useEffect(() => {
     listEmployees()
       .then((response?) => setEmployeesList(response))
       .catch((error?) => console.log(error));
@@ -70,6 +57,7 @@ const EmployessList = (props: Props) => {
             { title: "Cargo", field: "type" },
             { title: "",
               render: () => (
+                <div style={{display:"flex"}}>
                 <Tooltip title="Mais Detalhes">
                   <AssignmentIcon
                     onClick={handleClick}
@@ -79,17 +67,27 @@ const EmployessList = (props: Props) => {
                     }}
                   />
                 </Tooltip>
+                <Tooltip title="Mais Detalhes">
+                  <DeleteForeverIcon
+                    onClick={handleClick}
+                    style={{
+                      cursor: "pointer",
+                      color: "red",
+                    }}
+                  />
+                </Tooltip>
+                </div>
               ),
             },
           ]}
           icons={{
-            Add: () => <Button variant="contained">Adicionar</Button>,
+            Add: () => <Link to="/teste"><Button variant="contained">Adicionar</Button></Link>,
           }}
           data={employeesList}
           options={{
             filtering: true,
             search: true,
-            paging: false,
+            paging: true,
             headerStyle: {
               backgroundColor: "#DFDFDF",
               color: "#334B48",
