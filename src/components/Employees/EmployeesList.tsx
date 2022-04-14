@@ -5,7 +5,7 @@ import Tooltip from "@mui/material/Tooltip";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Button from '@mui/material/Button';
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 
 
@@ -42,14 +42,10 @@ const EmployessList = () => {
 
   return (
     <div style={{ maxWidth: "80%", margin: "0 auto" }}>
+      <div>
       {employeesList && (
         <MaterialTable
           title="Lista de Funcionarios"
-          editable={{
-            onRowAdd:()=>new Promise((resolve,reject)=>{
-
-            })
-          }}
           columns={[
             { title: "ID", field: "id" },
             { title: "Nome", field: "name" },
@@ -80,9 +76,6 @@ const EmployessList = () => {
               ),
             },
           ]}
-          icons={{
-            Add: () => <Link to="/teste"><Button variant="contained">Adicionar</Button></Link>,
-          }}
           data={employeesList}
           options={{
             filtering: true,
@@ -99,6 +92,10 @@ const EmployessList = () => {
           }}
         />
       )}
+      </div>
+      <div>
+        <Button>Adicionar</Button>
+      </div>
     </div>
   );
 };
