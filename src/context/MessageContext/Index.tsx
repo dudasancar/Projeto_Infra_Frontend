@@ -7,7 +7,7 @@ interface MessageModal{
   severity: AlertColor
 }
 
-interface MessageContext{
+interface MessageContextInterface{
   message: MessageModal,
   setMessage: any
 }
@@ -16,7 +16,7 @@ interface Props {
   children: JSX.Element;
 }
 
-export const MessageContext = React.createContext<MessageContext>({
+export const MessageContext = React.createContext<MessageContextInterface>({
   message:{
     content: '',
     display: false,

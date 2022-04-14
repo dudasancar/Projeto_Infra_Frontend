@@ -9,7 +9,7 @@ const MainRoutes = () => {
    
   return (
     <BrowserRouter>
-   {message.display && <ModalMessage />}
+      {message.display && <ModalMessage />}
       <Routes>
       </Routes>
     </BrowserRouter>
