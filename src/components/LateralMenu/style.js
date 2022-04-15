@@ -1,12 +1,18 @@
 import styled from 'styled-components'
 
 export const ContainerMenu = styled.div`
-width: 5%;
-height: 100vh;
-background-color: grey;
-display:flex;
-flex-flow: column nowrap;
- :hover {
-    width: 10%;
- }
-`
+  width: 100vw;
+  background-color: grey;
+  display: flex;
+  flex-flow:  row nowrap;
+  gap: 25px;
+  padding: 1rem;
+
+  svg {
+    font-size: 2.5rem;
+
+    :hover {
+       color:white;
+    }
+  }
+`;
