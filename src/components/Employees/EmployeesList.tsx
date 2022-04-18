@@ -34,6 +34,10 @@ const EmployessList = () => {
     setOpen(false);
   };
 
+  const handleDelete = () {
+    alert("Colaborador Deletado")
+  }
+
   useEffect(() => {
     listEmployees()
       .then((response?) => setEmployeesList(response))
@@ -106,7 +110,7 @@ const EmployessList = () => {
               <p>{employeesList && employeesList[3].name}</p>
             </h1>
             <div>
-            <Button style={{width: 150, height: 50}} variant="contained">Inativar</Button>
+            <Button style={{width: 150, height: 50}} onClick={() => {handleDelete(); handleClose()}} variant="contained">Inativar</Button>
             <Button style={{width: 150, height: 50}} onClick={handleClose} variant="contained">
               Cancelar
             </Button>
