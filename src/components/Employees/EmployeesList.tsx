@@ -23,11 +23,10 @@ const EmployessList = () => {
 
   const navigate = useNavigate();
   
-  function handleClick(){
-    navigate("/home")
+  const handleClick = () => {
+    navigate("/funcionarioX")
   }
  
-
   const handleOpen = () => {
     setOpen(true);
   };
