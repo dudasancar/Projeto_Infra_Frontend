@@ -1,13 +1,22 @@
 import styled from "styled-components";
 
-export const ContainerMenu = styled.div`
-  box-sizing: border-box;
+export const Container = styled.header`
   width: 100vw;
+  background-color: white;
   display: flex;
+  justify-content: center;
+`;
+
+export const ContainerMenu = styled.div`
+  width: 100%;
+  box-sizing: border-box;
+  max-width: 1400px;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
   flex-flow: row wrap;
   padding: 10px 5%;
-  justify-content: space-between;
-  align-items: center;
   color: #3e4756;
   svg {
     font-size: 1.5rem;
@@ -17,6 +26,7 @@ export const ContainerMenu = styled.div`
   nav {
     display: flex;
     gap: 1.5rem;
+    flex-flow: row wrap;
 
     p {
       font-size: 1.2rem;
@@ -25,6 +35,14 @@ export const ContainerMenu = styled.div`
       align-items: center;
       cursor: pointer;
     }
+
+    @media (max-width: 340px) {
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 650px) {
+    justify-content: center;
   }
 `;
 

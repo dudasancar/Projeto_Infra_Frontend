@@ -1,11 +1,12 @@
 import React from 'react'
-import { ContainerMenu, DropDownDiv } from './style'
+import { Container, ContainerMenu, DropDownDiv } from './style'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import logo from '../../assets/logo.png'
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import DevicesIcon from '@mui/icons-material/Devices';
 import { Menu, MenuItem } from '@mui/material';
+import PersonIcon from '@mui/icons-material/Person';
 
 
 const LateralMenu = () => {
@@ -22,6 +23,8 @@ const LateralMenu = () => {
   const openStaff = Boolean(anchorStaff);
 
   return (
+
+    <Container>
     <ContainerMenu>
       <img src={`${logo}`} />
       <nav>
@@ -59,6 +62,7 @@ const LateralMenu = () => {
               aria-expanded={openUser ? 'true' : undefined}
               onClick={(event: any) =>  setAnchorUser(event.currentTarget)}
             >
+              <PersonIcon/>
             Usuário
             {openUser ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon /> }  
           </p>
@@ -79,6 +83,7 @@ const LateralMenu = () => {
       </DropDownDiv>
   
     </ContainerMenu>
+    </Container>
   )
 }
 
