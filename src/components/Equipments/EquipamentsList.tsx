@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from 'react-router-dom';
 import { listEquipments } from "../../services/Equipments/ListEquipments";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import AssignmentIcon from "@mui/icons-material/Assignment";
@@ -8,7 +9,7 @@ import Modal from '@mui/material/Modal';
 import Box from '@material-ui/core/Box';
 import Typography from '@mui/material/Typography';
 import MaterialTable from 'material-table';
-import style from './style'
+import styles from './styles'
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 
@@ -118,23 +119,28 @@ const EquipmentsList = () => {
           }}
         />
       )}
-      <div>
-        <Modal
+       <Container>
+        <Modal style={{margin: "0 auto", marginTop: "5rem", background: "#ccc", width: "50vw", height: "50vh", borderRadius: "5px"}}
           open={open}
           onClose={handleClose}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
-          <div>
+          <ContainerModal>
             <h1>
-              Tem certeza que deseja Inativar este item?
-              <p>item name</p>
+              Atenção!<br></br>
+              Você Tem certeza que deseja Inativar este Colaborador?
+              <p>{equipmentsList && equipmentsList[3].name}</p>
             </h1>
-            <Button variant="contained">Inativar</Button>
-            <Button onClick={handleClose} variant="contained">Cancelar</Button>
-          </div>
+            <div>
+            <Button style={{width: 150, height: 50}} onClick={() => {handleDelete(); handleClose()}} variant="contained">Inativar</Button>
+            <Button style={{width: 150, height: 50}} onClick={handleClose} variant="contained">
+              Cancelar
+            </Button>
+            </div>
+          </ContainerModal>
         </Modal>
-      </div>
+      </Container>
     </div>
   );
 };
