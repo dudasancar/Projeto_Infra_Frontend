@@ -1,21 +1,20 @@
 import React from 'react'
-import { ContainerMenu } from './style'
-import PersonIcon from '@mui/icons-material/Person';
-import ComputerIcon from '@mui/icons-material/Computer';
-import GroupIcon from '@mui/icons-material/Group';
+import { ContainerMenu, UserDiv } from './style'
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import logo from '../../assets/logo.png'
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+import DevicesIcon from '@mui/icons-material/Devices';
+import ModalUser from './ModalUser'
 const LateralMenu = () => {
   return (
-
     <ContainerMenu>
-          <img src={`${logo}`} />
+      <img src={`${logo}`} />
       <nav>
-
-    <ComputerIcon/>
-
-    <GroupIcon/>
-    </nav>
-        <PersonIcon/> 
+        <p> <PeopleAltIcon/> Funcionários</p> 
+        <p> <DevicesIcon/> Equipamentos</p>
+      </nav>
+      <UserDiv>Mateus Lammel <KeyboardArrowDownIcon/></UserDiv> 
+      <ModalUser/>
     </ContainerMenu>
   )
 }
