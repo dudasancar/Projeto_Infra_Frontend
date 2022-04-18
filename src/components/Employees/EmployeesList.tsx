@@ -1,36 +1,39 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import MaterialTable from "material-table";
 import { listEmployees } from "../../services/Employees/ListEmployees";
 import Tooltip from "@mui/material/Tooltip";
 import AssignmentIcon from "@mui/icons-material/Assignment";
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import Button from '@mui/material/Button';
-import Modal from '@mui/material/Modal';
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import Button from "@mui/material/Button";
+import Modal from "@mui/material/Modal";
+import { ContainerModal, Container } from './styles';
 
 interface Employee {
-  id?: number,
-  name?: string,
-  email?: string,
-  type?: string,
-  local?: string,
-
+  id?: number;
+  name?: string;
+  email?: string;
+  type?: string;
+  local?: string;
 }
 
 const EmployessList = () => {
+  const [employeesList, setEmployeesList] = useState<Employee[]>();
+  const [open, setOpen] = useState<boolean>(false);
 
-  const [employeesList, setEmployeesList] = useState<Employee[]>()
-  const [open, setOpen] = useState<boolean>(false)
+  const navigate = useNavigate();
+  
+  function handleClick(){
+    navigate("/home")
+  }
+ 
 
-  const handleClick = (() => {
-    alert("Fui chamado!")
-  })
-
-  const handleOpen = (() => {
-    setOpen(true)
-  })
-  const handleClose = (() => {
-    setOpen(false)
-  })
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   useEffect(() => {
     listEmployees()
@@ -70,20 +73,6 @@ const EmployessList = () => {
                       }}
                     />
                   </Tooltip>
-                  <Modal
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                  >
-                    <div>
-                      <h1>Tem certeza que deseja Inativar este item?
-                        <p>item name</p>
-                      </h1>
-                      <Button variant="contained">Inativar</Button>
-                      <Button onClick={handleClose} variant="contained">Cancelar</Button>
-                    </div>
-                  </Modal>
                 </div>
               ),
             },
@@ -104,7 +93,29 @@ const EmployessList = () => {
           }}
         />
       )}
-    </div >
+      <Container>
+        <Modal style={{margin: "0 auto", marginTop: "5rem", background: "#ccc", width: "50vw", height: "50vh", borderRadius: "5px"}}
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <ContainerModal>
+            <h1>
+              Atenção!<br></br>
+              Você Tem certeza que deseja Inativar este Colaborador?
+              <p>{employeesList && employeesList[3].name}</p>
+            </h1>
+            <div>
+            <Button style={{width: 150, height: 50}} variant="contained">Inativar</Button>
+            <Button style={{width: 150, height: 50}} onClick={handleClose} variant="contained">
+              Cancelar
+            </Button>
+            </div>
+          </ContainerModal>
+        </Modal>
+      </Container>
+    </div>
   );
 };
 
