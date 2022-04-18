@@ -34,8 +34,8 @@ const EmployessList = () => {
     setOpen(false);
   };
 
-  const handleDelete = () {
-    alert("Colaborador Deletado")
+  const handleDelete = () => {
+    alert("Colaborador Inativado com Sucesso!")
   }
 
   useEffect(() => {
