@@ -1,13 +1,15 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
-import EquipmentsList from "./components/Equipments/EquipamentsList";
+import EquipmentsList from "./pages/EquipmentsList/index"
+import {Routes, Route, useNavigate} from 'react-router-dom'
 
 function App() {
+  const navigate = useNavigate();
   return <div>
-    <Route>
-      <Routes path="/home" element={ <EquipmentsList/>}/>
-    </Route>
-   
+    <Routes>
+          <Route path="/" element={<EquipmentsList/>}/>
+          <Route path="/home" element={<EquipmentsList/>}/>
+    </Routes>
+    
   </div>;
 }
 
