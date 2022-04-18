@@ -1,22 +1,83 @@
 import React from 'react'
-import { ContainerMenu, UserDiv } from './style'
+import { ContainerMenu, DropDownDiv } from './style'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import logo from '../../assets/logo.png'
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import DevicesIcon from '@mui/icons-material/Devices';
-import ModalUser from './ModalUser'
-import ModalStaff from './ModalStaff';
+import { Menu, MenuItem } from '@mui/material';
+
+
 const LateralMenu = () => {
+
+  const handleClose = () => {
+    setAnchorUser(null);
+    setAnchorStaff(null)
+  };
+
+  const [anchorUser, setAnchorUser] = React.useState(null);
+  const openUser = Boolean(anchorUser);
+
+  const [anchorStaff, setAnchorStaff] = React.useState(null);
+  const openStaff = Boolean(anchorStaff);
+
   return (
     <ContainerMenu>
       <img src={`${logo}`} />
       <nav>
-        <p> <PeopleAltIcon/> Pessoal</p> 
+        <DropDownDiv>
+          <p  id="staff-info"
+              aria-controls={openStaff ? 'staff-menu' : undefined}
+              aria-haspopup="true"
+              aria-expanded={openStaff ? 'true' : undefined}
+              onClick={(event: any) =>  setAnchorStaff(event.currentTarget)} > 
+            <PeopleAltIcon/> Pessoal  
+            {openStaff ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon /> }
+          </p> 
+          <Menu
+            id="staff-menu"
+            anchorEl={anchorStaff}
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            transformOrigin={{ vertical: "top", horizontal: "right" }}
+            open={openStaff}
+            onClose={handleClose}
+            MenuListProps={{
+              'aria-labelledby': 'staff-info',
+            }}
+          >
+            <MenuItem onClick={handleClose}>Funcionários</MenuItem>
+            <MenuItem onClick={handleClose}>Colaboradores</MenuItem>
+          </Menu>
+        </DropDownDiv>
         <p> <DevicesIcon/> Equipamentos</p>
       </nav>
-      <UserDiv>Mateus Lammel <KeyboardArrowDownIcon/></UserDiv> 
-      <ModalStaff/>
-      <ModalUser/>
+      <DropDownDiv>
+          <p
+              id="user-info"
+              aria-controls={openUser ? 'basic-menu' : undefined}
+              aria-haspopup="true"
+              aria-expanded={openUser ? 'true' : undefined}
+              onClick={(event: any) =>  setAnchorUser(event.currentTarget)}
+            >
+            Usuário
+            {openUser ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon /> }  
+          </p>
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorUser}
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            transformOrigin={{ vertical: "top", horizontal: "right" }}
+            open={openUser}
+            onClose={handleClose}
+            MenuListProps={{
+              'aria-labelledby': 'user-info',
+            }}
+          >
+            <MenuItem onClick={handleClose}>Perfil</MenuItem>
+            <MenuItem onClick={handleClose}>Sair</MenuItem>
+          </Menu>
+      </DropDownDiv>
+  
     </ContainerMenu>
   )
 }
