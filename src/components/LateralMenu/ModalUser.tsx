@@ -1,12 +1,12 @@
 import React from 'react'
-import { ContainerModalUser } from './style'
+import { ContainerModal } from './style'
 
 const ModalUser = () => {
   return (
-    <ContainerModalUser>
+    <ContainerModal left='90%'>
         <p>Mais informações</p>
         <p>Sair</p>
-    </ContainerModalUser>
+    </ContainerModal>
   )
 }
 
