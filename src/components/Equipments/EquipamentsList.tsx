@@ -38,13 +38,11 @@ const EquipmentsList = () => {
   const [equipmentsList, setEquipmentsList] = React.useState<Equipment[]>()
   const [open, setOpen] = React.useState<boolean>(false)
 
-  const handleClick = (() => {
-    alert("Fui chamado!")
-  })
-
-  const handleDelete = (() => {
-    alert("Fui chamado!")
-  })
+  const navigate = useNavigate();
+  
+  const handleClick = () => {
+    navigate("/equipamentoX")
+  }
 
   const handleOpen = (() => {
     setOpen(true)
@@ -52,6 +50,10 @@ const EquipmentsList = () => {
   const handleClose = (() => {
     setOpen(false)
   })
+
+  const handleDelete = () => {
+    alert("Equipamento Inativado com Sucesso!")
+  }
 
 
 
@@ -81,6 +83,7 @@ const EquipmentsList = () => {
                 <div style={{ display: "flex" }}>
                   <Tooltip title="Mais Detalhes">
                     <AssignmentIcon
+                      onClick={handleClick}
                       style={{
                         cursor: "pointer",
                         color: "black",
