@@ -80,42 +80,25 @@ const EquipmentsList = () => {
             {
               title: "",
               render: () => (
-                <>
-                  <div style={{ display: "flex" }}>
-                      <Tooltip title="Mais Detalhes"> 
-                        <AssignmentIcon
-                          style={{
-                            cursor: "pointer",
-                            color: "black",
-                          }}
-                        />
-                      </Tooltip>
-                    <Tooltip title="Inativar">
-                      <DeleteForeverIcon
-                        onClick={handleOpen}
-                        style={{
-                          cursor: "pointer",
-                          color: "red",
-                        }}
-                      />
-                    </Tooltip>
-                  </div>
-                  <Modal
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                  >
-                    <div>
-                      <h1>Tem certeza que deseja Inativar este item?
-                        <p>item name</p>
-                      </h1>
-                      <Button variant="contained">Inativar</Button>
-                      <Button onClick={handleClose} variant="contained">Cancelar</Button>
-                    </div>
-                  </Modal>
-
-                </>
+                <div style={{ display: "flex" }}>
+                  <Tooltip title="Mais Detalhes">
+                    <AssignmentIcon
+                      style={{
+                        cursor: "pointer",
+                        color: "black",
+                      }}
+                    />
+                  </Tooltip>
+                  <Tooltip title="Inativar">
+                    <DeleteForeverIcon
+                      onClick={handleOpen}
+                      style={{
+                        cursor: "pointer",
+                        color: "red",
+                      }}
+                    />
+                  </Tooltip>
+                </div>
               ),
             },
           ]}
@@ -135,6 +118,23 @@ const EquipmentsList = () => {
           }}
         />
       )}
+      <div>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <div>
+            <h1>
+              Tem certeza que deseja Inativar este item?
+              <p>item name</p>
+            </h1>
+            <Button variant="contained">Inativar</Button>
+            <Button onClick={handleClose} variant="contained">Cancelar</Button>
+          </div>
+        </Modal>
+      </div>
     </div>
   );
 };
