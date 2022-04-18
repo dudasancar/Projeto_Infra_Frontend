@@ -6,11 +6,8 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
-import Box from '@material-ui/core/Box';
-import Typography from '@mui/material/Typography';
 import MaterialTable from 'material-table';
-import styles from './styles'
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { ContainerModal, Container } from './styles';
 
 
 
