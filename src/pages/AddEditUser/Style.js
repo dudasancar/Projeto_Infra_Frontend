@@ -7,7 +7,7 @@ export const Container = styled.section`
   width: 100vw;
   display: flex;
   justify-content: center;
-  align-items: center; 
+  align-items: center;
 `;
 
 export const ContainerForm = styled.div`
@@ -57,6 +57,3 @@ export const ContainerButtons = styled.div`
     color: #ff5f5d;
   }
 `;
-
-
-

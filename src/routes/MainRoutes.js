@@ -1,11 +1,16 @@
 import React from "react";
-import { BrowserRouter, Navigate, Route, Routes, useParams } from "react-router-dom";
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes,
+} from "react-router-dom";
 
 import GlobalStyle from "../styles/GlobalStyle";
 import AddEditUser from "../pages/AddEditUser/Index";
 
 const MainRoutes = () => {
-  const  id = 1;
+  const id = 1;
 
   function IdPrivateRoute({ children }) {
     return id ? children : <Navigate to="/cadastroUsuario" />;

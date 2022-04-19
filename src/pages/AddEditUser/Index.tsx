@@ -42,39 +42,41 @@ const userType = [
 ];
 
 const AddEditUser = (props: Props) => {
-
   const [editedUser, setEditedUser] = React.useState<User>();
   const location = useLocation();
-  
+
   useEffect(() => {
     if (location.pathname == "/editarUsuario") {
       getUser()
         .then((response) =>
-          setEditedUser(response.find((user) => user.id == props.userId)),
+          setEditedUser(response.find((user) => user.id == props.userId))
         )
         .catch((error) => console.log(error));
     }
   }, []);
 
-  const CreateOrEditUser = (values: {name: string, email: string, userType: string}) => {
-    location.pathname == "/editarUsuario" && editedUser ? 
-    (editUsers(editedUser!.id, values.name, values.email, values.userType)
-        .then((response) => alert(response)) 
-        .catch((err: string) => alert(err))   
-    )
-    : 
-    (addUsers(values.name, values.email, values.userType)
+  const CreateOrEditUser = (values: {
+    name: string;
+    email: string;
+    userType: string;
+  }) => {
+    if (location.pathname == "/editarUsuario" && editedUser) {
+      editUsers(editedUser!.id, values.name, values.email, values.userType)
         .then((response) => alert(response))
-        .catch((err: string) => alert(err))
-    )
+        .catch((err: string) => alert(err));
+    } else {
+      addUsers(values.name, values.email, values.userType)
+        .then((response) => alert(response))
+        .catch((err: string) => alert(err));
+    }
   };
 
   const validationSchema = object({
     name: string().required("O nome é obrigatório"),
     email: string().email("Email inválido").required("E-mail obrigatório"),
-    userType: string().required('O tipo de usuário é obrigatório')
+    userType: string().required("O tipo de usuário é obrigatório"),
   });
-  
+
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: editedUser
@@ -97,61 +99,71 @@ const AddEditUser = (props: Props) => {
   return (
     <Container>
       <ContainerForm>
-      <form onSubmit={formik.handleSubmit}>
-        {location.pathname == '/editarUsuario' ? (
-          <h2>Editar usuário</h2>
-        ) : (
-          <h2>Cadastrar novo usuário</h2>
-        )}
-        <GridForm>
-          <TextField
-            variant="outlined"
-            type="text"
-            name="name"
-            id="name"
-            label="Nome do usuário"
-            onChange={formik.handleChange}
-            value={formik.values.name}
-            error={formik.touched.name && Boolean(formik.errors.name)}
-            helperText={formik.touched.name && formik.errors.name}
-          />
-          <TextField
-            variant="outlined"
-            type="text"
-            name="email"
-            id="email"
-            label="E-mail"
-            onChange={formik.handleChange}
-            value={formik.values.email}
-            error={formik.touched.email && Boolean(formik.errors.email)}
-            helperText={formik.touched.email && formik.errors.email}
-          />
-          <TextField
-            id="userType"
-            select
-            name="userType"
-            label="Tipo de usuário"
-            variant="outlined"
-            InputLabelProps={{ shrink: true }}
-            value={formik.values.userType}
-            onChange={formik.handleChange}
-          >
-            {userType.map((user) => (
-              <MenuItem key={user.value} value={user.value}>
-                {user.label}
-              </MenuItem>
-            ))}
-          </TextField>
-        </GridForm>
-        <ContainerButtons>
-          <Button id="CancelButton" onClick={formik.handleReset} type="reset" size='large'>
-            CANCELAR
-          </Button>
-          <Button  variant="contained" type="submit" value="SALVAR" size='large' >
-            SALVAR
-          </Button>
-        </ContainerButtons>
-      </form>
+        <form onSubmit={formik.handleSubmit}>
+          {location.pathname == "/editarUsuario" ? (
+            <h2>Editar usuário</h2>
+          ) : (
+            <h2>Cadastrar novo usuário</h2>
+          )}
+          <GridForm>
+            <TextField
+              variant="outlined"
+              type="text"
+              name="name"
+              id="name"
+              label="Nome do usuário"
+              onChange={formik.handleChange}
+              value={formik.values.name}
+              error={formik.touched.name && Boolean(formik.errors.name)}
+              helperText={formik.touched.name && formik.errors.name}
+            />
+            <TextField
+              variant="outlined"
+              type="text"
+              name="email"
+              id="email"
+              label="E-mail"
+              onChange={formik.handleChange}
+              value={formik.values.email}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
+            />
+            <TextField
+              id="userType"
+              select
+              name="userType"
+              label="Tipo de usuário"
+              variant="outlined"
+              InputLabelProps={{ shrink: true }}
+              value={formik.values.userType}
+              onChange={formik.handleChange}
+            >
+              {userType.map((user) => (
+                <MenuItem key={user.value} value={user.value}>
+                  {user.label}
+                </MenuItem>
+              ))}
+            </TextField>
+          </GridForm>
+          <ContainerButtons>
+            <Button
+              id="CancelButton"
+              onClick={formik.handleReset}
+              type="reset"
+              size="large"
+            >
+              CANCELAR
+            </Button>
+            <Button
+              variant="contained"
+              type="submit"
+              value="SALVAR"
+              size="large"
+            >
+              SALVAR
+            </Button>
+          </ContainerButtons>
+        </form>
       </ContainerForm>
     </Container>
   );
