@@ -4,6 +4,7 @@ import GlobalStyle from "../styles/GlobalStyle";
 import Login from "../pages/Login/Index";
 import ModalMessage from "../components/ModalHelper/Index";
 import { useMessage } from "../context/MessageContext/Index";
+import EmployeesList from "./components/Employees/EmployeesList";
 
 const MainRoutes = () => {
   const { message } = useMessage();
@@ -14,7 +15,8 @@ const MainRoutes = () => {
 
       <GlobalStyle />
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Login />} />
+        <Route path="/listarFuncionarios" element={<EmployeesList />} />
       </Routes>
     </BrowserRouter>
   );
