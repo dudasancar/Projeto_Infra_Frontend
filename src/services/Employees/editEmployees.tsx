@@ -1,4 +1,4 @@
-export const editUsers = async (
+export const editEmployees = async (
   id: string,
   name: string,
   email: string,

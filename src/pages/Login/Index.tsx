@@ -1,37 +1,55 @@
-import React from 'react'
-import { object, string } from 'yup';
-import { useFormik } from 'formik';
-import {Button, TextField} from '@mui/material';
-import { Container, ContainerLoginForm } from './style';
-import {Link} from 'react-router-dom';
-import logo from '../../assets/logo.png'
-import { authenticateUser } from '../../services/authenticateUser';
+import React from "react";
+import { object, string } from "yup";
+import { useFormik } from "formik";
+import { Button, TextField } from "@mui/material";
+import { Container, ContainerLoginForm } from "./style";
+import { Link, useNavigate } from "react-router-dom";
+import logo from "../../assets/logo.png";
+import { authenticateEmployee } from "../../services/Employees/authenticateEmployee";
+import { useMessage } from "../../context/MessageContext/Index";
 
 const Login = () => {
+  const { setMessage } = useMessage();
+  let navigate = useNavigate();
+  const validationSchema = object({
+    email: string().email("Email inválido").required("E-mail obrigatório"),
+    password: string()
+      .min(8, "A senha deve possuír no mínimo 8 caracteres")
+      .required("Senha obrigatória"),
+  });
 
-    const validationSchema = object({
-        email: string().email("Email inválido").required("E-mail obrigatório"),
-        password: string().min(8, "A senha deve possuír no mínimo 8 caracteres").required("Senha obrigatória"),
-      });
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values: { email: string; password: string }) => {
+      authenticateEmployee(values)
+        .then(() => {
+          setMessage({
+            content: "Login efetuado com sucesso!",
+            display: true,
+            severity: "success",
+          });
 
-      const formik = useFormik({
-        initialValues: {
-            email: '',
-            password: ''
-        },
-        validationSchema: validationSchema,
-        onSubmit: (values: { email: string, password: string})=> {
-          authenticateUser(values)
-          .then(response => alert('Login efetuado com sucesso'))
-          .catch(error => alert(error))
-        }
-      });
+          navigate ("/listarFuncionarios");
+        })
+        .catch((error) =>
+          setMessage({
+            content: "Ocorreu um erro ao tentar efetuar o login!",
+            display: true,
+            severity: "error",
+          })
+        );
+    },
+  });
 
   return (
     <Container>
       <ContainerLoginForm>
         <form onSubmit={formik.handleSubmit}>
-          <img src={`${logo}`}/>
+          <img src={`${logo}`} />
           <TextField
             fullWidth
             variant="outlined"
@@ -56,17 +74,14 @@ const Login = () => {
             error={formik.touched.password && Boolean(formik.errors.password)}
             helperText={formik.touched.password && formik.errors.password}
           />
-          <Link to='/'>Esqueci minha senha</Link>
-          <Button 
-            type='submit' 
-            variant="contained" 
-            fullWidth
-            size='large'
-          >ENTRAR</Button>
+          <Link to="/">Esqueci minha senha</Link>
+          <Button type="submit" variant="contained" fullWidth size="large">
+            ENTRAR
+          </Button>
         </form>
       </ContainerLoginForm>
     </Container>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

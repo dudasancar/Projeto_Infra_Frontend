@@ -1,11 +1,8 @@
 import React from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-
 import GlobalStyle from "../styles/GlobalStyle";
-import AddEditUser from "../pages/AddEditUser/Index";
-import EmployeesList from "./components/Employees/EmployeesList";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import GlobalStyle from "../styles/GlobalStyle";
+import AddEditEmployee from "../pages/AddEditEmployee/Index";
+import EmployeesList from "../pages/EmployeesList/index";
 import Login from "../pages/Login/Index";
 import ModalMessage from "../components/ModalHelper/Index";
 import { useMessage } from "../context/MessageContext/Index";
@@ -24,18 +21,17 @@ const MainRoutes = () => {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/listarFuncionarios" element={<EmployeesList />} />
-        <Route path="/listarUsuarios/:id" />
         <Route
-          path="/editarUsuario"
+          path="/editarFuncionario"
           element={
             <IdPrivateRoute>
-              <AddEditUser userId={id} />
+              <AddEditEmployee userId={id} />
             </IdPrivateRoute>
           }
         />
         <Route
-          path="/cadastroUsuario"
-          element={<AddEditUser userId={null} />}
+          path="/cadastroFuncionario"
+          element={<AddEditEmployee userId={null} />}
         />
       </Routes>
     </BrowserRouter>

@@ -3,13 +3,14 @@ import { Container, ContainerButtons, ContainerForm, GridForm } from "./Style";
 import { Button, MenuItem, TextField } from "@mui/material";
 import { useFormik } from "formik";
 import { object, string } from "yup";
-import { getUser } from "../../services/getUsers";
-import { addUsers } from "../../services/addUsers";
-import { editUsers } from "../../services/editUsers";
+import { getEmployee } from "../../services/Employees/getEmployee";
+import { addEmployees } from "../../services/Employees/addEmployees";
+import { editEmployees } from "../../services/Employees/editEmployees";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-
-interface User {
+import { useMessage } from "../../context/MessageContext/Index";
+import { useNavigate } from "react-router-dom";
+interface Employee {
   id: string;
   name: string;
   email: string;
@@ -18,7 +19,7 @@ interface User {
 interface Props {
   userId: string | null;
 }
-const userType = [
+const employeeType = [
   {
     value: "administrador",
     label: "Administrador",
@@ -41,58 +42,100 @@ const userType = [
   },
 ];
 
-const AddEditUser = (props: Props) => {
-  const [editedUser, setEditedUser] = React.useState<User>();
+const AddEditEmployee = (props: Props) => {
+  const [editedEmployee, setEditedEmployee] = React.useState<Employee>();
   const location = useLocation();
+  const { setMessage } = useMessage();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (location.pathname == "/editarUsuario") {
-      getUser()
+    if (location.pathname == "/editarFuncionario") {
+      getEmployee()
         .then((response) =>
-          setEditedUser(response.find((user) => user.id == props.userId))
+          setEditedEmployee(
+            response.find((employee) => employee.id == props.userId)
+          )
         )
-        .catch((error) => console.log(error));
+        .catch((err) =>
+          setMessage({
+            content: `O seguinte erro ocorreu ao buscar os dados do usuário: ${err}`,
+            display: true,
+            severity: "error",
+          })
+        );
     }
   }, []);
 
-  const CreateOrEditUser = (values: {
+  const CreateOrEditEmployee = (values: {
     name: string;
     email: string;
-    userType: string;
+    employeeType: string;
   }) => {
-    if (location.pathname == "/editarUsuario" && editedUser) {
-      editUsers(editedUser!.id, values.name, values.email, values.userType)
-        .then((response) => alert(response))
-        .catch((err: string) => alert(err));
+    if (location.pathname == "/editarFuncionario" && editedEmployee) {
+      editEmployees(
+        editedEmployee!.id,
+        values.name,
+        values.email,
+        values.employeeType
+      )
+        .then(() => {
+          setMessage({
+            content: "Funcionário editado com sucesso!",
+            display: true,
+            severity: "success",
+          });
+
+          navigate("/listarFuncionarios");
+        })
+        .catch((err: string) =>
+          setMessage({
+            content: `O seguinte erro ocorreu ao tentar editar o Funcionário: ${err}`,
+            display: true,
+            severity: "error",
+          })
+        );
     } else {
-      addUsers(values.name, values.email, values.userType)
-        .then((response) => alert(response))
-        .catch((err: string) => alert(err));
+      addEmployees(values.name, values.email, values.employeeType)
+        .then(() => {
+          setMessage({
+            content: "Funcionário adicionado com sucesso!",
+            display: true,
+            severity: "success",
+          });
+          navigate("/listarFuncionarios");
+        })
+        .catch((err: string) =>
+          setMessage({
+            content: `O seguinte erro ocorreu ao tentar adicionar o funcionário: ${err}`,
+            display: true,
+            severity: "error",
+          })
+        );
     }
   };
 
   const validationSchema = object({
     name: string().required("O nome é obrigatório"),
     email: string().email("Email inválido").required("E-mail obrigatório"),
-    userType: string().required("O tipo de usuário é obrigatório"),
+    employeeType: string().required("O tipo de usuário é obrigatório"),
   });
 
   const formik = useFormik({
     enableReinitialize: true,
-    initialValues: editedUser
+    initialValues: editedEmployee
       ? {
-          name: editedUser!.name,
-          email: editedUser!.email,
-          userType: editedUser!.type,
+          name: editedEmployee!.name,
+          email: editedEmployee!.email,
+          employeeType: editedEmployee!.type,
         }
       : {
           name: "",
           email: "",
-          userType: "",
+          employeeType: "",
         },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      CreateOrEditUser(values);
+      CreateOrEditEmployee(values);
     },
   });
 
@@ -100,10 +143,10 @@ const AddEditUser = (props: Props) => {
     <Container>
       <ContainerForm>
         <form onSubmit={formik.handleSubmit}>
-          {location.pathname == "/editarUsuario" ? (
-            <h2>Editar usuário</h2>
+          {location.pathname == "/editarFuncionario" ? (
+            <h2>Editar funcionário</h2>
           ) : (
-            <h2>Cadastrar novo usuário</h2>
+            <h2>Cadastrar novo funcionário</h2>
           )}
           <GridForm>
             <TextField
@@ -111,7 +154,7 @@ const AddEditUser = (props: Props) => {
               type="text"
               name="name"
               id="name"
-              label="Nome do usuário"
+              label="Nome do funcionário"
               onChange={formik.handleChange}
               value={formik.values.name}
               error={formik.touched.name && Boolean(formik.errors.name)}
@@ -129,18 +172,18 @@ const AddEditUser = (props: Props) => {
               helperText={formik.touched.email && formik.errors.email}
             />
             <TextField
-              id="userType"
+              id="employeeType"
               select
-              name="userType"
-              label="Tipo de usuário"
+              name="employeeType"
+              label="Tipo de funcionário"
               variant="outlined"
               InputLabelProps={{ shrink: true }}
-              value={formik.values.userType}
+              value={formik.values.employeeType}
               onChange={formik.handleChange}
             >
-              {userType.map((user) => (
-                <MenuItem key={user.value} value={user.value}>
-                  {user.label}
+              {employeeType.map((type) => (
+                <MenuItem key={type.value} value={type.value}>
+                  {type.label}
                 </MenuItem>
               ))}
             </TextField>
@@ -169,4 +212,4 @@ const AddEditUser = (props: Props) => {
   );
 };
 
-export default AddEditUser;
+export default AddEditEmployee;

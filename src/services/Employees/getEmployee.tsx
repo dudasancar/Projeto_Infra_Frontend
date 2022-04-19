@@ -1,4 +1,4 @@
-export const getUser = async () => {
+export const getEmployee = async () => {
   const data = [
     {
       id: "1",
