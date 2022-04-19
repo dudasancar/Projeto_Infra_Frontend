@@ -33,7 +33,7 @@ const Login = () => {
             severity: "success",
           });
 
-          navigate ("/listarFuncionarios");
+          navigate("/listarFuncionarios");
         })
         .catch((error) =>
           setMessage({

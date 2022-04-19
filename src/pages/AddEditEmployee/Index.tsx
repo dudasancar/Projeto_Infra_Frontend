@@ -20,23 +20,23 @@ interface Employee {
 }
 const type = [
   {
-    value: "administrador",
+    value: "Administrador",
     label: "Administrador",
   },
   {
-    value: "departamentoPessoal",
+    value: "Departamento Pessoal",
     label: "Departamento Pessoal",
   },
   {
-    value: "infraestrutura",
+    value: "Infraestrutura",
     label: "Infraestrutura",
   },
   {
-    value: "marketing",
+    value: "Marketing",
     label: "Marketing",
   },
   {
-    value: "recursosHumanos",
+    value: "Recursos Humanos",
     label: "Recursos Humanos",
   },
 ];
@@ -47,7 +47,6 @@ const AddEditEmployee = () => {
   const { setMessage } = useMessage();
   const navigate = useNavigate();
   const { id } = useParams();
-  const [loading, setLoading] = React.useState<boolean>(false);
 
   useEffect(() => {
     if (location.pathname == `/editarFuncionario/${id}`) {
