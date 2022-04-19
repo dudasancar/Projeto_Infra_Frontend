@@ -3,7 +3,6 @@ import { Container, ContainerButtons, ContainerForm, GridForm } from "./Style";
 import { Button, MenuItem, TextField } from "@mui/material";
 import { useFormik } from "formik";
 import { object, string } from "yup";
-import { getEmployee } from "../../services/Employees/getEmployee";
 import { addEmployees } from "../../services/Employees/addEmployees";
 import { editEmployees } from "../../services/Employees/editEmployees";
 import { useEffect } from "react";
