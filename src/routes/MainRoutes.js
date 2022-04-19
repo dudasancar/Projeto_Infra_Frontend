@@ -8,7 +8,7 @@ import ModalMessage from "../components/ModalHelper/Index";
 import { useMessage } from "../context/MessageContext/Index";
 
 const MainRoutes = () => {
-  const id = 1;
+  const id = true;
   const { message } = useMessage();
   function IdPrivateRoute({ children }) {
     return id ? children : <Navigate to="/cadastroUsuario" />;
@@ -22,10 +22,10 @@ const MainRoutes = () => {
         <Route path="/" element={<Login />} />
         <Route path="/listarFuncionarios" element={<EmployeesList />} />
         <Route
-          path="/editarFuncionario"
+          path="/editarFuncionario/:id"
           element={
             <IdPrivateRoute>
-              <AddEditEmployee userId={id} />
+              <AddEditEmployee/>
             </IdPrivateRoute>
           }
         />

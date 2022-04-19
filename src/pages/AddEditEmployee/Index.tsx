@@ -9,15 +9,12 @@ import { editEmployees } from "../../services/Employees/editEmployees";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useMessage } from "../../context/MessageContext/Index";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 interface Employee {
   id: string;
   name: string;
   email: string;
   type: string;
-}
-interface Props {
-  userId: string | null;
 }
 const employeeType = [
   {
@@ -42,19 +39,20 @@ const employeeType = [
   },
 ];
 
-const AddEditEmployee = (props: Props) => {
+const AddEditEmployee = () => {
+  
   const [editedEmployee, setEditedEmployee] = React.useState<Employee>();
   const location = useLocation();
   const { setMessage } = useMessage();
   const navigate = useNavigate();
+ const { id } = useParams();
+
 
   useEffect(() => {
-    if (location.pathname == "/editarFuncionario") {
+    if (location.pathname == `/editarFuncionario/${id}`) {
       getEmployee()
         .then((response) =>
-          setEditedEmployee(
-            response.find((employee) => employee.id == props.userId)
-          )
+          setEditedEmployee(response.find((employee) => employee.id == id))
         )
         .catch((err) =>
           setMessage({
@@ -64,6 +62,8 @@ const AddEditEmployee = (props: Props) => {
           })
         );
     }
+
+  
   }, []);
 
   const CreateOrEditEmployee = (values: {
@@ -71,7 +71,7 @@ const AddEditEmployee = (props: Props) => {
     email: string;
     employeeType: string;
   }) => {
-    if (location.pathname == "/editarFuncionario" && editedEmployee) {
+    if (location.pathname == `/editarFuncionario/${id}` && editedEmployee) {
       editEmployees(
         editedEmployee!.id,
         values.name,
@@ -143,7 +143,7 @@ const AddEditEmployee = (props: Props) => {
     <Container>
       <ContainerForm>
         <form onSubmit={formik.handleSubmit}>
-          {location.pathname == "/editarFuncionario" ? (
+          {location.pathname == `/editarFuncionario/${id}` ? (
             <h2>Editar funcionário</h2>
           ) : (
             <h2>Cadastrar novo funcionário</h2>
