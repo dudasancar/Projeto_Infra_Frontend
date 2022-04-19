@@ -56,5 +56,3 @@ export const DropDownDiv = styled.div`
     padding-bottom: 3px;
   }
 `;
-
-
