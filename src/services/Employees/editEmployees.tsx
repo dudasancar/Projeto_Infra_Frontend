@@ -1,5 +1,5 @@
 export const editEmployees = async (
-  id: string,
+  id: number,
   name: string,
   email: string,
   type: string

@@ -10,13 +10,15 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useMessage } from "../../context/MessageContext/Index";
 import { useNavigate, useParams } from "react-router-dom";
+import { listEmployees } from "../../services/Employees/ListEmployees";
 interface Employee {
-  id: string;
+  id: number;
   name: string;
   email: string;
   type: string;
+  local: string;
 }
-const employeeType = [
+const type = [
   {
     value: "administrador",
     label: "Administrador",
@@ -40,20 +42,21 @@ const employeeType = [
 ];
 
 const AddEditEmployee = () => {
-  
   const [editedEmployee, setEditedEmployee] = React.useState<Employee>();
   const location = useLocation();
   const { setMessage } = useMessage();
   const navigate = useNavigate();
- const { id } = useParams();
-
+  const { id } = useParams();
+  const [loading, setLoading] = React.useState<boolean>(false);
 
   useEffect(() => {
     if (location.pathname == `/editarFuncionario/${id}`) {
-      getEmployee()
-        .then((response) =>
-          setEditedEmployee(response.find((employee) => employee.id == id))
-        )
+      listEmployees()
+        .then((response) => {
+          setEditedEmployee(
+            response.find((employee) => employee.id == Number(id))
+          );
+        })
         .catch((err) =>
           setMessage({
             content: `O seguinte erro ocorreu ao buscar os dados do usuário: ${err}`,
@@ -62,22 +65,15 @@ const AddEditEmployee = () => {
           })
         );
     }
-
-  
   }, []);
 
   const CreateOrEditEmployee = (values: {
     name: string;
     email: string;
-    employeeType: string;
+    type: string;
   }) => {
     if (location.pathname == `/editarFuncionario/${id}` && editedEmployee) {
-      editEmployees(
-        editedEmployee!.id,
-        values.name,
-        values.email,
-        values.employeeType
-      )
+      editEmployees(editedEmployee!.id, values.name, values.email, values.type)
         .then(() => {
           setMessage({
             content: "Funcionário editado com sucesso!",
@@ -95,7 +91,7 @@ const AddEditEmployee = () => {
           })
         );
     } else {
-      addEmployees(values.name, values.email, values.employeeType)
+      addEmployees(values.name, values.email, values.type)
         .then(() => {
           setMessage({
             content: "Funcionário adicionado com sucesso!",
@@ -117,7 +113,7 @@ const AddEditEmployee = () => {
   const validationSchema = object({
     name: string().required("O nome é obrigatório"),
     email: string().email("Email inválido").required("E-mail obrigatório"),
-    employeeType: string().required("O tipo de usuário é obrigatório"),
+    type: string().required("O tipo de usuário é obrigatório"),
   });
 
   const formik = useFormik({
@@ -126,12 +122,12 @@ const AddEditEmployee = () => {
       ? {
           name: editedEmployee!.name,
           email: editedEmployee!.email,
-          employeeType: editedEmployee!.type,
+          type: editedEmployee!.type,
         }
       : {
           name: "",
           email: "",
-          employeeType: "",
+          type: "",
         },
     validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -172,16 +168,16 @@ const AddEditEmployee = () => {
               helperText={formik.touched.email && formik.errors.email}
             />
             <TextField
-              id="employeeType"
+              id="type"
               select
-              name="employeeType"
+              name="type"
               label="Tipo de funcionário"
               variant="outlined"
               InputLabelProps={{ shrink: true }}
-              value={formik.values.employeeType}
+              value={formik.values.type}
               onChange={formik.handleChange}
             >
-              {employeeType.map((type) => (
+              {type.map((type) => (
                 <MenuItem key={type.value} value={type.value}>
                   {type.label}
                 </MenuItem>
