@@ -23,7 +23,7 @@ const EmployeesList = () => {
     useState<boolean>(false);
 
   const handleClickEmployeeDetail = (id: string) => {
-    navigate(`/editarfuncionario/${id}`);
+    navigate(`/editarFuncionario/${id}`);
   };
 
   const handleOpenModalDeleteConfirmation = () => {
