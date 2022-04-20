@@ -1,12 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import GlobalStyle from "./GlobalStyles";
-import MainRoutes from "./routes";
+import { MessageProvider } from "./context/MessageContext/Index";
+import MainRoutes from "./routes/MainRoutes";
 
 ReactDOM.render(
   <React.StrictMode>
-    <GlobalStyle />
-    <MainRoutes />
+    <MessageProvider>
+      <MainRoutes />
+    </MessageProvider>
   </React.StrictMode>,
   document.getElementById("root"),
 );
