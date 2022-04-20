@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Content,
   ContentForm,
@@ -21,10 +21,160 @@ import { useFormik } from "formik";
 import { equipament } from "./List";
 import { department } from "./List";
 import { addEquipaments } from "../services/addEquipaments";
+import { useLocation } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { listEquipaments } from "../services/listEquipaments";
+import { editedEquipaments } from "../services/editEquipaments";
+
+interface Equipament {
+  id: number;
+  equipamentType: string;
+  name: string;
+  equipamentModel: string;
+  serieNumber: string;
+  currentUser: string;
+  previousUser: string;
+  department: string;
+  situation: string;
+  buyDate: string;
+  invoice: string;
+  term: string;
+  deliveryDate: string;
+  description: string;
+}
 
 const Hardwares = () => {
   const [baseFileInvoice, setBaseFileInvoice] = useState<any>("");
   const [baseFileTerm, setBaseFileTerm] = useState<any>("");
+  const [editEquipament, setEditEquipament] = React.useState<Equipament>();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { id } = useParams();
+
+  useEffect(() => {
+    if (location.pathname === `/edicaoEquipamentos/${id}`) {
+      listEquipaments()
+        .then((response) => {
+          setEditEquipament(
+            response.find((equipament) => equipament.id === Number(id)),
+          );
+        })
+        .catch((err: string) => alert(err));
+    }
+  }, []);
+
+  const createEditEquipament = (values: {
+    equipamentType: string;
+    name: string;
+    equipamentModel: string;
+    serieNumber: string;
+    currentUser: string;
+    previousUser: string;
+    department: string;
+    situation: string;
+    buyDate: string;
+    invoice: string;
+    term: string;
+    deliveryDate: string;
+    description: string;
+  }) => {
+    if (location.pathname === `/edicaoEquipamentos/${id}` && editEquipament) {
+      editedEquipaments(
+        editEquipament!.id,
+        values.equipamentType,
+        values.name,
+        values.equipamentModel,
+        values.serieNumber,
+        values.currentUser,
+        values.previousUser,
+        values.department,
+        values.situation,
+        values.buyDate,
+        values.invoice,
+        values.term,
+        values.deliveryDate,
+        values.description,
+      )
+        .then((response: any) => {
+          console.log(response);
+        })
+        .catch((error) => console.log(error));
+    } else {
+      addEquipaments(
+        values.equipamentType,
+        values.name,
+        values.equipamentModel,
+        values.serieNumber,
+        values.currentUser,
+        values.previousUser,
+        values.department,
+        values.situation,
+        values.buyDate,
+        values.invoice,
+        values.term,
+        values.deliveryDate,
+        values.description,
+      )
+        .then((response: any) => {
+          console.log(response);
+        })
+        .catch((error) => console.log(error));
+    }
+  };
+
+  const validationSchema = object({
+    equipamentType: string().required("Obrigatorio"),
+    name: string().required("Obrigatorio"),
+    equipamentModel: string().required("Obrigatorio"),
+    serieNumber: string().required("Obrigatorio"),
+    currentUser: string().required("Obrigatorio"),
+    previousUser: string().required("Obrigatorio"),
+    department: string().required("Obrigatorio"),
+    situation: string().required("Obrigatorio"),
+    buyDate: string().required("Obrigatorio"),
+    invoice: string(),
+    term: string(),
+    deliveryDate: string().required("Obrigatorio"),
+  });
+
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: editEquipament
+      ? {
+          equipamentType: editEquipament!.equipamentType,
+          name: editEquipament!.name,
+          equipamentModal: editEquipament!.equipamentModel,
+          serieNumber: editEquipament!.serieNumber,
+          currentUser: editEquipament!.currentUser,
+          previousUser: editEquipament!.previousUser,
+          department: editEquipament!.department,
+          situation: editEquipament!.situation,
+          buyDate: editEquipament!.buyDate,
+          invoice: editEquipament!.invoice,
+          term: editEquipament!.term,
+          deliveryDate: editEquipament!.deliveryDate,
+          description: editEquipament!.description,
+        }
+      : {
+          equipamentType: "",
+          name: "",
+          equipamentModel: "",
+          serieNumber: "",
+          currentUser: "",
+          previousUser: "",
+          department: "",
+          situation: "",
+          buyDate: "",
+          invoice: "",
+          term: "",
+          deliveryDate: "",
+          description: "",
+        },
+    validationSchema: validationSchema,
+    onSubmit: (values: any) => {
+      createEditEquipament(values);
+    },
+  });
 
   const uploadFileInvoice = async (event: any) => {
     const file = event.target.files[0];
@@ -45,63 +195,14 @@ const Hardwares = () => {
     });
   };
 
-  const validationSchema = object({
-    equipamentType: string().required("Obrigatorio"),
-    name: string().required("Obrigatorio"),
-    equipamentModel: string().required("Obrigatorio"),
-    serieNumber: string().required("Obrigatorio"),
-    currentUser: string().required("Obrigatorio"),
-    previousUser: string().required("Obrigatorio"),
-    department: string().required("Obrigatorio"),
-    situation: string().required("Obrigatorio"),
-    buyDate: string().required("Obrigatorio"),
-    invoice: string(),
-    term: string(),
-    deliveryDate: string().required("Obrigatorio"),
-  });
-
-  const formik = useFormik({
-    initialValues: {
-      equipamentType: "",
-      name: "",
-      equipamentModel: "",
-      serieNumber: "",
-      currentUser: "",
-      previousUser: "",
-      department: "",
-      situation: "",
-      buyDate: "",
-      invoice: "",
-      term: "",
-      deliveryDate: "",
-      description: "",
-    },
-    validationSchema: validationSchema,
-    onSubmit: (values) => {
-      addEquipaments(
-        values.equipamentType,
-        values.name,
-        values.equipamentModel,
-        values.serieNumber,
-        values.currentUser,
-        values.previousUser,
-        values.department,
-        values.situation,
-        values.buyDate,
-        values.invoice,
-        values.term,
-        values.deliveryDate,
-        values.description,
-      )
-        .then((response) => alert(response))
-        .catch((err: string) => alert(err));
-    },
-  });
-
   return (
     <Content>
       <SubContent>
-        <h1>Cadastro de Equipamentos:</h1>
+        {location.pathname === `/edicaoEquipamentos/${id}` ? (
+          <h1>Edição de Equipamentos:</h1>
+        ) : (
+          <h1>Cadastro de Equipamentos:</h1>
+        )}
         <ContentForm>
           <form onSubmit={formik.handleSubmit}>
             <SubForm>

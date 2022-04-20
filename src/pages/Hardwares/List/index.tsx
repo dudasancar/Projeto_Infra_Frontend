@@ -8,7 +8,7 @@ export const equipament = [
     label: "Notebook",
   },
   {
-    value: "Periféricos",
+    value: "Periferico",
     label: "Periféricos",
   },
 ];
