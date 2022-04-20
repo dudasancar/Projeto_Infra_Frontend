@@ -1,8 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter } from "react-router-dom";
 import { MessageProvider } from "./context/MessageContext/Index";
-import MainRoutes from "./routes/MainRoutes";
+import MainRoutes from "./routes/MainRoutes/MainRoutes";
 
 ReactDOM.render(
   <React.StrictMode>
