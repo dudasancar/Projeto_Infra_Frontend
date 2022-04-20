@@ -9,11 +9,11 @@ export const ContainerModal = styled.div`
   flex-direction: column;
   text-align: center;
   font-family: Roboto, sans-serif;
-  text-transform: uppercase;
   font-size: 0.8rem;
   justify-content: center;
-  width: "50vw";
-  height: "50vh";
+  padding: 0 2rem 0 2rem;
+  width: 100%;
+  height: 100%;
   background-color: white;
 
   div {
@@ -22,7 +22,14 @@ export const ContainerModal = styled.div`
     gap: 2rem;
   }
 
-  h1 {
+  span {
+    font-size: 1rem;
     color: black;
+    text-align: center;
+  }
+  #CancelButton{
+    border: solid thin #ff5f5d;
+    color: #ff5f5d;
   }
 `;
+//

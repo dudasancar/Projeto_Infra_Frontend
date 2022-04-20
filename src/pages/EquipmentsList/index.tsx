@@ -105,8 +105,7 @@ const EquipmentsList = () => {
       )}
       <ModalConfirmationHelper
         open={openDeleteConfirmationModal}
-        message={`Você Tem certeza que deseja Inativar este Equipamento?\n
-              ${equipmentsList && equipmentsList[3].name}`}
+        message= {`Você tem certeza que deseja inativar esse equipamento? ${equipmentsList && equipmentsList[3].name}`}
         onCancel={handleCloseModalDeleteConfirmation}
         onApprove={() => {
           handleDeleteEquipment();

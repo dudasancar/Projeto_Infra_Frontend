@@ -23,8 +23,8 @@ function ModalConfirmationHelper({
           margin: "0 auto",
           marginTop: "5rem",
           background: "#ccc",
-          width: "50vw",
-          height: "50vh",
+          width: "30vw",
+          height: "35vh",
           borderRadius: "5px",
         }}
         open={open}
@@ -33,19 +33,19 @@ function ModalConfirmationHelper({
         aria-describedby="modal-modal-description"
       >
         <ContainerModal>
-          <h1 style={{marginBottom: "5rem" }}>{message}</h1>
+          <span>{message}</span>
           <div>
             <Button
-              style={{ width: 150, height: 50 }}
+              style={{ width: 100, height: 40, marginTop: "2rem" }}
               onClick={onApprove}
               variant="contained"
             >
               Inativar
             </Button>
             <Button
-              style={{ width: 150, height: 50 }}
+              style={{ width: 100, height: 40, marginTop: "2rem" }}
               onClick={onCancel}
-              variant="contained"
+              id="CancelButton"
             >
               Cancelar
             </Button>
