@@ -44,7 +44,7 @@ const EmployeesList = () => {
   }, []);
 
   return (
-    <div style={{ maxWidth: "80%", margin: "0 auto" }}>
+    <div style={{ maxWidth: "80%", margin: "50px auto" }}>
       {employeesList && (
         <MaterialTable
           title="Lista de Funcionarios"

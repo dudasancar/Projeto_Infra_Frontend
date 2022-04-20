@@ -6,12 +6,17 @@ import EmployeesList from "../pages/EmployeesList/index";
 import Login from "../pages/Login/Index";
 import ModalMessage from "../components/ModalHelper/Index";
 import { useMessage } from "../context/MessageContext/Index";
+import MenuNavigation from "../components/MenuNavigation/Index";
 
 const MainRoutes = () => {
   const id = true;
   const { message } = useMessage();
   function IdPrivateRoute({ children }) {
-    return id ? children : <Navigate to="/cadastroUsuario" />;
+    return id ? (
+      <MenuNavigation> {children} </MenuNavigation>
+    ) : (
+      <Navigate to="/" />
+    );
   }
 
   return (
@@ -20,18 +25,29 @@ const MainRoutes = () => {
       <GlobalStyle />
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/listarFuncionarios" element={<EmployeesList />} />
+        <Route
+          path="/listarFuncionarios"
+          element={
+            <IdPrivateRoute>
+              <EmployeesList />
+            </IdPrivateRoute>
+          }
+        />
         <Route
           path="/editarFuncionario/:id"
           element={
             <IdPrivateRoute>
-              <AddEditEmployee/>
+              <AddEditEmployee />
             </IdPrivateRoute>
           }
         />
         <Route
           path="/cadastroFuncionario"
-          element={<AddEditEmployee userId={null} />}
+          element={
+            <IdPrivateRoute>
+              <AddEditEmployee />
+            </IdPrivateRoute>
+          }
         />
       </Routes>
     </BrowserRouter>

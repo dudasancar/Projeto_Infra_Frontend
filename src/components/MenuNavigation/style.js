@@ -1,7 +1,11 @@
 import styled from "styled-components";
 
+export const ContainerPage = styled.div`
+ max-width: 100vw;
+ box-sizing: border-box;
+`;
+
 export const Container = styled.header`
-  width: 100vw;
   background-color: white;
   display: flex;
   justify-content: center;
@@ -10,7 +14,6 @@ export const Container = styled.header`
 
 export const ContainerMenu = styled.div`
   width: 100%;
-  box-sizing: border-box;
   max-width: 1400px;
   display: flex;
   justify-content: space-between;
@@ -50,9 +53,8 @@ export const DropDownDiv = styled.div`
   cursor: pointer;
   #personIcon {
     font-size: 2.5rem;
-  
-    
   }
+  
 
   p {
     gap: 8px;
