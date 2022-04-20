@@ -1,7 +1,4 @@
 
-import api from '../api'
-
-
 export const listEquipments = () => {
 
     const data = [
