@@ -1,12 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import LateralMenu from "./components/LateralMenu/Index";
-import GlobalStyle from "./styles/GlobalStyle";
+import { MessageProvider } from "./context/MessageContext/Index";
+import MainRoutes from "./routes/MainRoutes";
 
 ReactDOM.render(
   <React.StrictMode>
-    <GlobalStyle />
-    <LateralMenu />
+    <MessageProvider>
+      <MainRoutes />
+    </MessageProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
