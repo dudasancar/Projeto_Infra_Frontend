@@ -9,10 +9,10 @@ import ModalMessage from "../components/ModalHelper/Index";
 import { useMessage } from "../context/MessageContext/Index";
 
 const MainRoutes = () => {
-  const id = true;
+  const token = false;
   const { message } = useMessage();
-  function IdPrivateRoute({ children }) {
-    return id ? children : <Navigate to="/cadastroUsuario" />;
+  function TokenPrivateRoute({ children }) {
+    return token ? children : <Navigate to="/" />;
   }
 
   return (
@@ -21,21 +21,15 @@ const MainRoutes = () => {
       <GlobalStyle />
       <Routes>
         <Route path="/" element={<Login />} />
+      </Routes>
+      <TokenPrivateRoute>
+      <Routes>
         <Route path="/listarFuncionarios" element={<EmployeesList />} />
         <Route path="/listarEquipamentos" element={<EquipmentsList />} />
-        <Route
-          path="/editarFuncionario/:id"
-          element={
-            <IdPrivateRoute>
-              <AddEditEmployee/>
-            </IdPrivateRoute>
-          }
-        />
-        <Route
-          path="/cadastroFuncionario"
-          element={<AddEditEmployee userId={null} />}
-        />
+        <Route path="/editarFuncionario/:id" element={<AddEditEmployee/>}/>
+        <Route path="/cadastroFuncionario" element={<AddEditEmployee userId={null} />}/>
       </Routes>
+      </TokenPrivateRoute>
     </BrowserRouter>
   );
 };

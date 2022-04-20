@@ -37,7 +37,7 @@ const EmployeesList = () => {
 
   const handleDeleteEmployee = () => {
     setMessage({
-      content: "Funcionário Inativado com Sucesso",
+      content: `Funcionário ${employeesList && employeesList[3].name} Inativado com Sucesso `,
       display: true,
       severity: "success",
     });
