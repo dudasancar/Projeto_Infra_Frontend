@@ -16,7 +16,7 @@ const data = [
   },
 ];
 
-export const authenticateUser  = async (values: {email:string, password: string}) => {
+export const authenticateEmployee  = async (values: {email:string, password: string}) => {
   try {
     return Promise.resolve(data);
   } catch (error) {

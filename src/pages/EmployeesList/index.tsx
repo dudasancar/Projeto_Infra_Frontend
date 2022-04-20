@@ -15,7 +15,7 @@ interface Employee {
   local?: string;
 }
 
-const EmployessList = () => {
+const EmployeesList = () => {
   const navigate = useNavigate();
 
   const [employeesList, setEmployeesList] = useState<Employee[]>();
@@ -23,7 +23,7 @@ const EmployessList = () => {
     useState<boolean>(false);
 
   const handleClickEmployeeDetail = (id: string) => {
-    navigate(`/editarfuncionario/${id}`);
+    navigate(`/editarFuncionario/${id}`);
   };
 
   const handleOpenModalDeleteConfirmation = () => {
@@ -110,4 +110,4 @@ const EmployessList = () => {
   );
 };
 
-export default EmployessList;
+export default EmployeesList;
