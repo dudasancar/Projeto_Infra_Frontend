@@ -12,6 +12,7 @@ body {
     padding: 0px;
     margin: 0px;
     font-size: 100%;
+    background-color: #F7F7F7
 }`;
 
 export default GlobalStyle;

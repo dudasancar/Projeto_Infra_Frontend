@@ -5,6 +5,7 @@ export const Container = styled.header`
   background-color: white;
   display: flex;
   justify-content: center;
+  border-bottom: 2px solid #e6e6e6;
 `;
 
 export const ContainerMenu = styled.div`
@@ -19,7 +20,7 @@ export const ContainerMenu = styled.div`
   padding: 10px 5%;
   color: #3e4756;
   svg {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     cursor: pointer;
   }
 
@@ -29,9 +30,8 @@ export const ContainerMenu = styled.div`
     flex-flow: row wrap;
 
     p {
-      font-size: 1.2rem;
       display: flex;
-      gap: 5px;
+      gap: 8px;
       align-items: center;
       cursor: pointer;
     }
@@ -48,11 +48,16 @@ export const ContainerMenu = styled.div`
 
 export const DropDownDiv = styled.div`
   cursor: pointer;
-  font-size: 1.2rem;
+  #personIcon {
+    font-size: 2.5rem;
+  
+    
+  }
+
   p {
-    gap: 5px;
+    gap: 8px;
     display: flex;
     align-items: center;
-    padding-bottom: 3px;
+
   }
 `;

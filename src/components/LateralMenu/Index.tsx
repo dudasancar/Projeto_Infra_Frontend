@@ -6,7 +6,7 @@ import logo from "../../assets/logo.png";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import DevicesIcon from "@mui/icons-material/Devices";
 import { Menu, MenuItem } from "@mui/material";
-import PersonIcon from "@mui/icons-material/Person";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const LateralMenu = () => {
   const handleClose = () => {
@@ -64,15 +64,14 @@ const LateralMenu = () => {
             aria-expanded={openUser ? "true" : undefined}
             onClick={(event: any) => setAnchorUser(event.currentTarget)}
           >
-            <PersonIcon />
-            Usuário
             {openUser ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            Usuário
+            <AccountCircleIcon id='personIcon' />
           </p>
           <Menu
             id="basic-menu"
             anchorEl={anchorUser}
-            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-            transformOrigin={{ vertical: "top", horizontal: "right" }}
+ 
             open={openUser}
             onClose={handleClose}
             MenuListProps={{
