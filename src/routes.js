@@ -3,10 +3,22 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Hardwares from "./pages/Hardwares";
 
 const MainRoutes = () => {
+  const id = true;
+  function IdPrivateRoute({ children }) {
+    return id ? children : <Navigate to="/cadastroEquipamentos" />;
+  }
+
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/edicaoEquipamentos/:id" element={<Hardwares />} />
+        <Route
+          path="/edicaoEquipamentos/:id"
+          element={
+            <IdPrivateRoute>
+              <Hardwares />
+            </IdPrivateRoute>
+          }
+        />
         <Route path="/cadastroEquipamentos" element={<Hardwares />} />
       </Routes>
     </BrowserRouter>
