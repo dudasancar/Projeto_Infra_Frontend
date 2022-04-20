@@ -6,7 +6,7 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ModalConfirmationHelper from "../../components/ModalConfirmationHelper";
 import { listEquipments } from "../../services/Equipments/ListEquipments";
-import { useMessage } from '../../context/MessageContext/Index'
+import { useMessage } from "../../context/MessageContext/Index";
 
 interface Equipment {
   id: string;
@@ -49,10 +49,10 @@ const EquipmentsList = () => {
       .catch((error) => console.log(error));
   }, []);
 
-  console.log(equipmentsList)
+  console.log(equipmentsList);
 
   return (
-    <div style={{ maxWidth: "80%", margin: "0 auto" }}>
+    <div style={{ maxWidth: "80%", margin: "50px auto" }}>
       {equipmentsList && (
         <MaterialTable
           title="Lista de Equipamentos"

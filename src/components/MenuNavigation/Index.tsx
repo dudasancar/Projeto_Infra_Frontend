@@ -65,7 +65,7 @@ const MenuNavigation = ({ children }: Props) => {
               >
                 <MenuItem>
                   <Link
-                    to="/listarfuncionarios"
+                    to="/listarFuncionarios"
                     style={{ color: "#3e4756", textDecoration: "none" }}
                   >
                     Funcionários
@@ -76,7 +76,13 @@ const MenuNavigation = ({ children }: Props) => {
             </DropDownDiv>
             <p>
               {" "}
-              <DevicesIcon /> Equipamentos
+              <DevicesIcon />{" "}
+              <Link
+                to="/listarEquipamentos"
+                style={{ color: "#3e4756", textDecoration: "none" }}
+              >
+                Equipamentos
+              </Link>
             </p>
           </nav>
           <DropDownDiv>
