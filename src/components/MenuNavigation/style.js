@@ -1,51 +1,55 @@
 import styled from "styled-components";
 
 export const ContainerPage = styled.div`
- max-width: 100vw;
- box-sizing: border-box;
+  box-sizing: border-box;
+  max-width: 100vw;
+ 
 `;
 
-export const Container = styled.header`
+export const ContainerMenu = styled.header`
+box-sizing: border-box;
+width: 100%;
   background-color: white;
-  display: flex;
-  justify-content: center;
-  border-bottom: 2px solid #e6e6e6;
-`;
-
-export const ContainerMenu = styled.div`
-  width: 100%;
-  max-width: 1400px;
   display: flex;
   justify-content: space-between;
   gap: 1rem;
   align-items: center;
   flex-flow: row wrap;
-  padding: 10px 5%;
+  padding: 10px 10%;
   color: #3e4756;
+  padding: 10px 10%;
+  border-bottom: solid 2px #e6e6e6;
   svg {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     cursor: pointer;
   }
 
   nav {
     display: flex;
-    gap: 1.5rem;
+    gap: 2.2rem;
     flex-flow: row wrap;
 
-    p {
+    div {
+      display: flex;
+      gap: 1rem;
+      flex-flow: row wrap;
+    }
+
+    a {
       display: flex;
       gap: 8px;
       align-items: center;
       cursor: pointer;
     }
-
-    @media (max-width: 340px) {
+  }
+  @media (max-width: 940px) {
+    justify-content: center;
+    nav {
       justify-content: center;
     }
-  }
-
-  @media (max-width: 650px) {
-    justify-content: center;
+    div {
+      justify-content: center;
+    }
   }
 `;
 
@@ -54,12 +58,10 @@ export const DropDownDiv = styled.div`
   #personIcon {
     font-size: 2.5rem;
   }
-  
 
   p {
     gap: 8px;
     display: flex;
     align-items: center;
-
   }
 `;
