@@ -1,10 +1,9 @@
 
-import EmployeesList from '../../pages/EmployeesList/index';
-import EquipmentsList from '../../pages/EquipmentsList/index';
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import GlobalStyle from "../styles/GlobalStyle";
 import AddEditEmployee from "../pages/AddEditEmployee/Index";
-import EmployeesList from "../pages/EmployeesList/index";
+import EmployeesList from '../pages/EmployeesList/index'
+import EquipmentsList from '../pages/EquipmentsList/index';
 import Login from "../pages/Login/Index";
 import ModalMessage from "../components/ModalHelper/Index";
 import { useMessage } from "../context/MessageContext/Index";

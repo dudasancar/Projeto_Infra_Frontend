@@ -6,6 +6,7 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ModalConfirmationHelper from "../../components/ModalConfirmationHelper";
 import { listEquipments } from "../../services/Equipments/ListEquipments";
+import { useMessage } from '../../context/MessageContext/Index'
 
 interface Equipment {
   id: string;
@@ -16,6 +17,7 @@ interface Equipment {
 }
 
 const EquipmentsList = () => {
+  const { setMessage } = useMessage();
   const navigate = useNavigate();
 
   const [equipmentsList, setEquipmentsList] = useState<Equipment[]>();
@@ -23,7 +25,7 @@ const EquipmentsList = () => {
     useState<boolean>(false);
 
   const handleClickEquipmentDetail = (id: string) => {
-    navigate(`/editarfuncionario/${id}`);
+    navigate(`/editarFuncionario/${id}`);
   };
 
   const handleOpenModalDeleteConfirmation = () => {
@@ -33,8 +35,12 @@ const EquipmentsList = () => {
     setOpenDeleteConfirmationModal(false);
   };
 
-  const handleDeleteEmployee = () => {
-    alert("Colaborador Equipamento com Sucesso!");
+  const handleDeleteEquipment = () => {
+    setMessage({
+      content: "Equipamento Inativado com Sucesso",
+      display: true,
+      severity: "success",
+    });
   };
 
   useEffect(() => {
@@ -53,8 +59,8 @@ const EquipmentsList = () => {
           columns={[
             { title: "ID", field: "id" },
             { title: "Nome", field: "name" },
-            { title: "Email", field: "email" },
-            { title: "Cargo", field: "type" },
+            { title: "Modelo", field: "model" },
+            { title: "Tipo", field: "type" },
             {
               title: "",
               render: ({ id }: Equipment) => (
@@ -99,12 +105,11 @@ const EquipmentsList = () => {
       )}
       <ModalConfirmationHelper
         open={openDeleteConfirmationModal}
-        message={`Atenção!\n\n
-              Você Tem certeza que deseja Inativar este Equipamento?\n
+        message={`Você Tem certeza que deseja Inativar este Equipamento?\n
               ${equipmentsList && equipmentsList[3].name}`}
         onCancel={handleCloseModalDeleteConfirmation}
         onApprove={() => {
-          handleDeleteEmployee();
+          handleDeleteEquipment();
           handleCloseModalDeleteConfirmation();
         }}
       />

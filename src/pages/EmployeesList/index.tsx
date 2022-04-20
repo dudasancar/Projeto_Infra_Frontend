@@ -6,6 +6,7 @@ import Tooltip from "@mui/material/Tooltip";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ModalConfirmationHelper from "../../components/ModalConfirmationHelper";
+import { useMessage } from '../../context/MessageContext/Index'
 
 interface Employee {
   id: string;
@@ -17,6 +18,7 @@ interface Employee {
 
 const EmployeesList = () => {
   const navigate = useNavigate();
+  const { setMessage } = useMessage();
 
   const [employeesList, setEmployeesList] = useState<Employee[]>();
   const [openDeleteConfirmationModal, setOpenDeleteConfirmationModal] =
@@ -34,7 +36,11 @@ const EmployeesList = () => {
   };
 
   const handleDeleteEmployee = () => {
-    alert("Colaborador Inativado com Sucesso!");
+    setMessage({
+      content: "Funcionário Inativado com Sucesso",
+      display: true,
+      severity: "success",
+    });
   };
 
   useEffect(() => {

@@ -33,7 +33,7 @@ function ModalConfirmationHelper({
         aria-describedby="modal-modal-description"
       >
         <ContainerModal>
-          <h1>{message}</h1>
+          <h1 style={{marginBottom: "5rem" }}>{message}</h1>
           <div>
             <Button
               style={{ width: 150, height: 50 }}
