@@ -5,12 +5,10 @@ import { MessageProvider } from "./context/MessageContext/Index";
 import MainRoutes from "./routes/MainRoutes";
 
 ReactDOM.render(
-  <BrowserRouter>
   <React.StrictMode>
     <MessageProvider>
       <MainRoutes />
     </MessageProvider>
-  </React.StrictMode>
-  </BrowserRouter>,
+  </React.StrictMode>,
   document.getElementById("root")
 );

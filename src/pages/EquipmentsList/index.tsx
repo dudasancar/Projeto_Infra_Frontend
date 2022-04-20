@@ -34,7 +34,7 @@ const EquipmentsList = () => {
   };
 
   const handleDeleteEmployee = () => {
-    alert("Colaborador Inativado com Sucesso!");
+    alert("Colaborador Equipamento com Sucesso!");
   };
 
   useEffect(() => {
@@ -49,7 +49,7 @@ const EquipmentsList = () => {
     <div style={{ maxWidth: "80%", margin: "0 auto" }}>
       {equipmentsList && (
         <MaterialTable
-          title="Lista de Funcionarios"
+          title="Lista de Equipamentos"
           columns={[
             { title: "ID", field: "id" },
             { title: "Nome", field: "name" },
@@ -100,7 +100,7 @@ const EquipmentsList = () => {
       <ModalConfirmationHelper
         open={openDeleteConfirmationModal}
         message={`Atenção!\n\n
-              Você Tem certeza que deseja Inativar este Funcionário?
+              Você Tem certeza que deseja Inativar este Equipamento?\n
               ${equipmentsList && equipmentsList[3].name}`}
         onCancel={handleCloseModalDeleteConfirmation}
         onApprove={() => {
