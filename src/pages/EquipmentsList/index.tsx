@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MaterialTable from "material-table";
-import { listEmployees } from "../../services/Employees/ListEmployees";
 import Tooltip from "@mui/material/Tooltip";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ModalConfirmationHelper from "../../components/ModalConfirmationHelper";
+import { listEquipments } from "../../services/Equipments/ListEquipments";
 import { useMessage } from '../../context/MessageContext/Index'
 
-interface Employee {
+interface Equipment {
   id: string;
   name?: string;
   email?: string;
@@ -16,15 +16,15 @@ interface Employee {
   local?: string;
 }
 
-const EmployeesList = () => {
-  const navigate = useNavigate();
+const EquipmentsList = () => {
   const { setMessage } = useMessage();
+  const navigate = useNavigate();
 
-  const [employeesList, setEmployeesList] = useState<Employee[]>();
+  const [equipmentsList, setEquipmentsList] = useState<Equipment[]>();
   const [openDeleteConfirmationModal, setOpenDeleteConfirmationModal] =
     useState<boolean>(false);
 
-  const handleClickEmployeeDetail = (id: string) => {
+  const handleClickEquipmentDetail = (id: string) => {
     navigate(`/editarFuncionario/${id}`);
   };
 
@@ -35,37 +35,39 @@ const EmployeesList = () => {
     setOpenDeleteConfirmationModal(false);
   };
 
-  const handleDeleteEmployee = () => {
+  const handleDeleteEquipment = () => {
     setMessage({
-      content: "Funcionário Inativado com Sucesso",
+      content: "Equipamento Inativado com Sucesso",
       display: true,
       severity: "success",
     });
   };
 
   useEffect(() => {
-    listEmployees()
-      .then((response: any) => setEmployeesList(response))
-      .catch((error?) => console.log(error));
+    listEquipments()
+      .then((response: any) => setEquipmentsList(response))
+      .catch((error) => console.log(error));
   }, []);
 
+  console.log(equipmentsList)
+
   return (
-    <div style={{ maxWidth: "80%", margin: "50px auto" }}>
-      {employeesList && (
+    <div style={{ maxWidth: "80%", margin: "0 auto" }}>
+      {equipmentsList && (
         <MaterialTable
-          title="Lista de Funcionarios"
+          title="Lista de Equipamentos"
           columns={[
             { title: "ID", field: "id" },
             { title: "Nome", field: "name" },
-            { title: "Email", field: "email" },
-            { title: "Cargo", field: "type" },
+            { title: "Modelo", field: "model" },
+            { title: "Tipo", field: "type" },
             {
               title: "",
-              render: ({ id }: Employee) => (
+              render: ({ id }: Equipment) => (
                 <div style={{ display: "flex" }}>
                   <Tooltip title="Mais Detalhes">
                     <AssignmentIcon
-                      onClick={() => handleClickEmployeeDetail(id)}
+                      onClick={() => handleClickEquipmentDetail(id)}
                       style={{
                         cursor: "pointer",
                         color: "black",
@@ -85,7 +87,7 @@ const EmployeesList = () => {
               ),
             },
           ]}
-          data={employeesList}
+          data={equipmentsList}
           options={{
             filtering: true,
             search: true,
@@ -103,12 +105,11 @@ const EmployeesList = () => {
       )}
       <ModalConfirmationHelper
         open={openDeleteConfirmationModal}
-        message={`Atenção!\n\n
-              Você Tem certeza que deseja Inativar este Funcionário?
-              ${employeesList && employeesList[3].name}`}
+        message={`Você Tem certeza que deseja Inativar este Equipamento?\n
+              ${equipmentsList && equipmentsList[3].name}`}
         onCancel={handleCloseModalDeleteConfirmation}
         onApprove={() => {
-          handleDeleteEmployee();
+          handleDeleteEquipment();
           handleCloseModalDeleteConfirmation();
         }}
       />
@@ -116,4 +117,4 @@ const EmployeesList = () => {
   );
 };
 
-export default EmployeesList;
+export default EquipmentsList;
