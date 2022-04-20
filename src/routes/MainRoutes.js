@@ -11,17 +11,25 @@ import { useMessage } from "../context/MessageContext/Index";
 const MainRoutes = () => {
   const token = false;
   const { message } = useMessage();
+
   function TokenPrivateRoute({ children }) {
-    return token ? children : <Navigate to="/" />;
+    return token ? children : PublicRoutes;
+  }
+
+  function PublicRoutes({ children }) {
+    return children;
   }
 
   return (
     <BrowserRouter>
       {message.display && <ModalMessage />}
       <GlobalStyle />
+      <PublicRoutes>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<Login />}/>
+        <Route path="/registro" element={<EmployeesList />} />
       </Routes>
+      </PublicRoutes>
       <TokenPrivateRoute>
       <Routes>
         <Route path="/listarFuncionarios" element={<EmployeesList />} />
