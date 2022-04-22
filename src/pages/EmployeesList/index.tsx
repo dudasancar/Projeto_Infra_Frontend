@@ -7,6 +7,8 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ModalConfirmationHelper from "../../components/ModalConfirmationHelper";
 import { useMessage } from "../../context/MessageContext/Index";
+import { Button } from "@mui/material";
+import {Container} from './style'
 
 interface Employee {
   id: string;
@@ -50,7 +52,8 @@ const EmployeesList = () => {
   }, []);
 
   return (
-    <div style={{ maxWidth: "80%", margin: "50px auto" }}>
+    <Container>
+      <Button variant="contained">Adicionar funcionário</Button>
       {employeesList && (
         <MaterialTable
           title="Lista de Funcionarios"
@@ -112,7 +115,7 @@ const EmployeesList = () => {
           handleCloseModalDeleteConfirmation();
         }}
       />
-    </div>
+    </Container>
   );
 };
 
