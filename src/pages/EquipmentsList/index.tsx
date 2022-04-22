@@ -7,6 +7,8 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ModalConfirmationHelper from "../../components/ModalConfirmationHelper";
 import { listEquipments } from "../../services/Equipments/ListEquipments";
 import { useMessage } from "../../context/MessageContext/Index";
+import { Container } from "./style";
+import { Button } from "@mui/material";
 
 interface Equipment {
   id: string;
@@ -52,7 +54,11 @@ const EquipmentsList = () => {
   console.log(equipmentsList);
 
   return (
-    <div style={{ maxWidth: "80%", margin: "50px auto" }}>
+    <Container>
+        <Button
+        variant="contained"
+        onClick={() => navigate("/cadastroEquipamento")}
+      >Cadastrar equipamento</Button>
       {equipmentsList && (
         <MaterialTable
           title="Lista de Equipamentos"
@@ -113,7 +119,7 @@ const EquipmentsList = () => {
           handleCloseModalDeleteConfirmation();
         }}
       />
-    </div>
+    </Container>
   );
 };
 

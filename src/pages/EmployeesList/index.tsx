@@ -57,7 +57,7 @@ const EmployeesList = () => {
         variant="contained"
         onClick={() => navigate("/cadastroFuncionario")}
       >
-        Adicionar funcionário
+        Cadastrar funcionário
       </Button>
       {employeesList && (
         <MaterialTable

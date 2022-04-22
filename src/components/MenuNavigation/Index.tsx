@@ -76,7 +76,7 @@ const MenuNavigation = ({ children }: Props) => {
               "aria-labelledby": "user-info",
             }}
           >
-            <MenuItem onClick={handleClose}>Perfil</MenuItem>
+            <MenuItem onClick={handleClose}>Meus dados</MenuItem>
             <MenuItem onClick={handleLogOut}>
               <Link to="/" style={{ color: "#3e4756", textDecoration: "none" }}>
                 Sair
