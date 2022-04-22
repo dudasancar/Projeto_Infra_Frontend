@@ -21,8 +21,10 @@ const MenuNavigation = ({ children }: Props) => {
   };
 
   const handleLogOut = () => {
+    localStorage.clear();
     setAnchorUser(null);
     navigate("/");
+    
   };
 
   const [anchorUser, setAnchorUser] = React.useState(null);

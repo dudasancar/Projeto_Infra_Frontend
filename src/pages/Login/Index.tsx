@@ -1,15 +1,30 @@
-import React from "react";
+
+import { useState } from "react";
 import { object, string } from "yup";
 import { useFormik } from "formik";
 import { Button, TextField } from "@mui/material";
 import { Container, ContainerLoginForm } from "./style";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
-import { authenticateEmployee } from "../../services/Employees/authenticateEmployee";
 import { useMessage } from "../../context/MessageContext/Index";
+import { authLogin } from "../../services/AuthLogin/Auth";
+import { useUser } from "../../context/UserContext/index"
+
 
 const Login = () => {
   const { setMessage } = useMessage();
+  const { user, setUser } = useUser();
+  const [token, setToken] = useState<string>("");
+
+  const setUserContext = (response: any) => {
+    setUser({
+      name: response.data.employee.name,
+      email: response.data.employee.email,
+      token: response.data.token,
+    });
+  }
+
+
   let navigate = useNavigate();
   const validationSchema = object({
     email: string().email("Email inválido").required("E-mail obrigatório"),
@@ -24,15 +39,17 @@ const Login = () => {
       password: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values: { email: string; password: string }) => {
-      authenticateEmployee(values)
-        .then(() => {
-          setMessage({
+    onSubmit: async (values: { email: string; password: string }) => {
+      await authLogin (values)
+        .then((response: any) => {
+          console.log(response)
+           setToken(response.data.token)
+           setMessage({
             content: "Login efetuado com sucesso!",
             display: true,
             severity: "success",
-          });
-
+          })
+          setUserContext(response)
           navigate("/listarFuncionarios");
         })
         .catch((error) =>
@@ -43,7 +60,11 @@ const Login = () => {
           })
         );
     },
-  });
+});
+
+  console.log(user)
+
+  localStorage.setItem("token", token);
 
   return (
     <Container>

@@ -9,10 +9,12 @@ import { useMessage } from "../context/MessageContext/Index";
 import MenuNavigation from "../components/MenuNavigation/Index";
 
 const MainRoutes = () => {
-  const id = true;
+
+  let token = window.localStorage.getItem("token");
+  
   const { message } = useMessage();
   function IdPrivateRoute({ children }) {
-    return id ? (
+    return token ? (
       <MenuNavigation> {children} </MenuNavigation>
     ) : (
       <Navigate to="/" />
