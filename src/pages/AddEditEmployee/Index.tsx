@@ -92,7 +92,7 @@ const AddEditEmployee = () => {
       addEmployees(values.name, values.email, values.type)
         .then(() => {
           setMessage({
-            content: "Funcionário adicionado com sucesso!",
+            content: "Funcionário cadastrado com sucesso!",
             display: true,
             severity: "success",
           });
@@ -100,7 +100,7 @@ const AddEditEmployee = () => {
         })
         .catch((err: string) =>
           setMessage({
-            content: `O seguinte erro ocorreu ao tentar adicionar o funcionário: ${err}`,
+            content: `O seguinte erro ocorreu ao tentar cadastrar o funcionário: ${err}`,
             display: true,
             severity: "error",
           })
