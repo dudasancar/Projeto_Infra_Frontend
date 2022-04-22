@@ -185,7 +185,7 @@ const AddEditEmployee = () => {
           <ContainerButtons>
             <Button
               id="CancelButton"
-              onClick={formik.handleReset}
+              onClick={() => navigate("/listarFuncionarios")}
               type="reset"
               size="large"
             >

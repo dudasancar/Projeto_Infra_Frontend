@@ -8,7 +8,7 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ModalConfirmationHelper from "../../components/ModalConfirmationHelper";
 import { useMessage } from "../../context/MessageContext/Index";
 import { Button } from "@mui/material";
-import {Container} from './style'
+import { Container } from "./style";
 
 interface Employee {
   id: string;
@@ -53,7 +53,12 @@ const EmployeesList = () => {
 
   return (
     <Container>
-      <Button variant="contained">Adicionar funcionário</Button>
+      <Button
+        variant="contained"
+        onClick={() => navigate("/cadastroFuncionario")}
+      >
+        Adicionar funcionário
+      </Button>
       {employeesList && (
         <MaterialTable
           title="Lista de Funcionarios"
