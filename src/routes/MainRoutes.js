@@ -8,6 +8,7 @@ import ModalMessage from "../components/ModalHelper/Index";
 import { useMessage } from "../context/MessageContext/Index";
 import MenuNavigation from "../components/MenuNavigation/Index";
 import { useUser } from '../context/UserContext/index';
+import Loading from '../components/Loading/index'
 
 const MainRoutes = () => {
 
@@ -18,7 +19,7 @@ const MainRoutes = () => {
     return user.token ? (
       <MenuNavigation> {children} </MenuNavigation>
     ) : (
-      <Navigate to="/"/>
+     <Loading/>
     );
   }
 

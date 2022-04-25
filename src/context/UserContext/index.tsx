@@ -38,8 +38,6 @@ export const UserProvider = (props: Props) => {
     
   }, []);
 
-
-
   useEffect(() => {
     localStorage.setItem("user", JSON.stringify(user));
   }, [user]);
