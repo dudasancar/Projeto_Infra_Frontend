@@ -6,7 +6,7 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ModalConfirmationHelper from "../../components/ModalConfirmationHelper";
 import { listEquipments } from "../../services/Equipments/ListEquipments";
-import { useMessage } from "../../context/MessageContext/Index";
+import { useMessage } from "../../context/MessageContext";
 import { Container } from "./style";
 import { Button } from "@mui/material";
 

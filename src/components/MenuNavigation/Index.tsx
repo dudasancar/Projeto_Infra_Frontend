@@ -9,7 +9,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import logo from "../../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
-import { useUser } from "../../context/UserContext/index"
+import { useUser } from "../../context/UserContext/index";
 
 interface Props {
   children: React.ReactNode;
@@ -27,14 +27,10 @@ const MenuNavigation = ({ children }: Props) => {
     localStorage.clear();
     setAnchorUser(null);
     navigate("/");
-    
   };
 
   const [anchorUser, setAnchorUser] = React.useState(null);
   const openUser = Boolean(anchorUser);
-
-  const [anchorStaff, setAnchorStaff] = React.useState(null);
-  const openStaff = Boolean(anchorStaff);
 
   return (
     <ContainerPage>

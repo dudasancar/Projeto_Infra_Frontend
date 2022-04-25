@@ -7,7 +7,7 @@ import { addEmployees } from "../../services/Employees/addEmployees";
 import { editEmployees } from "../../services/Employees/editEmployees";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { useMessage } from "../../context/MessageContext/Index";
+import { useMessage } from "../../context/MessageContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { listEmployees } from "../../services/Employees/ListEmployees";
 interface Employee {

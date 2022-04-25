@@ -5,7 +5,7 @@ import EmployeesList from "../pages/EmployeesList/index";
 import EquipmentsList from "../pages/EquipmentsList/index";
 import Login from "../pages/Login/Index";
 import ModalMessage from "../components/ModalHelper/Index";
-import { useMessage } from "../context/MessageContext/Index";
+import { useMessage } from "../context/MessageContext";
 import MenuNavigation from "../components/MenuNavigation/Index";
 import { useUser } from '../context/UserContext/index';
 import NoAccessHelper from '../components/NoAccessHelper';

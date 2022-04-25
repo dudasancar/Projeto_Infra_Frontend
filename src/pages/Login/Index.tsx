@@ -4,13 +4,13 @@ import { Button, TextField } from "@mui/material";
 import { Container, ContainerLoginForm } from "./style";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
-import { useMessage } from "../../context/MessageContext/Index";
+import { useMessage } from "../../context/MessageContext";
 import { authLogin } from "../../services/AuthLogin/Auth";
 import { useUser } from "../../context/UserContext/index";
 
 const Login = () => {
   const { setMessage } = useMessage();
-  const { user, setUser } = useUser();
+  const { setUser } = useUser();
 
   const setUserContext = (response: any) => {
     setUser({
@@ -50,9 +50,8 @@ const Login = () => {
             content: "Ocorreu um erro ao tentar efetuar o login!",
             display: true,
             severity: "error",
-          })
-        }
-        );
+          });
+        });
     },
   });
 
