@@ -10,11 +10,9 @@ import { useMessage } from "../../context/MessageContext/Index";
 import { authLogin } from "../../services/AuthLogin/Auth";
 import { useUser } from "../../context/UserContext/index"
 
-
 const Login = () => {
   const { setMessage } = useMessage();
   const { user, setUser } = useUser();
-  const [token, setToken] = useState<string>("");
 
   const setUserContext = (response: any) => {
     setUser({
@@ -23,7 +21,6 @@ const Login = () => {
       token: response.data.token,
     });
   }
-
 
   let navigate = useNavigate();
   const validationSchema = object({
@@ -42,14 +39,12 @@ const Login = () => {
     onSubmit: async (values: { email: string; password: string }) => {
       await authLogin (values)
         .then((response: any) => {
-          console.log(response)
-           setToken(response.data.token)
+           setUserContext(response)
            setMessage({
             content: "Login efetuado com sucesso!",
             display: true,
             severity: "success",
           })
-          setUserContext(response)
           navigate("/listarFuncionarios");
         })
         .catch((error) =>
@@ -64,7 +59,7 @@ const Login = () => {
 
   console.log(user)
 
-  localStorage.setItem("token", token);
+  localStorage.setItem("user", JSON.stringify(user));
 
   return (
     <Container>

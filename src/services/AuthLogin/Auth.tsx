@@ -8,13 +8,7 @@ export const authLogin = (values:
         return  api.post("/auth/login", {
             email: values.email,
             password: values.password,
-    
         },
-        {
-        headers:{
-            Authorization: "Bearer "
-        }
-        }
         )
 
     }catch(error){

@@ -7,14 +7,16 @@ import Login from "../pages/Login/Index";
 import ModalMessage from "../components/ModalHelper/Index";
 import { useMessage } from "../context/MessageContext/Index";
 import MenuNavigation from "../components/MenuNavigation/Index";
+import { useUser } from '../context/UserContext/index';
 
 const MainRoutes = () => {
 
-  let token = window.localStorage.getItem("token");
+  const { user, setUser } = useUser();
+
   
   const { message } = useMessage();
   function IdPrivateRoute({ children }) {
-    return token ? (
+    return user.token ? (
       <MenuNavigation> {children} </MenuNavigation>
     ) : (
       <Navigate to="/" />
