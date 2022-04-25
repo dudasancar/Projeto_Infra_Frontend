@@ -9,12 +9,15 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import logo from "../../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import { useUser } from "../../context/UserContext/index"
+
 interface Props {
   children: React.ReactNode;
 }
 
 const MenuNavigation = ({ children }: Props) => {
   const navigate = useNavigate();
+  const { user } = useUser();
 
   const handleClose = () => {
     setAnchorUser(null);
@@ -66,7 +69,7 @@ const MenuNavigation = ({ children }: Props) => {
             onClick={(event: any) => setAnchorUser(event.currentTarget)}
           >
             {openUser ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-            Usuário
+            {user.name}
             <AccountCircleIcon id="personIcon" />
           </p>
           <Menu
