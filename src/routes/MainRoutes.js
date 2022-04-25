@@ -1,21 +1,24 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import GlobalStyle from "../styles/GlobalStyle";
-import AddEditEmployee from "../pages/AddEditEmployee/Index";
+import AddEditEmployee from "../pages/AddEditEmployee";
 import EmployeesList from "../pages/EmployeesList/index";
 import EquipmentsList from "../pages/EquipmentsList/index";
-import Login from "../pages/Login/Index";
-import ModalMessage from "../components/ModalHelper/Index";
-import { useMessage } from "../context/MessageContext/Index";
-import MenuNavigation from "../components/MenuNavigation/Index";
+import Login from "../pages/Login";
+import ModalMessage from "../components/ModalHelper";
+import { useMessage } from "../context/MessageContext";
+import MenuNavigation from "../components/MenuNavigation";
+import { useUser } from "../context/UserContext/index";
+import NoAccessHelper from "../components/NoAccessHelper";
 
 const MainRoutes = () => {
-  const id = true;
+  const { user } = useUser();
   const { message } = useMessage();
+
   function IdPrivateRoute({ children }) {
-    return id ? (
+    return user.token ? (
       <MenuNavigation> {children} </MenuNavigation>
     ) : (
-      <Navigate to="/" />
+      <NoAccessHelper />
     );
   }
 
