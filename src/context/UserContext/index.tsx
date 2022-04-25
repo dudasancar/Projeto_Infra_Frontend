@@ -1,33 +1,44 @@
-import React, { useContext } from "react";
+import React, { Dispatch, SetStateAction, useContext, useEffect } from "react";
 
-interface UserContextInterfaceObject{
+interface UserContextInterfaceObject {
   name: string;
   email: string;
   token: string;
 }
 
-interface UserContextInterface{
-    user: UserContextInterfaceObject,
-    setUser: any
-  }
+interface UserContextInterface {
+  user: UserContextInterfaceObject;
+  setUser: Dispatch<SetStateAction<UserContextInterfaceObject>>;
+}
 
 interface Props {
-    children: JSX.Element;
-  }
-  
-
+  children: JSX.Element;
+}
 
 export const UserContext = React.createContext<UserContextInterface>({
-  user:{
+  user: {
     name: "",
     email: "",
-    token: ""
+    token: "",
   },
-  setUser: {}
+  setUser: () => {},
 });
 
 export const UserProvider = (props: Props) => {
-  const [user, setUser] = React.useState<UserContextInterfaceObject>({name: "", email: "", token: ""});
+  const [user, setUser] = React.useState<UserContextInterfaceObject>({
+    name: "",
+    email: "",
+    token: "",
+  });
+
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem("user")!);
+    setUser(userData);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("user", JSON.stringify(user));
+  }, [user]);
 
   return (
     <UserContext.Provider value={{ user, setUser }}>

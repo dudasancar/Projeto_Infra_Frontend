@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 
+=======
+import { useState } from "react";
+>>>>>>> Stashed changes
 import { object, string } from "yup";
 import { useFormik } from "formik";
 import { Button, TextField } from "@mui/material";
@@ -19,7 +23,7 @@ const Login = () => {
       email: response.data.employee.email,
       token: response.data.token,
     });
-  }
+  };
 
   let navigate = useNavigate();
   const validationSchema = object({
@@ -36,14 +40,14 @@ const Login = () => {
     },
     validationSchema: validationSchema,
     onSubmit: async (values: { email: string; password: string }) => {
-      await authLogin (values)
+      await authLogin(values)
         .then((response: any) => {
-           setUserContext(response)
-           setMessage({
+          setUserContext(response);
+          setMessage({
             content: "Login efetuado com sucesso!",
             display: true,
             severity: "success",
-          })
+          });
           navigate("/listarFuncionarios");
         })
         .catch((error) =>
@@ -54,7 +58,9 @@ const Login = () => {
           })
         );
     },
-});
+  });
+
+  console.log(user);
 
   localStorage.setItem("user", JSON.stringify(user));
 
