@@ -11,7 +11,7 @@ import { useUser } from '../context/UserContext/index';
 
 const MainRoutes = () => {
 
-  const { user, setUser } = useUser();
+  const { user } = useUser();
 
   
   const { message } = useMessage();
