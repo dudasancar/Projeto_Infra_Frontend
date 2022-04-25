@@ -1,7 +1,9 @@
 import React from 'react'
 import Button from "@mui/material/Button";
 import { Link } from 'react-router-dom';
-const index = () => {
+
+
+const NoAccessHelper = () => {
   return (
     <div style={{margin: "0 auto", width: "80rem"}}>
         <p>Voce nao tem Acesso!<br/>
@@ -16,4 +18,4 @@ const index = () => {
   )
 }
 
-export default index
+export default NoAccessHelper

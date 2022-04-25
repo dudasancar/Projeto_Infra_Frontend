@@ -51,7 +51,6 @@ const Login = () => {
             display: true,
             severity: "error",
           })
-          console.log(error)
         }
         );
     },
