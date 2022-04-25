@@ -31,10 +31,14 @@ export const UserProvider = (props: Props) => {
     token: "",
   });
 
+
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("user")!);
     setUser(userData);
+    
   }, []);
+
+
 
   useEffect(() => {
     localStorage.setItem("user", JSON.stringify(user));

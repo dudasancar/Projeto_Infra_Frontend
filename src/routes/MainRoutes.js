@@ -12,14 +12,13 @@ import { useUser } from '../context/UserContext/index';
 const MainRoutes = () => {
 
   const { user } = useUser();
-
-  
   const { message } = useMessage();
-  function IdPrivateRoute({ children }) {
+
+  function IdPrivateRoute({ children }){
     return user.token ? (
       <MenuNavigation> {children} </MenuNavigation>
     ) : (
-      <Navigate to="/" />
+      <Navigate to="/"/>
     );
   }
 

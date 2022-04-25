@@ -1,8 +1,3 @@
-<<<<<<< Updated upstream
-
-=======
-import { useState } from "react";
->>>>>>> Stashed changes
 import { object, string } from "yup";
 import { useFormik } from "formik";
 import { Button, TextField } from "@mui/material";
@@ -50,19 +45,17 @@ const Login = () => {
           });
           navigate("/listarFuncionarios");
         })
-        .catch((error) =>
+        .catch((error) => {
           setMessage({
             content: "Ocorreu um erro ao tentar efetuar o login!",
             display: true,
             severity: "error",
           })
+          console.log(error)
+        }
         );
     },
   });
-
-  console.log(user);
-
-  localStorage.setItem("user", JSON.stringify(user));
 
   return (
     <Container>
