@@ -6,7 +6,9 @@ import Tooltip from "@mui/material/Tooltip";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ModalConfirmationHelper from "../../components/ModalConfirmationHelper";
-import { useMessage } from '../../context/MessageContext/Index'
+import { useMessage } from "../../context/MessageContext";
+import { Button } from "@mui/material";
+import { Container } from "./style";
 
 interface Employee {
   id: string;
@@ -50,7 +52,13 @@ const EmployeesList = () => {
   }, []);
 
   return (
-    <div style={{ maxWidth: "80%", margin: "0 auto" }}>
+    <Container>
+      <Button
+        variant="contained"
+        onClick={() => navigate("/cadastroFuncionario")}
+      >
+        Cadastrar funcionário
+      </Button>
       {employeesList && (
         <MaterialTable
           title="Lista de Funcionarios"
@@ -112,7 +120,7 @@ const EmployeesList = () => {
           handleCloseModalDeleteConfirmation();
         }}
       />
-    </div>
+    </Container>
   );
 };
 

@@ -6,7 +6,9 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ModalConfirmationHelper from "../../components/ModalConfirmationHelper";
 import { listEquipments } from "../../services/Equipments/ListEquipments";
-import { useMessage } from '../../context/MessageContext/Index'
+import { useMessage } from "../../context/MessageContext";
+import { Container } from "./style";
+import { Button } from "@mui/material";
 
 interface Equipment {
   id: string;
@@ -49,10 +51,14 @@ const EquipmentsList = () => {
       .catch((error) => console.log(error));
   }, []);
 
-  console.log(equipmentsList)
+  console.log(equipmentsList);
 
   return (
-    <div style={{ maxWidth: "80%", margin: "0 auto" }}>
+    <Container>
+        <Button
+        variant="contained"
+        onClick={() => navigate("/cadastroEquipamento")}
+      >Cadastrar equipamento</Button>
       {equipmentsList && (
         <MaterialTable
           title="Lista de Equipamentos"
@@ -113,7 +119,7 @@ const EquipmentsList = () => {
           handleCloseModalDeleteConfirmation();
         }}
       />
-    </div>
+    </Container>
   );
 };
 
