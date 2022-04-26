@@ -11,6 +11,7 @@ export const addEmployees = async (
       email: email,
       type: type,
       password: "12345678",
+      status: "ativo",
     });
   } catch (error) {
     return Promise.reject(error);
