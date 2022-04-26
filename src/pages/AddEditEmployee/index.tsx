@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, ContainerButtons, ContainerForm, GridForm } from "./Style";
-import { Button, MenuItem, TextField } from "@mui/material";
+import { Button, MenuItem, Switch, TextField } from "@mui/material";
 import { useFormik } from "formik";
 import { object, string } from "yup";
 import { addEmployees } from "../../services/Employees/addEmployees";
@@ -10,13 +10,16 @@ import { useLocation } from "react-router-dom";
 import { useMessage } from "../../context/MessageContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { listEmployees } from "../../services/Employees/ListEmployees";
+import { boolean } from "yup/lib/locale";
 interface Employee {
-  id: number;
+  id: string;
   name: string;
   email: string;
   type: string;
-  local: string;
+  password: string;
+  status: string;
 }
+
 const type = [
   {
     value: "Administrador",
@@ -51,9 +54,7 @@ const AddEditEmployee = () => {
     if (location.pathname == `/editarFuncionario/${id}`) {
       listEmployees()
         .then((response) => {
-          setEditedEmployee(
-            response.find((employee) => employee.id == Number(id))
-          );
+          setEditedEmployee(response.find((employee) => employee.id == id));
         })
         .catch((err) =>
           setMessage({
@@ -69,9 +70,17 @@ const AddEditEmployee = () => {
     name: string;
     email: string;
     type: string;
+    status: string;
   }) => {
     if (location.pathname == `/editarFuncionario/${id}` && editedEmployee) {
-      editEmployees(editedEmployee!.id, values.name, values.email, values.type)
+      editEmployees(
+        editedEmployee!.id,
+        editedEmployee!.password,
+        editedEmployee!.status,
+        values.name,
+        values.email,
+        values.type
+      )
         .then(() => {
           setMessage({
             content: "Funcionário editado com sucesso!",
@@ -89,7 +98,7 @@ const AddEditEmployee = () => {
           })
         );
     } else {
-      addEmployees(values.name, values.email, values.type)
+      addEmployees(values.name, values.email, values.type, values.status)
         .then(() => {
           setMessage({
             content: "Funcionário cadastrado com sucesso!",
@@ -121,11 +130,13 @@ const AddEditEmployee = () => {
           name: editedEmployee!.name,
           email: editedEmployee!.email,
           type: editedEmployee!.type,
+          status: editedEmployee!.status,
         }
       : {
           name: "",
           email: "",
           type: "",
+          status: "ativo",
         },
     validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -181,6 +192,7 @@ const AddEditEmployee = () => {
                 </MenuItem>
               ))}
             </TextField>
+          
           </GridForm>
           <ContainerButtons>
             <Button

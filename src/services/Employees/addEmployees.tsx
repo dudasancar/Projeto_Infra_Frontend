@@ -1,4 +1,9 @@
-export const addEmployees = async (name: string, email: string, type: string) => {
+export const addEmployees = async (
+  name: string,
+  email: string,
+  type: string,
+  status: string,
+) => {
   try {
     return Promise.resolve("Cadastrado com Sucesso");
   } catch (error) {
@@ -6,10 +11,4 @@ export const addEmployees = async (name: string, email: string, type: string) =>
   }
 };
 
-export const editEmployees = async (name: string, email: string, type: string) => {
-  try {
-    return Promise.resolve("Sucesso na postagem");
-  } catch (error) {
-    return Promise.reject(error);
-  }
-};
+
