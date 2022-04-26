@@ -11,11 +11,11 @@ import { useMessage } from "../../context/MessageContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { getEmployee } from "../../services/Employees/getEmployee";
 interface IEmployee {
-  id: string;
+  id: string | null;
   name: string;
   email: string;
   type: string;
-  password: string;
+  password?: string;
 }
 
 const type = [
@@ -51,7 +51,7 @@ const AddEditEmployee = () => {
   useEffect(() => {
     if (location.pathname == `/editarFuncionario/${id}`) {
       getEmployee(id)
-        .then((response) => {
+        .then((response: any) => {
           setEditedEmployee(response.data);
           console.log(response.data);
           formik.setValues({
@@ -71,12 +71,7 @@ const AddEditEmployee = () => {
     }
   }, []);
 
-  const CreateOrEditEmployee = (values: {
-    name: string;
-    email: string;
-    type: string;
-    id: string | null;
-  }) => {
+  const CreateOrEditEmployee = (values: IEmployee) => {
     if (location.pathname == `/editarFuncionario/${id}` && editedEmployee) {
       console.log(editedEmployee.id);
       values.id = editedEmployee!.id;

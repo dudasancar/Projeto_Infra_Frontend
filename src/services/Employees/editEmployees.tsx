@@ -4,7 +4,7 @@ interface IEmployee {
   name: string;
   email: string;
   type: string;
-  id: string | null;
+  id?: string | null;
 }
 
 export const editEmployees = async ({ email, name, type, id }: IEmployee) => {
