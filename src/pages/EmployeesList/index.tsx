@@ -31,7 +31,7 @@ const EmployeesList = () => {
     navigate(`/editarFuncionario/${id}`);
   };
 
-  const handleOpenModalDeleteConfirmation = (user: any) => {
+  const handleOpenModalDeleteConfirmation = (user: Employee) => {
     setOpenDeleteConfirmationModal(true)
     setUserTobeDeleted(user);
   };
@@ -50,11 +50,14 @@ const EmployeesList = () => {
   useEffect(() => {
     listEmployees()
       .then((response: any) => setEmployeesList(response.data))
-      .catch((error?) => console.log(error));
-  }, []);
-
-  console.log(employeesList)
-  console.log(userTobeDeleted)
+      .catch((error?) =>{
+        setMessage({
+          content: "Ocorreu um erro ao tentar carregar a tabela!",
+          display: true,
+          severity: "error",
+        });
+      });
+    },[]);
 
   return (
     <Container>
