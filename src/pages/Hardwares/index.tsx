@@ -25,6 +25,7 @@ import { useLocation } from "react-router-dom";
 import { useNavigate, useParams } from "react-router-dom";
 import { listEquipaments } from "../services/listEquipaments";
 import { editedEquipaments } from "../services/editEquipaments";
+import TableUsePrevious from "./TableUserPrevious";
 
 interface Equipament {
   id: number;
@@ -458,6 +459,11 @@ const Hardwares = () => {
           </form>
         </ContentForm>
       </SubContent>
+        {location.pathname === `/edicaoEquipamentos/${id}` ? (
+          <TableUsePrevious />
+        ) : (
+         ''
+        )}
     </Content>
   );
 };

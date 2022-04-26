@@ -30,7 +30,6 @@ const MainRoutes = () => {
       <GlobalStyle />
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/tabela" element={<TableUsePrevious />} />
         <Route
           path="/listarFuncionarios"
           element={
