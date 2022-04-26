@@ -1,6 +1,13 @@
 import React from "react";
 import { Container, ContainerButtons, ContainerForm, GridForm } from "./Style";
-import { Button, MenuItem, Switch, TextField } from "@mui/material";
+import {
+  Button,
+  FormControlLabel,
+  FormGroup,
+  MenuItem,
+  Switch,
+  TextField,
+} from "@mui/material";
 import { useFormik } from "formik";
 import { object, string } from "yup";
 import { addEmployees } from "../../services/Employees/addEmployees";
@@ -19,7 +26,7 @@ interface Employee {
   password: string;
   status: string;
 }
-
+let status: string;
 const type = [
   {
     value: "Administrador",
@@ -66,12 +73,14 @@ const AddEditEmployee = () => {
     }
   }, []);
 
-  const CreateOrEditEmployee = (values: {
-    name: string;
-    email: string;
-    type: string;
-    status: string;
-  }) => {
+  const CreateOrEditEmployee = (
+    values: {
+      name: string;
+      email: string;
+      type: string;
+    },
+    status: string
+  ) => {
     if (location.pathname == `/editarFuncionario/${id}` && editedEmployee) {
       editEmployees(
         editedEmployee!.id,
@@ -98,8 +107,9 @@ const AddEditEmployee = () => {
           })
         );
     } else {
-      addEmployees(values.name, values.email, values.type, values.status)
-        .then(() => {
+      addEmployees(values.name, values.email, values.type, status)
+        .then((response) => {
+          console.log(response)
           setMessage({
             content: "Funcionário cadastrado com sucesso!",
             display: true,
@@ -130,17 +140,18 @@ const AddEditEmployee = () => {
           name: editedEmployee!.name,
           email: editedEmployee!.email,
           type: editedEmployee!.type,
-          status: editedEmployee!.status,
+          status: true,
         }
       : {
           name: "",
           email: "",
           type: "",
-          status: "ativo",
+          status: true,
         },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      CreateOrEditEmployee(values);
+      values.status == true ? (status = "ativo") : (status = "inativo");
+      CreateOrEditEmployee(values, status);
     },
   });
 
@@ -192,7 +203,21 @@ const AddEditEmployee = () => {
                 </MenuItem>
               ))}
             </TextField>
-          
+
+            <FormGroup>
+              <FormControlLabel
+                control={
+                  <Switch
+                    defaultChecked
+                    id="status"
+                    name="status"
+                    value={formik.values.status}
+                    onChange={formik.handleChange}
+                  />
+                }
+                label="Status"
+              />
+            </FormGroup>
           </GridForm>
           <ContainerButtons>
             <Button
