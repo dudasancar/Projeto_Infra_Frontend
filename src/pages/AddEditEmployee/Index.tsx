@@ -52,7 +52,7 @@ const AddEditEmployee = () => {
       listEmployees()
         .then((response) => {
           setEditedEmployee(
-            response.find((employee) => employee.id == Number(id))
+            response.find((employee) => employee.id == Number(id)),
           );
         })
         .catch((err) =>
@@ -60,7 +60,7 @@ const AddEditEmployee = () => {
             content: `O seguinte erro ocorreu ao buscar os dados do usuário: ${err}`,
             display: true,
             severity: "error",
-          })
+          }),
         );
     }
   }, []);
@@ -86,7 +86,7 @@ const AddEditEmployee = () => {
             content: `O seguinte erro ocorreu ao tentar editar o Funcionário: ${err}`,
             display: true,
             severity: "error",
-          })
+          }),
         );
     } else {
       addEmployees(values.name, values.email, values.type)
@@ -103,7 +103,7 @@ const AddEditEmployee = () => {
             content: `O seguinte erro ocorreu ao tentar adicionar o funcionário: ${err}`,
             display: true,
             severity: "error",
-          })
+          }),
         );
     }
   };

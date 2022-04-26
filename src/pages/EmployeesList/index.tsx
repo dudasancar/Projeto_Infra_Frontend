@@ -6,7 +6,7 @@ import Tooltip from "@mui/material/Tooltip";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ModalConfirmationHelper from "../../components/ModalConfirmationHelper";
-import { useMessage } from '../../context/MessageContext/Index'
+import { useMessage } from "../../context/MessageContext/Index";
 
 interface Employee {
   id: string;

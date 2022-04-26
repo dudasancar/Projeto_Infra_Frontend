@@ -7,6 +7,7 @@ import Login from "../pages/Login/Index";
 import ModalMessage from "../components/ModalHelper/Index";
 import { useMessage } from "../context/MessageContext/Index";
 import Hardwares from "../pages/Hardwares";
+import TableUsePrevious from "../pages/Hardwares/TableUserPrevious";
 
 const MainRoutes = () => {
   const id = true;
@@ -23,6 +24,7 @@ const MainRoutes = () => {
         <Route path="/" element={<Login />} />
         <Route path="/listarFuncionarios" element={<EmployeesList />} />
         <Route path="/listarEquipamentos" element={<EquipmentsList />} />
+        <Route path="/tabela" element={<TableUsePrevious />} />
         <Route
           path="/editarFuncionario/:id"
           element={
