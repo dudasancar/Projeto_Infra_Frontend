@@ -52,7 +52,7 @@ const AddEditEmployee = () => {
       listEmployees()
         .then((response) => {
           setEditedEmployee(
-            response.find((employee) => employee.id == Number(id))
+            response.data.find((employee: any) => employee.id == Number(id))
           );
         })
         .catch((err) =>
