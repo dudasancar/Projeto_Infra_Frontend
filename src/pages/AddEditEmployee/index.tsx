@@ -109,7 +109,6 @@ const AddEditEmployee = () => {
     } else {
       addEmployees(values.name, values.email, values.type, status)
         .then((response) => {
-          console.log(response)
           setMessage({
             content: "Funcionário cadastrado com sucesso!",
             display: true,
