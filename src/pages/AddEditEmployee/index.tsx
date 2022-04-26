@@ -1,13 +1,6 @@
 import React from "react";
 import { Container, ContainerButtons, ContainerForm, GridForm } from "./Style";
-import {
-  Button,
-  FormControlLabel,
-  FormGroup,
-  MenuItem,
-  Switch,
-  TextField,
-} from "@mui/material";
+import { Button, MenuItem, TextField } from "@mui/material";
 import { useFormik } from "formik";
 import { object, string } from "yup";
 import { addEmployees } from "../../services/Employees/addEmployees";
@@ -16,42 +9,40 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useMessage } from "../../context/MessageContext";
 import { useNavigate, useParams } from "react-router-dom";
-import { listEmployees } from "../../services/Employees/ListEmployees";
-import { boolean } from "yup/lib/locale";
-interface Employee {
+import { getEmployee } from "../../services/Employees/getEmployee";
+interface IEmployee {
   id: string;
   name: string;
   email: string;
   type: string;
   password: string;
-  status: string;
 }
-let status: string;
+
 const type = [
   {
-    value: "Administrador",
+    value: "administrador",
     label: "Administrador",
   },
   {
-    value: "Departamento Pessoal",
+    value: "dp",
     label: "Departamento Pessoal",
   },
   {
-    value: "Infraestrutura",
+    value: "infra",
     label: "Infraestrutura",
   },
   {
-    value: "Marketing",
+    value: "marketing",
     label: "Marketing",
   },
   {
-    value: "Recursos Humanos",
+    value: "rh",
     label: "Recursos Humanos",
   },
 ];
 
 const AddEditEmployee = () => {
-  const [editedEmployee, setEditedEmployee] = React.useState<Employee>();
+  const [editedEmployee, setEditedEmployee] = React.useState<IEmployee>();
   const location = useLocation();
   const { setMessage } = useMessage();
   const navigate = useNavigate();
@@ -59,11 +50,16 @@ const AddEditEmployee = () => {
 
   useEffect(() => {
     if (location.pathname == `/editarFuncionario/${id}`) {
-      listEmployees()
+      getEmployee(id)
         .then((response) => {
-          setEditedEmployee(
-            response.data.find((employee: any) => employee.id == id)
-          );
+          setEditedEmployee(response.data);
+          console.log(response.data);
+          formik.setValues({
+            name: response.data.name,
+            email: response.data.email,
+            type: response.data.type,
+            id: null,
+          });
         })
         .catch((err) =>
           setMessage({
@@ -75,30 +71,22 @@ const AddEditEmployee = () => {
     }
   }, []);
 
-  const CreateOrEditEmployee = (
-    values: {
-      name: string;
-      email: string;
-      type: string;
-    },
-    status: string
-  ) => {
+  const CreateOrEditEmployee = (values: {
+    name: string;
+    email: string;
+    type: string;
+    id: string | null;
+  }) => {
     if (location.pathname == `/editarFuncionario/${id}` && editedEmployee) {
-      editEmployees(
-        editedEmployee!.id,
-        editedEmployee!.password,
-        editedEmployee!.status,
-        values.name,
-        values.email,
-        values.type
-      )
+      console.log(editedEmployee.id);
+      values.id = editedEmployee!.id;
+      editEmployees(values)
         .then(() => {
           setMessage({
             content: "Funcionário editado com sucesso!",
             display: true,
             severity: "success",
           });
-
           navigate("/listarFuncionarios");
         })
         .catch((err: string) =>
@@ -109,8 +97,8 @@ const AddEditEmployee = () => {
           })
         );
     } else {
-      addEmployees(values.name, values.email, values.type, status)
-        .then((response) => {
+      addEmployees(values.name, values.email, values.type)
+        .then(() => {
           setMessage({
             content: "Funcionário cadastrado com sucesso!",
             display: true,
@@ -136,23 +124,16 @@ const AddEditEmployee = () => {
 
   const formik = useFormik({
     enableReinitialize: true,
-    initialValues: editedEmployee
-      ? {
-          name: editedEmployee!.name,
-          email: editedEmployee!.email,
-          type: editedEmployee!.type,
-          status: true,
-        }
-      : {
-          name: "",
-          email: "",
-          type: "",
-          status: true,
-        },
+    initialValues: {
+      name: "",
+      email: "",
+      type: "",
+
+      id: null,
+    },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      values.status == true ? (status = "ativo") : (status = "inativo");
-      CreateOrEditEmployee(values, status);
+      CreateOrEditEmployee(values);
     },
   });
 
@@ -204,21 +185,6 @@ const AddEditEmployee = () => {
                 </MenuItem>
               ))}
             </TextField>
-
-            <FormGroup>
-              <FormControlLabel
-                control={
-                  <Switch
-                    defaultChecked
-                    id="status"
-                    name="status"
-                    value={formik.values.status}
-                    onChange={formik.handleChange}
-                  />
-                }
-                label="Status"
-              />
-            </FormGroup>
           </GridForm>
           <ContainerButtons>
             <Button

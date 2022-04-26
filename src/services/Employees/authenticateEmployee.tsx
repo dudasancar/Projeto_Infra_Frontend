@@ -4,11 +4,11 @@ const data = [
     email: "mateus.lammel@gmail.com",
     password: "12345678",
   },
-  { 
+  {
     token: "2",
     email: "douglas@gmail.com",
     password: "987654321",
-  },  
+  },
   {
     token: "3",
     email: "cadu@gmail.com",
@@ -16,10 +16,13 @@ const data = [
   },
 ];
 
-export const authenticateEmployee  = async (values: {email:string, password: string}) => {
+export const authenticateEmployee = async (values: {
+  email: string;
+  password: string;
+}) => {
   try {
     return Promise.resolve(data);
   } catch (error) {
-    return Promise.reject('Ocorreu um erro ao efetuar o login!');
+    return Promise.reject("Ocorreu um erro ao efetuar o login!");
   }
 };
