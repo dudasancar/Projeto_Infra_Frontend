@@ -12,7 +12,7 @@ interface UserPrevious {
 }
 
 const TableUsePrevious = () => {
-  const [listPrevious, setListPrevious] = useState<UserPrevious[]>();
+  const [listPrevious, setListPrevious] = useState<UserPrevious[]>([]);
 
   useEffect(() => {
     listUserPrevious()

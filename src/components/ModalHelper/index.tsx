@@ -12,7 +12,7 @@ const ModalMessage = () => {
     }, 3000);
 
   return (
-    <ContainerModal display={message.display}>
+    <ContainerModal>
       <Alert style={{ width: "100%" }} severity={message.severity}>
         {message.content}
       </Alert>
