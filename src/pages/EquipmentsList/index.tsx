@@ -23,6 +23,7 @@ const EquipmentsList = () => {
   const navigate = useNavigate();
 
   const [equipmentsList, setEquipmentsList] = useState<Equipment[]>();
+  const [equipmentTobeDeleted, setEquipmentTobeDeleted] = useState<Equipment>();
   const [openDeleteConfirmationModal, setOpenDeleteConfirmationModal] =
     useState<boolean>(false);
 
@@ -30,8 +31,9 @@ const EquipmentsList = () => {
     navigate(`/editarFuncionario/${id}`);
   };
 
-  const handleOpenModalDeleteConfirmation = () => {
+  const handleOpenModalDeleteConfirmation = (equipment: Equipment) => {
     setOpenDeleteConfirmationModal(true);
+    setEquipmentTobeDeleted(equipment)
   };
   const handleCloseModalDeleteConfirmation = () => {
     setOpenDeleteConfirmationModal(false);
@@ -47,11 +49,15 @@ const EquipmentsList = () => {
 
   useEffect(() => {
     listEquipments()
-      .then((response: any) => setEquipmentsList(response))
-      .catch((error) => console.log(error));
+      .then((response: any) => setEquipmentsList(response.data))
+      .catch((error) => {
+        setMessage({
+          content: "Ocorreu um erro ao tentar carregar a tabela!",
+          display: true,
+          severity: "error",
+        });
+      });
   }, []);
-
-  console.log(equipmentsList);
 
   return (
     <Container>
@@ -63,17 +69,16 @@ const EquipmentsList = () => {
         <MaterialTable
           title="Lista de Equipamentos"
           columns={[
-            { title: "ID", field: "id" },
             { title: "Nome", field: "name" },
             { title: "Modelo", field: "model" },
             { title: "Tipo", field: "type" },
             {
               title: "",
-              render: ({ id }: Equipment) => (
+              render: (equipment: Equipment) => (
                 <div style={{ display: "flex" }}>
                   <Tooltip title="Mais Detalhes">
                     <AssignmentIcon
-                      onClick={() => handleClickEquipmentDetail(id)}
+                      onClick={() => handleClickEquipmentDetail(equipment.id)}
                       style={{
                         cursor: "pointer",
                         color: "black",
@@ -82,7 +87,7 @@ const EquipmentsList = () => {
                   </Tooltip>
                   <Tooltip title="Inativar">
                     <DeleteForeverIcon
-                      onClick={handleOpenModalDeleteConfirmation}
+                      onClick={()=>{handleOpenModalDeleteConfirmation(equipment)}}
                       style={{
                         cursor: "pointer",
                         color: "red",
@@ -112,7 +117,7 @@ const EquipmentsList = () => {
       <ModalConfirmationHelper
         open={openDeleteConfirmationModal}
         message={`Você Tem certeza que deseja Inativar este Equipamento?\n
-              ${equipmentsList && equipmentsList[3].name}`}
+              ${equipmentTobeDeleted && equipmentTobeDeleted.name}`}
         onCancel={handleCloseModalDeleteConfirmation}
         onApprove={() => {
           handleDeleteEquipment();
