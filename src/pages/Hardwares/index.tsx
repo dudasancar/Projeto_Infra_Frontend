@@ -26,6 +26,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { listEquipaments } from "../services/listEquipaments";
 import { editedEquipaments } from "../services/editEquipaments";
 import TableUsePrevious from "./TableUserPrevious";
+import {listUserCurrents} from '../services/listUserCurrents'
 
 interface Equipament {
   id: number;
@@ -284,42 +285,21 @@ const Hardwares = () => {
               <ColumnSecond>
                 <FormControl>
                   <TextField
-                    required
+                    select
                     id="currentUser"
                     name="currentUser"
-                    label="Usuário Atual"
+                    label="Usuario Atual"
                     variant="outlined"
                     InputLabelProps={{ shrink: true }}
                     value={formik.values.currentUser}
                     onChange={formik.handleChange}
-                    error={
-                      formik.touched.currentUser &&
-                      Boolean(formik.errors.currentUser)
-                    }
-                    helperText={
-                      formik.touched.currentUser && formik.errors.currentUser
-                    }
-                  />
-                </FormControl>
-                <FormControl>
-                  <TextField
-                    required
-                    id="previousUser"
-                    name="previousUser"
-                    label="Usuário Anterior"
-                    variant="outlined"
-                    InputLabelProps={{ shrink: true }}
-                    value={formik.values.previousUser}
-                    onChange={formik.handleChange}
-                    error={
-                      formik.touched.previousUser &&
-                      Boolean(formik.errors.previousUser)
-                    }
-                    helperText={
-                      formik.touched.previousUser &&
-                      Boolean(formik.errors.previousUser)
-                    }
-                  />
+                  >
+                    {listUserCurrents.map((name: any) => (
+                      <MenuItem key={name.value} value={name.value}>
+                        {name.label}
+                      </MenuItem>
+                    ))}
+                  </TextField>
                 </FormControl>
                 <FormControl>
                   <TextField
@@ -358,10 +338,8 @@ const Hardwares = () => {
                     }
                   />
                 </FormControl>
-              </ColumnSecond>
 
-              <ColumnThird>
-                <FormControl>
+<FormControl>
                   <TextField
                     required
                     id="buyDate"
@@ -378,6 +356,10 @@ const Hardwares = () => {
                     helperText={formik.touched.buyDate && formik.errors.buyDate}
                   />
                 </FormControl>
+              </ColumnSecond>
+
+              <ColumnThird>
+                
 
                 <FormControl>
                   <TextField
@@ -437,7 +419,7 @@ const Hardwares = () => {
             <TextareaAutosize
               id="description"
               name="description"
-              placeholder="Obs/Detalhes"
+              placeholder="Observação/Detalhes do Equipamento"
               minRows={8}
               style={{ width: "770px" }}
               value={formik.values.description}
