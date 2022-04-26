@@ -7,7 +7,7 @@ import { addEmployees } from "../../services/Employees/addEmployees";
 import { editEmployees } from "../../services/Employees/editEmployees";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { useMessage } from "../../context/MessageContext/Index";
+import { useMessage } from "../../context/MessageContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { listEmployees } from "../../services/Employees/ListEmployees";
 interface Employee {
@@ -92,7 +92,7 @@ const AddEditEmployee = () => {
       addEmployees(values.name, values.email, values.type)
         .then(() => {
           setMessage({
-            content: "Funcionário adicionado com sucesso!",
+            content: "Funcionário cadastrado com sucesso!",
             display: true,
             severity: "success",
           });
@@ -100,7 +100,7 @@ const AddEditEmployee = () => {
         })
         .catch((err: string) =>
           setMessage({
-            content: `O seguinte erro ocorreu ao tentar adicionar o funcionário: ${err}`,
+            content: `O seguinte erro ocorreu ao tentar cadastrar o funcionário: ${err}`,
             display: true,
             severity: "error",
           }),
@@ -185,7 +185,7 @@ const AddEditEmployee = () => {
           <ContainerButtons>
             <Button
               id="CancelButton"
-              onClick={formik.handleReset}
+              onClick={() => navigate("/listarFuncionarios")}
               type="reset"
               size="large"
             >

@@ -4,15 +4,13 @@ export const Container = styled.section`
   box-sizing: border-box;
   background-color: #f7f7f7;
   height: 100vh;
-  width: 100vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
 `;
 
 export const ContainerForm = styled.div`
   box-shadow: 0px 0px 10px #00000029;
   width: 60%;
+  margin: 50px auto;
   min-width: 300px;
   max-width: 1200px;
   box-sizing: border-box;

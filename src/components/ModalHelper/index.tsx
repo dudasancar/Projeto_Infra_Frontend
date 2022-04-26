@@ -1,7 +1,7 @@
-import { Alert } from "@mui/material";
-import React from "react";
-import { useMessage } from "../../context/MessageContext/Index";
-import { ContainerModal } from "./style";
+import { Alert } from '@mui/material';
+import React from 'react'
+import { useMessage } from '../../context/MessageContext'
+import { ContainerModal } from './style';
 
 const ModalMessage = () => {
   const { setMessage, message } = useMessage();
