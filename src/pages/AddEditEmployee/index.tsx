@@ -61,7 +61,9 @@ const AddEditEmployee = () => {
     if (location.pathname == `/editarFuncionario/${id}`) {
       listEmployees()
         .then((response) => {
-          setEditedEmployee(response.find((employee) => employee.id == id));
+          setEditedEmployee(
+            response.data.find((employee: any) => employee.id == id)
+          );
         })
         .catch((err) =>
           setMessage({

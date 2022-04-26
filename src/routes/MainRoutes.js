@@ -9,6 +9,8 @@ import { useMessage } from "../context/MessageContext";
 import MenuNavigation from "../components/MenuNavigation";
 import { useUser } from "../context/UserContext/index";
 import NoAccessHelper from "../components/NoAccessHelper";
+import Hardwares from "../pages/Hardwares";
+import TableUsePrevious from "../pages/Hardwares/TableUserPrevious";
 
 const MainRoutes = () => {
   const { user } = useUser();
@@ -61,6 +63,15 @@ const MainRoutes = () => {
             </IdPrivateRoute>
           }
         />
+        <Route
+          path="/edicaoEquipamentos/:id"
+          element={
+            <IdPrivateRoute>
+              <Hardwares />
+            </IdPrivateRoute>
+          }
+        />
+        <Route path="/cadastroEquipamentos" element={<Hardwares />} />
       </Routes>
     </BrowserRouter>
   );

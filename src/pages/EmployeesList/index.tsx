@@ -12,10 +12,10 @@ import { Container } from "./style";
 
 interface Employee {
   id: string;
-  name?: string;
-  email?: string;
-  type?: string;
-  local?: string;
+  name: string;
+  email: string;
+  type: string;
+  local: string;
 }
 
 const EmployeesList = () => {
@@ -23,6 +23,7 @@ const EmployeesList = () => {
   const { setMessage } = useMessage();
 
   const [employeesList, setEmployeesList] = useState<Employee[]>();
+  const [userTobeDeleted, setUserTobeDeleted] = useState<Employee>();
   const [openDeleteConfirmationModal, setOpenDeleteConfirmationModal] =
     useState<boolean>(false);
 
@@ -30,8 +31,9 @@ const EmployeesList = () => {
     navigate(`/editarFuncionario/${id}`);
   };
 
-  const handleOpenModalDeleteConfirmation = () => {
-    setOpenDeleteConfirmationModal(true);
+  const handleOpenModalDeleteConfirmation = (user: Employee) => {
+    setOpenDeleteConfirmationModal(true)
+    setUserTobeDeleted(user);
   };
   const handleCloseModalDeleteConfirmation = () => {
     setOpenDeleteConfirmationModal(false);
@@ -47,9 +49,15 @@ const EmployeesList = () => {
 
   useEffect(() => {
     listEmployees()
-      .then((response: any) => setEmployeesList(response))
-      .catch((error?) => console.log(error));
-  }, []);
+      .then((response: any) => setEmployeesList(response.data))
+      .catch((error?) =>{
+        setMessage({
+          content: "Ocorreu um erro ao tentar carregar a tabela!",
+          display: true,
+          severity: "error",
+        });
+      });
+    },[]);
 
   return (
     <Container>
@@ -63,17 +71,16 @@ const EmployeesList = () => {
         <MaterialTable
           title="Lista de Funcionarios"
           columns={[
-            { title: "ID", field: "id" },
             { title: "Nome", field: "name" },
             { title: "Email", field: "email" },
             { title: "Cargo", field: "type" },
             {
               title: "",
-              render: ({ id }: Employee) => (
+              render: (employee: Employee) => (
                 <div style={{ display: "flex" }}>
                   <Tooltip title="Mais Detalhes">
                     <AssignmentIcon
-                      onClick={() => handleClickEmployeeDetail(id)}
+                      onClick={() => handleClickEmployeeDetail(employee.id)}
                       style={{
                         cursor: "pointer",
                         color: "black",
@@ -82,7 +89,7 @@ const EmployeesList = () => {
                   </Tooltip>
                   <Tooltip title="Inativar">
                     <DeleteForeverIcon
-                      onClick={handleOpenModalDeleteConfirmation}
+                      onClick={()=>{handleOpenModalDeleteConfirmation(employee)} }
                       style={{
                         cursor: "pointer",
                         color: "red",
@@ -113,7 +120,7 @@ const EmployeesList = () => {
         open={openDeleteConfirmationModal}
         message={`Atenção!\n\n
               Você Tem certeza que deseja Inativar este Funcionário?
-              ${employeesList && employeesList[3].name}`}
+              ${userTobeDeleted && userTobeDeleted.name}`}
         onCancel={handleCloseModalDeleteConfirmation}
         onApprove={() => {
           handleDeleteEmployee();

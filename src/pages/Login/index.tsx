@@ -24,7 +24,7 @@ const Login = () => {
   const validationSchema = object({
     email: string().email("Email inválido").required("E-mail obrigatório"),
     password: string()
-      .min(8, "A senha deve possuír no mínimo 8 caracteres")
+      .min(6, "A senha deve possuír no mínimo 8 caracteres")
       .required("Senha obrigatória"),
   });
 
