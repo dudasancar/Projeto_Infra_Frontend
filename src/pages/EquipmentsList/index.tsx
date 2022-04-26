@@ -12,10 +12,9 @@ import { Button } from "@mui/material";
 
 interface Equipment {
   id: string;
-  name?: string;
-  email?: string;
-  type?: string;
-  local?: string;
+  name: string;
+  email: string;
+  type: string;
 }
 
 const EquipmentsList = () => {
