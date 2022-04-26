@@ -33,7 +33,7 @@ const EquipmentsList = () => {
 
   const handleOpenModalDeleteConfirmation = (equipment: Equipment) => {
     setOpenDeleteConfirmationModal(true);
-    setEquipmentTobeDeleted(equipment)
+    setEquipmentTobeDeleted(equipment);
   };
   const handleCloseModalDeleteConfirmation = () => {
     setOpenDeleteConfirmationModal(false);
@@ -69,9 +69,10 @@ const EquipmentsList = () => {
         <MaterialTable
           title="Lista de Equipamentos"
           columns={[
-            { title: "Nome", field: "name" },
-            { title: "Modelo", field: "model" },
-            { title: "Tipo", field: "type" },
+            { title: "Nome", field: "name"},
+            { title: "Modelo", field: "model"},
+            { title: "Tipo", field: "type"},
+            { title: "Situação", field: "situation"},
             {
               title: "",
               render: (equipment: Equipment) => (
