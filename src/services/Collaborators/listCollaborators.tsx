@@ -1,10 +1,8 @@
+import api from "../api";
 
-
-export const listCollaborators = async (
- 
-) => {
+export const listCollaborators = () => {
   try {
-    return Promise.resolve("Sucesso na postagem");
+    return api.get("/collaborator", {});
   } catch (error) {
     return Promise.reject(error);
   }

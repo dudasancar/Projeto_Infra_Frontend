@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import GlobalStyle from "../styles/GlobalStyle";
 import AddEditEmployee from "../pages/AddEditEmployee";
 import EmployeesList from "../pages/EmployeesList/index";
@@ -10,7 +10,8 @@ import MenuNavigation from "../components/MenuNavigation";
 import { useUser } from "../context/UserContext/index";
 import NoAccessHelper from "../components/NoAccessHelper";
 import Hardwares from "../pages/Hardwares";
-import TableUsePrevious from "../pages/Hardwares/TableUserPrevious";
+import CollaboratorsList from "../pages/CollaboratorsList";
+
 
 const MainRoutes = () => {
   const { user } = useUser();
@@ -35,6 +36,14 @@ const MainRoutes = () => {
           element={
             <IdPrivateRoute>
               <EmployeesList />
+            </IdPrivateRoute>
+          }
+        />
+        <Route
+          path="/listarColaboradores"
+          element={
+            <IdPrivateRoute>
+              <CollaboratorsList />
             </IdPrivateRoute>
           }
         />

@@ -44,7 +44,7 @@ const MenuNavigation = ({ children }: Props) => {
             >
               <ManageAccountsIcon /> Funcionários
             </Link>
-            <Link to="/" style={{ color: "#3e4756", textDecoration: "none" }}>
+            <Link to="/listarColaboradores" style={{ color: "#3e4756", textDecoration: "none" }}>
               <PeopleAltIcon /> Colaboradores
             </Link>
 
