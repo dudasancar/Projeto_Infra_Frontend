@@ -11,6 +11,7 @@ import { useUser } from "../context/UserContext/index";
 import NoAccessHelper from "../components/NoAccessHelper";
 import Hardwares from "../pages/Hardwares";
 import CollaboratorsList from "../pages/CollaboratorsList";
+import AddEditCollaborator from "../pages/AddEditCollaborator";
 
 
 const MainRoutes = () => {
@@ -69,6 +70,22 @@ const MainRoutes = () => {
           element={
             <IdPrivateRoute>
               <AddEditEmployee />
+            </IdPrivateRoute>
+          }
+        />
+                <Route
+          path="/editarColaborador/:id"
+          element={
+            <IdPrivateRoute>
+              <AddEditCollaborator />
+            </IdPrivateRoute>
+          }
+        />
+        <Route
+          path="/cadastroColaborador"
+          element={
+            <IdPrivateRoute>
+              <AddEditCollaborator />
             </IdPrivateRoute>
           }
         />
