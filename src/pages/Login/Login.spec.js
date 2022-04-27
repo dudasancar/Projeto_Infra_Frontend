@@ -1,21 +1,16 @@
-/**
- * @jest-environment jsdom
- * @jest-environment-options {"html":"<html lang='zh-cmn-Hant'></html>"}
- */
-
+/* eslint-disable testing-library/no-node-access */
 import React from "react";
 import "@testing-library/jest-dom";
-
+import { MemoryRouter } from "react-router-dom";
 import Login from "./";
 import { render, screen } from "@testing-library/react";
 
 describe("Login unit tests and integration tests", () => {
   it("should test if input email textfield doesnt accept fields that are not emails", () => {
-    render(<Login />);
+    render(<Login />, { wrapper: MemoryRouter });
 
-    // eslint-disable-next-line testing-library/no-node-access
-    //const input = screen.getByTestId("input-email").querySelector("input");
-    //expect(input.type).toBe("email");
+    const input = screen.getByTestId("input-email").querySelector("input");
+    expect(input.type).toBe("email");
   });
 
   it.todo("should test if input password requires at least 8 characters");
