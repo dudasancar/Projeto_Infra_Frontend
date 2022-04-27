@@ -1,3 +1,4 @@
+import React from "react";
 import { object, string } from "yup";
 import { useFormik } from "formik";
 import { Button, TextField } from "@mui/material";
@@ -11,6 +12,7 @@ import { useUser } from "../../context/UserContext/index";
 const Login = () => {
   const { setMessage } = useMessage();
   const { setUser } = useUser();
+  let navigate = useNavigate();
 
   const setUserContext = (response: any) => {
     setUser({
@@ -20,7 +22,6 @@ const Login = () => {
     });
   };
 
-  let navigate = useNavigate();
   const validationSchema = object({
     email: string().email("Email inválido").required("E-mail obrigatório"),
     password: string()
@@ -61,6 +62,7 @@ const Login = () => {
         <form onSubmit={formik.handleSubmit}>
           <img src={`${logo}`} />
           <TextField
+            data-testid="input-email"
             fullWidth
             variant="outlined"
             type="email"
