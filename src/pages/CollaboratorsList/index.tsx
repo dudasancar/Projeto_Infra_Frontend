@@ -14,9 +14,30 @@ import { listCollaborators } from "../../services/Collaborators/listCollaborator
 interface Collaborator {
   id: string;
   name: string;
+  contract: string;
+  situation: string;
+  start: Date;
+  admission: string;
+  occupation: string;
+  payment: string;
+  cost_center: string;
+  MEI: string;
+  hours: string;
+  city: string;
+  coordinator: string;
+  contact: string;
+  birth: Date;
+  CPF: number;
+  identity: string;
+  schooling: string;
+  mother: string;
+  sons: string;
+  emergency_contact: string;
+  responsible_emergency: string;
+  address: string;
   email: string;
-  type: string;
-  local: string;
+  status: string;
+  equipment_id: string;
 }
 
 const CollaboratorsList = () => {
@@ -28,7 +49,7 @@ const CollaboratorsList = () => {
   const [openDeleteConfirmationModal, setOpenDeleteConfirmationModal] =
     useState<boolean>(false);
 
-  const handleClickEmployeeDetail = (id: string) => {
+  const handleClickCollaboratorDetail = (id: string) => {
     navigate(`/editarColaborador/${id}`);
   };
 
@@ -42,7 +63,7 @@ const CollaboratorsList = () => {
 
   const handleDeleteCollaborator = () => {
     setMessage({
-      content: "Funcionário Inativado com Sucesso",
+      content: "Colaborador inativado com Sucesso",
       display: true,
       severity: "success",
     });
@@ -64,9 +85,9 @@ const CollaboratorsList = () => {
     <Container>
       <Button
         variant="contained"
-        onClick={() => navigate("/cadastroFuncionario")}
+        onClick={() => navigate("/cadastroColaborador")}
       >
-        Cadastrar funcionário
+        Cadastrar colaborador
       </Button>
       {collaboratorsList && (
         <MaterialTable
@@ -76,12 +97,23 @@ const CollaboratorsList = () => {
             { title: "Email", field: "email" },
             { title: "Ocupação", field: "occupation" },
             {
+              title: "Data de início",
+              render: (collaborator: Collaborator) =>
+                new Date(collaborator.start).toLocaleDateString("pt-BR"),
+              field: "start",
+            },
+            { title: "Contato", field: "contact" },
+            { title: "Endereço", field: "address" },
+            { title: "Computador", field: "computer" },
+            {
               title: "",
               render: (collaborator: Collaborator) => (
                 <div style={{ display: "flex" }}>
                   <Tooltip title="Mais Detalhes">
                     <AssignmentIcon
-                      onClick={() => handleClickEmployeeDetail(collaborator.id)}
+                      onClick={() =>
+                        handleClickCollaboratorDetail(collaborator.id)
+                      }
                       style={{
                         cursor: "pointer",
                         color: "black",
