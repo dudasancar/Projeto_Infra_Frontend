@@ -1,11 +1,19 @@
-export const editEmployees = async (
-  id: number,
-  name: string,
-  email: string,
-  type: string
-) => {
+import api from "../api";
+
+interface IEmployee {
+  name: string;
+  email: string;
+  type: string;
+  id?: string | null;
+}
+
+export const editEmployees = async ({ email, name, type, id }: IEmployee) => {
   try {
-    return Promise.resolve("Sucesso na postagem");
+    api.put(`employee/${id}`, {
+      name,
+      email,
+      type,
+    });
   } catch (error) {
     return Promise.reject(error);
   }

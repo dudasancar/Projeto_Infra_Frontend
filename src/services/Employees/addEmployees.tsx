@@ -1,14 +1,18 @@
-export const addEmployees = async (name: string, email: string, type: string) => {
-  try {
-    return Promise.resolve("Cadastrado com Sucesso");
-  } catch (error) {
-    return Promise.reject(error);
-  }
-};
+import api from "../api";
 
-export const editEmployees = async (name: string, email: string, type: string) => {
+export const addEmployees = async (
+  name: string,
+  email: string,
+  type: string
+) => {
   try {
-    return Promise.resolve("Sucesso na postagem");
+    api.post(`employee/`, {
+      name: name,
+      email: email,
+      type: type,
+      password: "12345678",
+      status: "ativo",
+    });
   } catch (error) {
     return Promise.reject(error);
   }

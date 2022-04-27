@@ -7,9 +7,9 @@ import MainRoutes from "./routes/MainRoutes";
 ReactDOM.render(
   <React.StrictMode>
     <UserProvider>
-    <MessageProvider>
-      <MainRoutes />
-    </MessageProvider>
+      <MessageProvider>
+        <MainRoutes />
+      </MessageProvider>
     </UserProvider>
   </React.StrictMode>,
   document.getElementById("root"),

@@ -9,39 +9,40 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useMessage } from "../../context/MessageContext";
 import { useNavigate, useParams } from "react-router-dom";
-import { listEmployees } from "../../services/Employees/ListEmployees";
-interface Employee {
-  id: number;
+import { getEmployee } from "../../services/Employees/getEmployee";
+interface IEmployee {
+  id: string | null;
   name: string;
   email: string;
   type: string;
-  local: string;
+  password?: string;
 }
+
 const type = [
   {
-    value: "Administrador",
+    value: "administrador",
     label: "Administrador",
   },
   {
-    value: "Departamento Pessoal",
+    value: "dp",
     label: "Departamento Pessoal",
   },
   {
-    value: "Infraestrutura",
+    value: "infra",
     label: "Infraestrutura",
   },
   {
-    value: "Marketing",
+    value: "marketing",
     label: "Marketing",
   },
   {
-    value: "Recursos Humanos",
+    value: "rh",
     label: "Recursos Humanos",
   },
 ];
 
 const AddEditEmployee = () => {
-  const [editedEmployee, setEditedEmployee] = React.useState<Employee>();
+  const [editedEmployee, setEditedEmployee] = React.useState<IEmployee>();
   const location = useLocation();
   const { setMessage } = useMessage();
   const navigate = useNavigate();
@@ -49,36 +50,38 @@ const AddEditEmployee = () => {
 
   useEffect(() => {
     if (location.pathname == `/editarFuncionario/${id}`) {
-      listEmployees()
-        .then((response) => {
-          setEditedEmployee(
-            response.data.find((employee: any) => employee.id == Number(id))
-          );
+      getEmployee(id)
+        .then((response: any) => {
+          setEditedEmployee(response.data);
+          console.log(response.data);
+          formik.setValues({
+            name: response.data.name,
+            email: response.data.email,
+            type: response.data.type,
+            id: null,
+          });
         })
         .catch((err) =>
           setMessage({
             content: `O seguinte erro ocorreu ao buscar os dados do usuário: ${err}`,
             display: true,
             severity: "error",
-          }),
+          })
         );
     }
   }, []);
 
-  const CreateOrEditEmployee = (values: {
-    name: string;
-    email: string;
-    type: string;
-  }) => {
+  const CreateOrEditEmployee = (values: IEmployee) => {
     if (location.pathname == `/editarFuncionario/${id}` && editedEmployee) {
-      editEmployees(editedEmployee!.id, values.name, values.email, values.type)
+      console.log(editedEmployee.id);
+      values.id = editedEmployee!.id;
+      editEmployees(values)
         .then(() => {
           setMessage({
             content: "Funcionário editado com sucesso!",
             display: true,
             severity: "success",
           });
-
           navigate("/listarFuncionarios");
         })
         .catch((err: string) =>
@@ -86,7 +89,7 @@ const AddEditEmployee = () => {
             content: `O seguinte erro ocorreu ao tentar editar o Funcionário: ${err}`,
             display: true,
             severity: "error",
-          }),
+          })
         );
     } else {
       addEmployees(values.name, values.email, values.type)
@@ -103,7 +106,7 @@ const AddEditEmployee = () => {
             content: `O seguinte erro ocorreu ao tentar cadastrar o funcionário: ${err}`,
             display: true,
             severity: "error",
-          }),
+          })
         );
     }
   };
@@ -116,17 +119,13 @@ const AddEditEmployee = () => {
 
   const formik = useFormik({
     enableReinitialize: true,
-    initialValues: editedEmployee
-      ? {
-          name: editedEmployee!.name,
-          email: editedEmployee!.email,
-          type: editedEmployee!.type,
-        }
-      : {
-          name: "",
-          email: "",
-          type: "",
-        },
+    initialValues: {
+      name: "",
+      email: "",
+      type: "",
+
+      id: null,
+    },
     validationSchema: validationSchema,
     onSubmit: (values) => {
       CreateOrEditEmployee(values);

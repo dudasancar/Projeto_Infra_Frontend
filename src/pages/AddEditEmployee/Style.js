@@ -4,7 +4,6 @@ export const Container = styled.section`
   box-sizing: border-box;
   background-color: #f7f7f7;
   height: 100vh;
-
 `;
 
 export const ContainerForm = styled.div`
