@@ -14,101 +14,35 @@ export default function SecondStep({formik}: IProps) {
       <TextField
         variant="outlined"
         type="text"
-        name="name"
-        id="name"
-        label="Nome do Colaborador"
+        name="occupation"
+        id="occupation"
+        label="Ocupação"
         onChange={formik.handleChange}
-        value={formik.values.name}
-        error={formik.touched.name && Boolean(formik.errors.name)}
-        helperText={formik.touched.name && formik.errors.name}
+        value={formik.values.occupation}
+        error={formik.touched.occupation && Boolean(formik.errors.occupation)}
+        helperText={formik.touched.occupation && formik.errors.occupation}
       />
       <TextField
         variant="outlined"
         type="text"
-        name="city"
-        id="city"
-        label="Cidade"
+        name="MEI"
+        id="MEI"
+        label="MEI"
         onChange={formik.handleChange}
-        value={formik.values.city}
-        error={formik.touched.city && Boolean(formik.errors.city)}
-        helperText={formik.touched.city && formik.errors.city}
+        value={formik.values.MEI}
+        error={formik.touched.MEI && Boolean(formik.errors.MEI)}
+        helperText={formik.touched.MEI && formik.errors.MEI}
       />
       <TextField
         variant="outlined"
         type="text"
-        name="contract"
-        id="contract"
-        label="Cidade"
+        name="schooling"
+        id="schooling"
+        label="Grau de Escolaridade"
         onChange={formik.handleChange}
-        value={formik.values.contract}
-        error={formik.touched.contract && Boolean(formik.errors.contract)}
-        helperText={formik.touched.contract && formik.errors.contract}
-      />
-      <TextField
-        variant="outlined"
-        type="text"
-        name="contract"
-        id="contract"
-        label="Contrato"
-        onChange={formik.handleChange}
-        value={formik.values.contract}
-        error={formik.touched.contract && Boolean(formik.errors.contract)}
-        helperText={formik.touched.contract && formik.errors.contract}
-      />
-      <TextField
-        variant="outlined"
-        type="text"
-        name="contract"
-        id="contract"
-        label="Contrato"
-        onChange={formik.handleChange}
-        value={formik.values.contract}
-        error={formik.touched.contract && Boolean(formik.errors.contract)}
-        helperText={formik.touched.contract && formik.errors.contract}
-      />
-      <TextField
-        variant="outlined"
-        type="text"
-        name="contract"
-        id="contract"
-        label="Contrato"
-        onChange={formik.handleChange}
-        value={formik.values.contract}
-        error={formik.touched.contract && Boolean(formik.errors.contract)}
-        helperText={formik.touched.contract && formik.errors.contract}
-      />
-      <TextField
-        variant="outlined"
-        type="text"
-        name="contract"
-        id="contract"
-        label="Contrato"
-        onChange={formik.handleChange}
-        value={formik.values.contract}
-        error={formik.touched.contract && Boolean(formik.errors.contract)}
-        helperText={formik.touched.contract && formik.errors.contract}
-      />
-      <TextField
-        variant="outlined"
-        type="text"
-        name="contract"
-        id="contract"
-        label="Contrato"
-        onChange={formik.handleChange}
-        value={formik.values.contract}
-        error={formik.touched.contract && Boolean(formik.errors.contract)}
-        helperText={formik.touched.contract && formik.errors.contract}
-      />
-      <TextField
-        variant="outlined"
-        type="text"
-        name="contract"
-        id="contract"
-        label="Contrato"
-        onChange={formik.handleChange}
-        value={formik.values.contract}
-        error={formik.touched.contract && Boolean(formik.errors.contract)}
-        helperText={formik.touched.contract && formik.errors.contract}
+        value={formik.values.schooling}
+        error={formik.touched.schooling && Boolean(formik.errors.schooling)}
+        helperText={formik.touched.schooling && formik.errors.schooling}
       />
     </GridForm>
   );

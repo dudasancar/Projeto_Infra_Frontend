@@ -5,7 +5,7 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { FormikProps, useFormik } from "formik";
+import { useFormik } from "formik";
 import { useMessage } from "../../context/MessageContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { ContainerForm } from "./Styles";
@@ -17,6 +17,7 @@ import { ICollaborator } from "./interfaces";
 import FirstStep from "./Steps/FirstStep";
 import SecondStep from "./Steps/SecondStep";
 import ThirdStep from "./Steps/ThirdStep";
+
 
 const steps = ["Dados Pessoais", "Dados Profissionais", "Empresa"];
 
@@ -92,7 +93,7 @@ const CollaboratorFormStepper = () => {
           })
         );
     } else {
-      addCollaborator(values.name, values.email)
+      addCollaborator(values)
         .then(() => {
           setMessage({
             content: "Colaborador cadastrado com sucesso!",
@@ -116,9 +117,10 @@ const CollaboratorFormStepper = () => {
     initialValues,
     validationSchema,
     onSubmit: (values) => {
-      CreateOrEditCollaborator(values);
+      console.log(values)
     },
   });
+
 
 
   return (
@@ -156,6 +158,12 @@ const CollaboratorFormStepper = () => {
         </React.Fragment>
       ) : (
         <div>
+          <form onSubmit={formik.handleSubmit}>
+          {location.pathname == `/editarColaborador/${id}` ? (
+            <h2>Editar Colaborador</h2>
+          ) : (
+            <h2>Cadastrar novo Colaborador</h2>
+          )}
           {activeStep == 0 && <FirstStep formik={formik}/>}
           {activeStep == 1 && <SecondStep formik={formik}/>}
           {activeStep == 2 && <ThirdStep formik={formik}/>}
@@ -175,10 +183,15 @@ const CollaboratorFormStepper = () => {
                 Pular
               </Button>
             )}
-            <Button onClick={handleNext}>
-              {activeStep === steps.length - 1 ? "Finalizar" : "Próximo"}
+            {activeStep === steps.length - 1 ? <Button type="submit">
+             Enviar
             </Button>
+            :
+            <Button onClick={handleNext}>
+             Próximo
+            </Button>}
           </Box>
+          </form>
         </div>
       )}
     </ContainerForm>

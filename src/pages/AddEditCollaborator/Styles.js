@@ -33,6 +33,8 @@ export const ContainerForm = styled.div`
     margin: 0;
     padding: 0;
     color: #3e4756;
+    margin-top: 2rem;
+    margin-left: 3rem;
   }
 `;
 
@@ -40,7 +42,7 @@ export const GridForm = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1.2rem;
-  margin: 2rem 3rem 2rem 3rem;
+  margin: 0rem 3rem 1.5rem 3rem;
 `;
 
 export const ContainerButtons = styled.div`

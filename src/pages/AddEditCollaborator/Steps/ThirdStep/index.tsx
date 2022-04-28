@@ -14,31 +14,9 @@ export default function ThirdStep({formik}: IProps) {
       <TextField
         variant="outlined"
         type="text"
-        name="name"
-        id="name"
-        label="Nome do Colaborador"
-        onChange={formik.handleChange}
-        value={formik.values.name}
-        error={formik.touched.name && Boolean(formik.errors.name)}
-        helperText={formik.touched.name && formik.errors.name}
-      />
-      <TextField
-        variant="outlined"
-        type="text"
-        name="city"
-        id="city"
-        label="Cidade"
-        onChange={formik.handleChange}
-        value={formik.values.city}
-        error={formik.touched.city && Boolean(formik.errors.city)}
-        helperText={formik.touched.city && formik.errors.city}
-      />
-      <TextField
-        variant="outlined"
-        type="text"
         name="contract"
         id="contract"
-        label="Cidade"
+        label="Tipo de Contrato"
         onChange={formik.handleChange}
         value={formik.values.contract}
         error={formik.touched.contract && Boolean(formik.errors.contract)}
@@ -47,68 +25,112 @@ export default function ThirdStep({formik}: IProps) {
       <TextField
         variant="outlined"
         type="text"
-        name="contract"
-        id="contract"
-        label="Contrato"
+        name="situation"
+        id="situation"
+        label="Situação"
         onChange={formik.handleChange}
-        value={formik.values.contract}
-        error={formik.touched.contract && Boolean(formik.errors.contract)}
-        helperText={formik.touched.contract && formik.errors.contract}
+        value={formik.values.situation}
+        error={formik.touched.situation && Boolean(formik.errors.situation)}
+        helperText={formik.touched.situation && formik.errors.situation}
+      />
+      <TextField
+        variant="outlined"
+        type="date"
+        name="start"
+        id="start"
+        label="Data de Inicio"
+        onChange={formik.handleChange}
+        value={formik.values.start}
+        error={formik.touched.start && Boolean(formik.errors.start)}
+        helperText={formik.touched.start && formik.errors.start}
+      />
+      <TextField
+        variant="outlined"
+        type="date"
+        name="admission"
+        id="admission"
+        label="Data de Admissão"
+        onChange={formik.handleChange}
+        value={formik.values.admission}
+        error={formik.touched.admission && Boolean(formik.errors.admission)}
+        helperText={formik.touched.admission && formik.errors.admission}
       />
       <TextField
         variant="outlined"
         type="text"
-        name="contract"
-        id="contract"
-        label="Contrato"
+        name="computer"
+        id="computer"
+        label="Computador"
         onChange={formik.handleChange}
-        value={formik.values.contract}
-        error={formik.touched.contract && Boolean(formik.errors.contract)}
-        helperText={formik.touched.contract && formik.errors.contract}
+        value={formik.values.computer}
+        error={formik.touched.computer && Boolean(formik.errors.computer)}
+        helperText={formik.touched.computer && formik.errors.computer}
       />
       <TextField
         variant="outlined"
         type="text"
-        name="contract"
-        id="contract"
-        label="Contrato"
+        name="payment"
+        id="payment"
+        label="Salário"
         onChange={formik.handleChange}
-        value={formik.values.contract}
-        error={formik.touched.contract && Boolean(formik.errors.contract)}
-        helperText={formik.touched.contract && formik.errors.contract}
+        value={formik.values.payment}
+        error={formik.touched.payment && Boolean(formik.errors.payment)}
+        helperText={formik.touched.payment && formik.errors.payment}
       />
       <TextField
         variant="outlined"
         type="text"
-        name="contract"
-        id="contract"
-        label="Contrato"
+        name="cost_center"
+        id="cost_center"
+        label="Centro de Custo"
         onChange={formik.handleChange}
-        value={formik.values.contract}
-        error={formik.touched.contract && Boolean(formik.errors.contract)}
-        helperText={formik.touched.contract && formik.errors.contract}
+        value={formik.values.cost_center}
+        error={formik.touched.cost_center && Boolean(formik.errors.cost_center)}
+        helperText={formik.touched.cost_center && formik.errors.cost_center}
+      />
+        <TextField
+        variant="outlined"
+        type="time"
+        name="hours"
+        id="hours"
+        label="Horas"
+        onChange={formik.handleChange}
+        value={formik.values.hours}
+        error={formik.touched.hours && Boolean(formik.errors.hours)}
+        helperText={formik.touched.hours && formik.errors.hours}
       />
       <TextField
         variant="outlined"
         type="text"
-        name="contract"
-        id="contract"
-        label="Contrato"
+        name="coordinator"
+        id="coordinator"
+        label="Coordenador"
         onChange={formik.handleChange}
-        value={formik.values.contract}
-        error={formik.touched.contract && Boolean(formik.errors.contract)}
-        helperText={formik.touched.contract && formik.errors.contract}
+        value={formik.values.coordinator}
+        error={formik.touched.coordinator && Boolean(formik.errors.coordinator)}
+        helperText={formik.touched.coordinator && formik.errors.coordinator}
       />
       <TextField
         variant="outlined"
         type="text"
-        name="contract"
-        id="contract"
-        label="Contrato"
+        name="status"
+        id="status"
+        label="Status"
         onChange={formik.handleChange}
-        value={formik.values.contract}
-        error={formik.touched.contract && Boolean(formik.errors.contract)}
-        helperText={formik.touched.contract && formik.errors.contract}
+        value={formik.values.status}
+        error={formik.touched.status && Boolean(formik.errors.status)}
+        helperText={formik.touched.status && formik.errors.status}
+      />
+      <TextField
+        variant="outlined"
+        type="text"
+        name="equipment_id"
+        id="equipment_id"
+        label="ID do Equipamento"
+        onChange={formik.handleChange}
+        value={formik.values.equipment_id}
+        error={formik.touched.equipment_id && Boolean(formik.errors.equipment_id)}
+        helperText={formik.touched.equipment_id && formik.errors.equipment_id}
       />
     </GridForm>
   );
