@@ -7,15 +7,8 @@ import { useFormik } from "formik";
 import { useMessage } from "../../context/MessageContext";
 import { ChangeEmployeePassword } from "../../services/Employees/changeEmployeePassword";
 import { Form } from "formik";
-import { TextField } from "@mui/material";
-
-interface IEmployee {
-  id: string;
-  name: string;
-  email: string;
-  type: string;
-  local: string;
-}
+import { Button, TextField } from "@mui/material";
+import { Navigate } from "react-router-dom";
 
 interface IToken {
   exp: number;
@@ -23,16 +16,27 @@ interface IToken {
   id: string;
 }
 
+interface IValues {
+  oldPassword: string;
+  newPassword: string;
+  confirmNewPassword: string;
+  id: string;
+}
+
 const MyData = () => {
   const { user } = useUser();
   const { setMessage } = useMessage();
-  const [employee, setEmployee] = useState<IEmployee>();
+
   const decryptToken: IToken = jwt_decode(user.token);
 
-  useEffect(() => {
-    ChangeEmployeePassword(decryptToken.id)
-      .then((response: any) => {
-        setEmployee(response.data);
+  const sendChangePasswordRequest = async (values: IValues) => {
+    ChangeEmployeePassword(values)
+      .then(() => {
+        setMessage({
+          content: `Senha alterada com sucesso!`,
+          display: true,
+          severity: "success",
+        });
       })
       .catch((err) =>
         setMessage({
@@ -41,12 +45,17 @@ const MyData = () => {
           severity: "error",
         })
       );
-  }, []);
+  };
 
   const validationSchema = object({
-    email: string().email("Email inválido").required("E-mail obrigatório"),
-    password: string()
-      .min(6, "A senha deve possuír no mínimo 8 caracteres")
+    oldPassword: string()
+      .min(6, "A senha antiga deve possuír no mínimo 6 caracteres")
+      .required("Senha antiga obrigatória"),
+    newPassword: string()
+      .min(6, "A nova senha deve possuír no mínimo 6 caracteres")
+      .required("Nova senha obrigatória"),
+    confirmNewPassword: string()
+      .min(6, "A nova senha deve possuír no mínimo 6 caracteres")
       .required("Senha obrigatória"),
   });
 
@@ -54,10 +63,14 @@ const MyData = () => {
     initialValues: {
       oldPassword: "",
       newPassword: "",
-      confirmPassword: "",
+      confirmNewPassword: "",
+      id: "",
     },
     validationSchema: validationSchema,
-    onSubmit: () => {},
+    onSubmit: (values) => {
+      values.id = decryptToken.id;
+      sendChangePasswordRequest(values);
+    },
   });
 
   return (
@@ -65,7 +78,7 @@ const MyData = () => {
       <p>Nome: {user.name}</p>
       <p>E-mail: {user.email}</p>
 
-      <Form>
+      <form onSubmit={formik.handleSubmit}>
         <TextField
           fullWidth
           variant="outlined"
@@ -98,24 +111,25 @@ const MyData = () => {
           fullWidth
           variant="outlined"
           type="text"
-          name="confirmPassword"
-          id="confirmPassword"
-          label="Senha antiga"
+          name="confirmNewPassword"
+          id="confirmNewPassword"
+          label="Confirmar nova senha"
           onChange={formik.handleChange}
-          value={formik.values.confirmPassword}
+          value={formik.values.confirmNewPassword}
           error={
-            formik.touched.confirmPassword &&
-            Boolean(formik.errors.confirmPassword)
+            formik.touched.confirmNewPassword &&
+            Boolean(formik.errors.confirmNewPassword)
           }
           helperText={
-            formik.touched.confirmPassword && formik.errors.confirmPassword
+            formik.touched.confirmNewPassword &&
+            formik.errors.confirmNewPassword
           }
         />
 
         <Button type="submit" variant="contained" fullWidth size="large">
-          ENTRAR
+          Confirmar
         </Button>
-      </Form>
+      </form>
     </Container>
   );
 };
