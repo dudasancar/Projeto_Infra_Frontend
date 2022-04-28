@@ -1,4 +1,5 @@
-export const listUserPrevious = () => {
+export const listPreviousCollaborator
+ = () => {
   const data = [
     {
       id: 1,

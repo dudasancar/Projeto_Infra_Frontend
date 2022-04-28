@@ -18,57 +18,74 @@ import {
 } from "@mui/material";
 import { object, string, ref } from "yup";
 import { useFormik } from "formik";
-import { department, equipament } from "./helper";
-import { addEquipaments } from "../services/addEquipaments";
+import { department, equipament, status } from "./helper";
+import { addEquipaments } from "../../services/Equipments/addEquipaments";
 import { useLocation } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { listEquipaments } from "../services/listEquipaments";
-import { editedEquipaments } from "../services/editEquipaments";
+import { listEditEquipaments } from "../../services/Equipments/listEditEquipaments";
+import { editedEquipaments } from "../../services/Equipments/editEquipaments";
 import TableUsePrevious from "./TableUserPrevious";
-import { listUserCurrents } from "../services/listUserCurrents";
+import { listCurrentsCollaborator } from "../../services/Collaborator/listCurrentsCollaborator";
 
 interface Equipament {
-  id: string;
-  equipamentType: string;
+  id?: string;
   name: string;
-  equipamentModel: string;
-  serieNumber: string;
-  currentUser: string;
-  previousUser: string;
-  department: string;
+  serial_number: string;
+  model: string;
+  type: string;
   situation: string;
-  buyDate: string;
-  invoice: string;
-  term: string;
-  deliveryDate: string;
-  description: string;
+  status:string,
+  collaborator:string,
 }
 
 const Hardwares = () => {
-  const [baseFileInvoice, setBaseFileInvoice] = useState<any>("");
-  const [baseFileTerm, setBaseFileTerm] = useState<any>("");
   const [editEquipament, setEditEquipament] = React.useState<Equipament>();
   const location = useLocation();
   const { id } = useParams() as any;
 
+
+const validationSchema = object({
+      name:string(),
+      serial_number:string(),
+      model: string(),
+      type: string(),
+      situation:string(),
+      collaborator:string(),
+      status: string(),
+  });
+
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      name:'',
+      serial_number:'',
+      model: '',
+      type:'',
+      situation: '',
+      collaborator:'',
+      status: '',
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values: any) => {
+      createEditEquipament(values);
+    },
+  });
+
   useEffect(() => {
     if (location.pathname === `/edicaoEquipamentos/${id}`) {
-      listEquipaments()
+      listEditEquipaments()
         .then((response: any) => {
-          formik.resetForm(response);
-          setEditEquipament(
-            response.find((equipament: any) => equipament.id === id)
-          );
+          formik.setValues(response)
         })
-        .catch((err: string) => alert(err));
+        .catch((err: string) => console.log(err));
     }
   }, []);
+
+// console.log(formik.values)
 
   const createEditEquipament = (values: any) => {
     if (location.pathname === `/edicaoEquipamentos/${id}` && editEquipament) {
       values.id = editEquipament!.id;
-      values.baseFileInvoice = baseFileInvoice;
-      values.baseFileTerm = baseFileTerm;
       editedEquipaments(values)
         .then((response: any) => {
           console.log(response);
@@ -81,63 +98,6 @@ const Hardwares = () => {
         })
         .catch((error) => console.log(error));
     }
-  };
-
-  const validationSchema = object({
-    equipamentType: string().required("Obrigatorio"),
-    name: string().required("Obrigatorio"),
-    equipamentModel: string().required("Obrigatorio"),
-    serieNumber: string().required("Obrigatorio"),
-    currentUser: string().required("Obrigatorio"),
-    previousUser: string().required("Obrigatorio"),
-    department: string().required("Obrigatorio"),
-    situation: string().required("Obrigatorio"),
-    buyDate: string().required("Obrigatorio"),
-    invoice: string(),
-    term: string(),
-    deliveryDate: string().required("Obrigatorio"),
-  });
-
-  const formik = useFormik({
-    enableReinitialize: true,
-    initialValues: {
-      equipamentType: "",
-      name: "",
-      equipamentModel: "",
-      serieNumber: "",
-      currentUser: "",
-      previousUser: "",
-      department: "",
-      situation: "",
-      buyDate: "",
-      invoice: "",
-      term: "",
-      deliveryDate: "",
-      description: "",
-    },
-    validationSchema: validationSchema,
-    onSubmit: (values: any) => {
-      createEditEquipament(values);
-    },
-  });
-
-  const uploadFileInvoice = async (event: any) => {
-    const file = event.target.files[0];
-    const base64 = await convert64(file);
-    setBaseFileInvoice(base64);
-  };
-
-  const uploadFileTerm = async (event: any) => {
-    const file = event.target.files[0];
-    const base64 = await convert64(file);
-    setBaseFileTerm(base64);
-  };
-
-  const convert64 = (file: any) => {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-    });
   };
 
   return (
@@ -155,13 +115,16 @@ const Hardwares = () => {
                 <FormControl>
                   <TextField
                     select
-                    id="equipamentType"
-                    name="equipamentType"
-                    label="Tipo de Equipamento"
+                    required
+                    id="type"
+                    name="type"
+                    label="Tipo do Equipamento"
                     variant="outlined"
                     InputLabelProps={{ shrink: true }}
-                    value={formik.values.equipamentType}
+                    value={formik.values.type}
                     onChange={formik.handleChange}
+                    error={formik.touched.type && Boolean(formik.errors.type)}
+                    helperText={formik.touched.type && formik.errors.type}
                   >
                     {equipament.map((type: any) => (
                       <MenuItem key={type.value} value={type.value}>
@@ -170,6 +133,7 @@ const Hardwares = () => {
                     ))}
                   </TextField>
                 </FormControl>
+
                 <FormControl>
                   <TextField
                     required
@@ -184,86 +148,64 @@ const Hardwares = () => {
                     helperText={formik.touched.name && formik.errors.name}
                   />
                 </FormControl>
+
                 <FormControl>
                   <TextField
                     required
-                    id="equipamentModel"
-                    name="equipamentModel"
-                    label="Modelo do Equipamento"
-                    variant="outlined"
-                    InputLabelProps={{ shrink: true }}
-                    value={formik.values.equipamentModel}
-                    onChange={formik.handleChange}
-                    error={
-                      formik.touched.equipamentModel &&
-                      Boolean(formik.errors.equipamentModel)
-                    }
-                    helperText={
-                      formik.touched.equipamentModel &&
-                      formik.errors.equipamentModel
-                    }
-                  />
-                </FormControl>
-                <FormControl>
-                  <TextField
-                    required
-                    id="serieNumber"
-                    name="serieNumber"
+                    id="serial_number"
+                    name="serial_number"
                     label="N° de serie"
                     variant="outlined"
                     InputLabelProps={{ shrink: true }}
-                    value={formik.values.serieNumber}
+                    value={formik.values.serial_number}
                     onChange={formik.handleChange}
-                    error={
-                      formik.touched.serieNumber &&
-                      Boolean(formik.errors.serieNumber)
-                    }
-                    helperText={
-                      formik.touched.serieNumber && formik.errors.serieNumber
-                    }
+                    error={formik.touched.serial_number && Boolean(formik.errors.serial_number)}
+                    helperText={formik.touched.serial_number && formik.errors.serial_number}
+                  />
+                </FormControl>
+
+
+                <FormControl>
+                  <TextField
+                    required
+                    id="model"
+                    name="model"
+                    label="Modelo"
+                    variant="outlined"
+                    InputLabelProps={{ shrink: true }}
+                    value={formik.values.model}
+                    onChange={formik.handleChange}
+                    error={formik.touched.model && Boolean(formik.errors.model)}
+                    helperText={formik.touched.model && formik.errors.model}
                   />
                 </FormControl>
               </ColumnOne>
 
-              <ColumnSecond>
+              <ColumnThird>
                 <FormControl>
                   <TextField
                     select
-                    id="currentUser"
-                    name="currentUser"
-                    label="Usuario Atual"
+                    required
+                    id="collaborator"
+                    name="collaborator"
+                    label="Colaborador"
                     variant="outlined"
                     InputLabelProps={{ shrink: true }}
-                    value={formik.values.currentUser}
+                    value={formik.values.collaborator}
                     onChange={formik.handleChange}
-                  >
-                    {listUserCurrents.map((name: any) => (
+                    error={formik.touched.collaborator && Boolean(formik.errors.collaborator)}
+                    helperText={formik.touched.collaborator && formik.errors.collaborator}
+                   > 
+                     {listCurrentsCollaborator.map((name: any) => (
                       <MenuItem key={name.value} value={name.value}>
                         {name.label}
                       </MenuItem>
                     ))}
-                  </TextField>
+                </TextField>
                 </FormControl>
+
                 <FormControl>
-                  <TextField
-                    select
-                    id="department"
-                    name="department"
-                    label="Departamento"
-                    variant="outlined"
-                    InputLabelProps={{ shrink: true }}
-                    value={formik.values.department}
-                    onChange={formik.handleChange}
-                  >
-                    {department.map((dp: any) => (
-                      <MenuItem key={dp.value} value={dp.value}>
-                        {dp.label}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </FormControl>
-                <FormControl>
-                  <TextField
+                   <TextField
                     required
                     id="situation"
                     name="situation"
@@ -272,101 +214,35 @@ const Hardwares = () => {
                     InputLabelProps={{ shrink: true }}
                     value={formik.values.situation}
                     onChange={formik.handleChange}
-                    error={
-                      formik.touched.situation &&
-                      Boolean(formik.errors.situation)
-                    }
-                    helperText={
-                      formik.touched.situation && formik.errors.situation
-                    }
+                    error={formik.touched.situation && Boolean(formik.errors.situation)}
+                    helperText={formik.touched.situation && formik.errors.situation}
                   />
                 </FormControl>
 
                 <FormControl>
                   <TextField
+                    select
                     required
-                    id="buyDate"
-                    name="buyDate"
-                    type="date"
-                    label="Data da Compra"
+                    id="status"
+                    name="status"
+                    label="Status"
                     variant="outlined"
                     InputLabelProps={{ shrink: true }}
-                    value={formik.values.buyDate}
+                    value={formik.values.status}
                     onChange={formik.handleChange}
-                    error={
-                      formik.touched.buyDate && Boolean(formik.errors.buyDate)
-                    }
-                    helperText={formik.touched.buyDate && formik.errors.buyDate}
-                  />
-                </FormControl>
-              </ColumnSecond>
-
-              <ColumnThird>
-                <FormControl>
-                  <TextField
-                    inputProps={{ accept: "file/*" }}
-                    id="invoice"
-                    name="invoice"
-                    type="file"
-                    onChange={(event: any) => {
-                      uploadFileInvoice(event);
-                    }}
-                    error={
-                      formik.touched.invoice && Boolean(formik.errors.invoice)
-                    }
-                    helperText={
-                      formik.touched.invoice && Boolean(formik.errors.invoice)
-                    }
-                  />
-                </FormControl>
-
-                <FormControl>
-                  <TextField
-                    inputProps={{ accept: "file/*" }}
-                    id="term"
-                    name="term"
-                    type="file"
-                    onChange={(event: any) => {
-                      uploadFileTerm(event);
-                    }}
-                    error={formik.touched.term && Boolean(formik.errors.term)}
-                    helperText={
-                      formik.touched.term && Boolean(formik.errors.term)
-                    }
-                  />
-                </FormControl>
-                <FormControl>
-                  <TextField
-                    required
-                    id="deliveryDate"
-                    name="deliveryDate"
-                    label="Data de Entrega"
-                    type="date"
-                    variant="outlined"
-                    InputLabelProps={{ shrink: true }}
-                    value={formik.values.deliveryDate}
-                    onChange={formik.handleChange}
-                    error={
-                      formik.touched.deliveryDate &&
-                      Boolean(formik.errors.deliveryDate)
-                    }
-                    helperText={
-                      formik.touched.deliveryDate && formik.errors.deliveryDate
-                    }
-                  />
+                    error={formik.touched.status && Boolean(formik.errors.status)}
+                    helperText={formik.touched.status && formik.errors.status}
+                  > 
+                   {status.map((type: any) => (
+                      <MenuItem key={type.value} value={type.value}>
+                        {type.label}
+                      </MenuItem>
+                    ))}
+                </TextField> 
                 </FormControl>
               </ColumnThird>
             </SubForm>
-            <TextareaAutosize
-              id="description"
-              name="description"
-              placeholder="Observação/Detalhes do Equipamento"
-              minRows={8}
-              style={{ width: "770px" }}
-              value={formik.values.description}
-              onChange={formik.handleChange}
-              required
-            />
+            
             <BtnContent>
               <Button
                 className="btn-cancel"

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Content } from "./styles";
 import MaterialTable from "material-table";
-import { listUserPrevious } from "../../services/listUserPrevious";
+import { listPreviousCollaborator } from "../../../services/Collaborator/listPreviousCollaborator";
 
 interface UserPrevious {
   name?: string;
@@ -15,9 +15,9 @@ const TableUsePrevious = () => {
   const [listPrevious, setListPrevious] = useState<UserPrevious[]>([]);
 
   useEffect(() => {
-    listUserPrevious()
+    listPreviousCollaborator()
       .then((response: any) => setListPrevious(response))
-      .catch((error?) => console.log(error));
+      .catch((error) => console.log(error));
   }, []);
 
   return (
@@ -34,7 +34,7 @@ const TableUsePrevious = () => {
         data={listPrevious}
         options={{
           filtering: false,
-          search: true,
+          search: false,
           paging: true,
           headerStyle: {
             backgroundColor: "#DFDFDF",

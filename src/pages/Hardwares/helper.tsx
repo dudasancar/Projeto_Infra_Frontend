@@ -39,3 +39,19 @@ export const department = [
     label: "Recursos Humanos",
   },
 ];
+
+
+export const status = [
+  {
+    value: "",
+    label: "Selecione",
+  },
+  {
+    value: "Ativo",
+    label: "Ativo",
+  },
+  {
+    value: "Inativo",
+    label: "Inativo",
+  },
+];
