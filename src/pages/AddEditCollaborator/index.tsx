@@ -1,8 +1,8 @@
 import React from "react";
 import { Container, ContainerButtons, ContainerForm, GridForm } from "./Style";
 import { Button, MenuItem, TextField } from "@mui/material";
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useFormik } from "formik";
-import { object, string } from "yup";
 import { addEmployees } from "../../services/Employees/addEmployees";
 import { editEmployees } from "../../services/Employees/editEmployees";
 import { useEffect } from "react";
@@ -10,41 +10,16 @@ import { useLocation } from "react-router-dom";
 import { useMessage } from "../../context/MessageContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { getEmployee } from "../../services/Employees/getEmployee";
+import CollaboratorFormStepper from "../../components/CollaboratorFormStepper";
+import {MuiPickersUtilsProvider,KeyboardTimePicker,KeyboardDatePicker} from "@material-ui/pickers";
+  
+  import DateFnsUtils from "@date-io/date-fns";
+import { ICollaborator } from "./interfaces";
+import { initialValues, validationSchema } from "./validation";
 
 
-interface IEmployee {
-  id: string | null;
-  name: string;
-  email: string;
-  type: string;
-  password?: string;
-}
-
-const type = [
-  {
-    value: "administrador",
-    label: "Administrador",
-  },
-  {
-    value: "dp",
-    label: "Departamento Pessoal",
-  },
-  {
-    value: "infra",
-    label: "Infraestrutura",
-  },
-  {
-    value: "marketing",
-    label: "Marketing",
-  },
-  {
-    value: "rh",
-    label: "Recursos Humanos",
-  },
-];
-
-const AddEditEmployee = () => {
-  const [editedCollaborator, setEditedCollaborator] = React.useState<IEmployee>();
+const AddEditCollaborator = () => {
+  const [editedCollaborator, setEditedCollaborator] = React.useState<ICollaborator>();
   const location = useLocation();
   const { setMessage } = useMessage();
   const navigate = useNavigate();
@@ -73,14 +48,14 @@ const AddEditEmployee = () => {
     }
   }, []);
 
-  const CreateOrEditEmployee = (values: IEmployee) => {
+  const CreateOrEditEmployee = (values: ICollaborator) => {
     if (location.pathname == `/editarColaborador/${id}` && editedCollaborator) {
       console.log(editedCollaborator.id);
       values.id = editedCollaborator!.id;
       editEmployees(values)
         .then(() => {
           setMessage({
-            content: "Funcionário editado com sucesso!",
+            content: "Colaborador editado com sucesso!",
             display: true,
             severity: "success",
           });
@@ -88,7 +63,7 @@ const AddEditEmployee = () => {
         })
         .catch((err: string) =>
           setMessage({
-            content: `O seguinte erro ocorreu ao tentar editar o Funcionário: ${err}`,
+            content: `O seguinte erro ocorreu ao tentar editar o Colaborador: ${err}`,
             display: true,
             severity: "error",
           })
@@ -97,7 +72,7 @@ const AddEditEmployee = () => {
       addEmployees(values.name, values.email, values.type)
         .then(() => {
           setMessage({
-            content: "Funcionário cadastrado com sucesso!",
+            content: "Colaborador cadastrado com sucesso!",
             display: true,
             severity: "success",
           });
@@ -113,67 +88,12 @@ const AddEditEmployee = () => {
     }
   };
 
-  const validationSchema = object({
-    name: string().required("O nome é obrigatório"),
-    contract: string().required("contato inválido").required("Contato obrigatório"),
-    situation: string().required("O tipo da situacao e obrigatoria"),
-    start:string(),
-    admission:string(),
-    occupation:string(),
-    computer:string(),
-    payment:string(),
-    cost_center:string(),
-    MEI:string(),
-    hours:string(),
-    city:string(),
-    coordinator:string(),
-    contact:string(),
-    birth:string(),
-    CPF:string(),
-    identity:string(),
-    schooling:string(),
-    mother:string(),
-    sons:string(),
-    emergency_contact:string(),
-    responsible_emergency:string(),
-    address:string(),
-    email:string(),
-    status:string(),
-    equipment_id:string(),
-    
-  });
+  
 
   const formik = useFormik({
     enableReinitialize: true,
-    initialValues: {
-      name: "",
-      contract: "",
-      situation: "",
-      start:"",
-      admission:"",
-      occupation:"",
-      computer:"",
-      payment:"",
-      cost_center:"",
-      MEI:"",
-      hours:"",
-      city:"",
-      coordinator:"",
-      contact:"",
-      birth:"",
-      CPF:"",
-      identity:"",
-      schooling:"",
-      mother:"",
-      sons:"",
-      emergency_contact:"",
-      responsible_emergency:"",
-      address:"",
-      email:"",
-      status:"",
-      equipment_id:"",
-    },
-    validationSchema: validationSchema,
+    initialValues,
+    validationSchema,
     onSubmit: (values) => {
       CreateOrEditEmployee(values);
     },
@@ -181,6 +101,7 @@ const AddEditEmployee = () => {
 
   return (
     <Container>
+        <CollaboratorFormStepper/>
       <ContainerForm>
         <form onSubmit={formik.handleSubmit}>
           {location.pathname == `/editarColaborador/${id}` ? (
@@ -203,6 +124,63 @@ const AddEditEmployee = () => {
             <TextField
               variant="outlined"
               type="text"
+              name="contract"
+              id="contract"
+              label="Contrato"
+              onChange={formik.handleChange}
+              value={formik.values.contract}
+              error={formik.touched.contract && Boolean(formik.errors.contract)}
+              helperText={formik.touched.contract && formik.errors.contract}
+            />
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <KeyboardDatePicker
+                  id="date-picker-dialog"
+                  label="teste"
+                  inputVariant="outlined"
+                  format="MM/dd/yyyy"
+                  value={formik.values.date}
+                  onChange={value => formik.setFieldValue("date", value)}
+                  KeyboardButtonProps={{
+                    "aria-label": "change date"
+                  }}
+                />
+              </MuiPickersUtilsProvider>
+            <TextField
+              variant="outlined"
+              type="text"
+              name="situation"
+              id="situation"
+              label="Situação"
+              onChange={formik.handleChange}
+              value={formik.values.situation}
+              error={formik.touched.situation && Boolean(formik.errors.situation)}
+              helperText={formik.touched.situation && formik.errors.situation}
+            />
+              <TextField
+              variant="outlined"
+              type="Date"
+              name="admission"
+              id="admission"
+              label="Data de Admissao"
+              onChange={formik.handleChange}
+              value={formik.values.admission}
+              error={formik.touched.admission && Boolean(formik.errors.admission)}
+              helperText={formik.touched.admission && formik.errors.admission}
+            />
+              <TextField
+              variant="outlined"
+              type="text"
+              name="occupation"
+              id="occupation"
+              label="Ocupacao"
+              onChange={formik.handleChange}
+              value={formik.values.occupation}
+              error={formik.touched.occupation && Boolean(formik.errors.occupation)}
+              helperText={formik.touched.occupation && formik.errors.occupation}
+            />
+              <TextField
+              variant="outlined"
+              type="text"
               name="email"
               id="email"
               label="E-mail"
@@ -211,22 +189,183 @@ const AddEditEmployee = () => {
               error={formik.touched.email && Boolean(formik.errors.email)}
               helperText={formik.touched.email && formik.errors.email}
             />
-            <TextField
-              id="type"
-              select
-              name="type"
-              label="Tipo de funcionário"
+              <TextField
               variant="outlined"
-              InputLabelProps={{ shrink: true }}
-              value={formik.values.type}
+              type="text"
+              name="email"
+              id="email"
+              label="E-mail"
               onChange={formik.handleChange}
-            >
-              {type.map((type) => (
-                <MenuItem key={type.value} value={type.value}>
-                  {type.label}
-                </MenuItem>
-              ))}
-            </TextField>
+              value={formik.values.email}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
+            />
+              <TextField
+              variant="outlined"
+              type="text"
+              name="email"
+              id="email"
+              label="E-mail"
+              onChange={formik.handleChange}
+              value={formik.values.email}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
+            />
+              <TextField
+              variant="outlined"
+              type="text"
+              name="email"
+              id="email"
+              label="E-mail"
+              onChange={formik.handleChange}
+              value={formik.values.email}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
+            />
+              <TextField
+              variant="outlined"
+              type="text"
+              name="email"
+              id="email"
+              label="E-mail"
+              onChange={formik.handleChange}
+              value={formik.values.email}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
+            />
+              <TextField
+              variant="outlined"
+              type="text"
+              name="email"
+              id="email"
+              label="E-mail"
+              onChange={formik.handleChange}
+              value={formik.values.email}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
+            />
+              <TextField
+              variant="outlined"
+              type="text"
+              name="email"
+              id="email"
+              label="E-mail"
+              onChange={formik.handleChange}
+              value={formik.values.email}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
+            />
+              <TextField
+              variant="outlined"
+              type="text"
+              name="email"
+              id="email"
+              label="E-mail"
+              onChange={formik.handleChange}
+              value={formik.values.email}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
+            />
+              <TextField
+              variant="outlined"
+              type="text"
+              name="email"
+              id="email"
+              label="E-mail"
+              onChange={formik.handleChange}
+              value={formik.values.email}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
+            />
+              <TextField
+              variant="outlined"
+              type="text"
+              name="email"
+              id="email"
+              label="E-mail"
+              onChange={formik.handleChange}
+              value={formik.values.email}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
+            />
+              <TextField
+              variant="outlined"
+              type="text"
+              name="email"
+              id="email"
+              label="E-mail"
+              onChange={formik.handleChange}
+              value={formik.values.email}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
+            />
+              <TextField
+              variant="outlined"
+              type="text"
+              name="email"
+              id="email"
+              label="E-mail"
+              onChange={formik.handleChange}
+              value={formik.values.email}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
+            />
+              <TextField
+              variant="outlined"
+              type="text"
+              name="email"
+              id="email"
+              label="E-mail"
+              onChange={formik.handleChange}
+              value={formik.values.email}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
+            />
+              <TextField
+              variant="outlined"
+              type="text"
+              name="email"
+              id="email"
+              label="E-mail"
+              onChange={formik.handleChange}
+              value={formik.values.email}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
+            />
+              <TextField
+              variant="outlined"
+              type="text"
+              name="email"
+              id="email"
+              label="E-mail"
+              onChange={formik.handleChange}
+              value={formik.values.email}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
+            />
+              <TextField
+              variant="outlined"
+              type="text"
+              name="email"
+              id="email"
+              label="E-mail"
+              onChange={formik.handleChange}
+              value={formik.values.email}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
+            />
+              <TextField
+              variant="outlined"
+              type="text"
+              name="email"
+              id="email"
+              label="E-mail"
+              onChange={formik.handleChange}
+              value={formik.values.email}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
+            />
+
           </GridForm>
           <ContainerButtons>
             <Button
@@ -252,4 +391,4 @@ const AddEditEmployee = () => {
   );
 };
 
-export default AddEditEmployee;
+export default AddEditCollaborator;

@@ -8,7 +8,7 @@ export const Container = styled.section`
 
 export const ContainerForm = styled.div`
   box-shadow: 0px 0px 10px #00000029;
-  width: 60%;
+  width: 80%;
   margin: 50px auto;
   min-width: 300px;
   max-width: 1200px;
@@ -38,8 +38,9 @@ export const ContainerForm = styled.div`
 
 export const GridForm = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.2rem;
+  margin: 2rem 3rem 2rem 3rem;
 `;
 
 export const ContainerButtons = styled.div`
