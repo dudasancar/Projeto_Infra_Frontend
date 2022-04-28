@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container } from "./style";
+import { Container, ContainerForm, DataDiv } from "./style";
 import { useUser } from "../../context/UserContext";
 import jwt_decode from "jwt-decode";
 import { object, string } from "yup";
@@ -40,7 +40,7 @@ const MyData = () => {
       })
       .catch((err) =>
         setMessage({
-          content: `O seguinte erro ocorreu ao buscar os dados do usuário: ${err}`,
+          content: `O seguinte erro ocorreu: ${err}`,
           display: true,
           severity: "error",
         })
@@ -75,60 +75,73 @@ const MyData = () => {
 
   return (
     <Container>
-      <p>Nome: {user.name}</p>
-      <p>E-mail: {user.email}</p>
+      <DataDiv>
+        <h1>Dados da conta</h1>
+
+        <p>Nome: {user.name}</p>
+        <p>E-mail: {user.email}</p>
+      </DataDiv>
 
       <form onSubmit={formik.handleSubmit}>
-        <TextField
-          fullWidth
-          variant="outlined"
-          type="text"
-          name="oldPassword"
-          id="oldPassword"
-          label="Senha antiga"
-          onChange={formik.handleChange}
-          value={formik.values.oldPassword}
-          error={
-            formik.touched.oldPassword && Boolean(formik.errors.oldPassword)
-          }
-          helperText={formik.touched.oldPassword && formik.errors.oldPassword}
-        />
-        <TextField
-          fullWidth
-          variant="outlined"
-          type="text"
-          name="newPassword"
-          id="newPassword"
-          label="Senha nova"
-          onChange={formik.handleChange}
-          value={formik.values.newPassword}
-          error={
-            formik.touched.newPassword && Boolean(formik.errors.newPassword)
-          }
-          helperText={formik.touched.newPassword && formik.errors.newPassword}
-        />
-        <TextField
-          fullWidth
-          variant="outlined"
-          type="text"
-          name="confirmNewPassword"
-          id="confirmNewPassword"
-          label="Confirmar nova senha"
-          onChange={formik.handleChange}
-          value={formik.values.confirmNewPassword}
-          error={
-            formik.touched.confirmNewPassword &&
-            Boolean(formik.errors.confirmNewPassword)
-          }
-          helperText={
-            formik.touched.confirmNewPassword &&
-            formik.errors.confirmNewPassword
-          }
-        />
-
-        <Button type="submit" variant="contained" fullWidth size="large">
-          Confirmar
-        </Button>
+        <ContainerForm>
+          <h2>Deseja mudar sua senha?</h2>
+          <TextField
+            fullWidth
+            size="small"
+            variant="outlined"
+            type="text"
+            name="oldPassword"
+            id="oldPassword"
+            label="Senha antiga"
+            onChange={formik.handleChange}
+            value={formik.values.oldPassword}
+            error={
+              formik.touched.oldPassword && Boolean(formik.errors.oldPassword)
+            }
+            helperText={formik.touched.oldPassword && formik.errors.oldPassword}
+          />
+    
+            <TextField
+              fullWidth
+              size="small"
+              variant="outlined"
+              type="text"
+              name="newPassword"
+              id="newPassword"
+              label="Senha nova"
+              onChange={formik.handleChange}
+              value={formik.values.newPassword}
+              error={
+                formik.touched.newPassword && Boolean(formik.errors.newPassword)
+              }
+              helperText={
+                formik.touched.newPassword && formik.errors.newPassword
+              }
+            />
+            <TextField
+              fullWidth
+              size="small"
+              variant="outlined"
+              type="text"
+              name="confirmNewPassword"
+              id="confirmNewPassword"
+              label="Confirmar nova senha"
+              onChange={formik.handleChange}
+              value={formik.values.confirmNewPassword}
+              error={
+                formik.touched.confirmNewPassword &&
+                Boolean(formik.errors.confirmNewPassword)
+              }
+              helperText={
+                formik.touched.confirmNewPassword &&
+                formik.errors.confirmNewPassword
+              }
+            />
+     
+          <Button fullWidth type="submit" variant="contained" size="large">
+            Confirmar
+          </Button>
+        </ContainerForm>
       </form>
     </Container>
   );
