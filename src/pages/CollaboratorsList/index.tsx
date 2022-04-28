@@ -10,6 +10,8 @@ import { useMessage } from "../../context/MessageContext";
 import { Button } from "@mui/material";
 import { Container } from "./style";
 import { listCollaborators } from "../../services/Collaborators/listCollaborators";
+import { inactiveCollaborator } from "../../services/Collaborators/inactiveCollaborator";
+import { getCollaborator } from "../../services/Collaborators/getCollaborators";
 
 interface Collaborator {
   id: string;
@@ -62,11 +64,23 @@ const CollaboratorsList = () => {
   };
 
   const handleDeleteCollaborator = () => {
-    setMessage({
-      content: "Colaborador inativado com Sucesso",
-      display: true,
-      severity: "success",
-    });
+    userTobeDeleted &&
+      inactiveCollaborator(userTobeDeleted.id)
+        .then(() => {
+          setMessage({
+            content: "Colaborador inativado com sucesso!",
+            display: true,
+            severity: "success",
+          });
+          navigate("/listarColaboradores");
+        })
+        .catch((err: string) =>
+          setMessage({
+            content: `O seguinte erro ocorreu ao tentar inativar o colaborador: ${err}`,
+            display: true,
+            severity: "error",
+          })
+        );
   };
 
   useEffect(() => {

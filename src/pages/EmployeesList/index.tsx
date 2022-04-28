@@ -9,6 +9,7 @@ import ModalConfirmationHelper from "../../components/ModalConfirmationHelper";
 import { useMessage } from "../../context/MessageContext";
 import { Button } from "@mui/material";
 import { Container } from "./style";
+import { inactiveEmployee } from "../../services/Employees/inactiveEmployee";
 
 interface Employee {
   id: string;
@@ -32,7 +33,7 @@ const EmployeesList = () => {
   };
 
   const handleOpenModalDeleteConfirmation = (user: Employee) => {
-    setOpenDeleteConfirmationModal(true)
+    setOpenDeleteConfirmationModal(true);
     setUserTobeDeleted(user);
   };
   const handleCloseModalDeleteConfirmation = () => {
@@ -40,24 +41,36 @@ const EmployeesList = () => {
   };
 
   const handleDeleteEmployee = () => {
-    setMessage({
-      content: "Funcionário Inativado com Sucesso",
-      display: true,
-      severity: "success",
-    });
+    userTobeDeleted &&
+      inactiveEmployee(userTobeDeleted.id)
+        .then(() => {
+          setMessage({
+            content: "Funcionário inativado com sucesso!",
+            display: true,
+            severity: "success",
+          });
+          navigate("/listarFuncionarios");
+        })
+        .catch((err: string) =>
+          setMessage({
+            content: `O seguinte erro ocorreu ao tentar inativar o funcionário: ${err}`,
+            display: true,
+            severity: "error",
+          })
+        );
   };
 
   useEffect(() => {
     listEmployees()
       .then((response: any) => setEmployeesList(response.data))
-      .catch((error?) =>{
+      .catch((error?) => {
         setMessage({
           content: "Ocorreu um erro ao tentar carregar a tabela!",
           display: true,
           severity: "error",
         });
       });
-    },[]);
+  }, []);
 
   return (
     <Container>
@@ -89,7 +102,9 @@ const EmployeesList = () => {
                   </Tooltip>
                   <Tooltip title="Inativar">
                     <DeleteForeverIcon
-                      onClick={()=>{handleOpenModalDeleteConfirmation(employee)} }
+                      onClick={() => {
+                        handleOpenModalDeleteConfirmation(employee);
+                      }}
                       style={{
                         cursor: "pointer",
                         color: "red",
