@@ -44,7 +44,7 @@ const type = [
 ];
 
 const AddEditEmployee = () => {
-  const [editedEmployee, setEditedEmployee] = React.useState<IEmployee>();
+  const [editedCollaborator, setEditedCollaborator] = React.useState<IEmployee>();
   const location = useLocation();
   const { setMessage } = useMessage();
   const navigate = useNavigate();
@@ -54,7 +54,7 @@ const AddEditEmployee = () => {
     if (location.pathname == `/editarColaborador/${id}`) {
       getEmployee(id)
         .then((response: any) => {
-          setEditedEmployee(response.data);
+          setEditedCollaborator(response.data);
           console.log(response.data);
           formik.setValues({
             name: response.data.name,
@@ -74,9 +74,9 @@ const AddEditEmployee = () => {
   }, []);
 
   const CreateOrEditEmployee = (values: IEmployee) => {
-    if (location.pathname == `/editarColaborador/${id}` && editedEmployee) {
-      console.log(editedEmployee.id);
-      values.id = editedEmployee!.id;
+    if (location.pathname == `/editarColaborador/${id}` && editedCollaborator) {
+      console.log(editedCollaborator.id);
+      values.id = editedCollaborator!.id;
       editEmployees(values)
         .then(() => {
           setMessage({
@@ -115,18 +115,63 @@ const AddEditEmployee = () => {
 
   const validationSchema = object({
     name: string().required("O nome é obrigatório"),
-    email: string().email("Email inválido").required("E-mail obrigatório"),
-    type: string().required("O tipo de usuário é obrigatório"),
+    contract: string().required("contato inválido").required("Contato obrigatório"),
+    situation: string().required("O tipo da situacao e obrigatoria"),
+    start:string(),
+    admission:string(),
+    occupation:string(),
+    computer:string(),
+    payment:string(),
+    cost_center:string(),
+    MEI:string(),
+    hours:string(),
+    city:string(),
+    coordinator:string(),
+    contact:string(),
+    birth:string(),
+    CPF:string(),
+    identity:string(),
+    schooling:string(),
+    mother:string(),
+    sons:string(),
+    emergency_contact:string(),
+    responsible_emergency:string(),
+    address:string(),
+    email:string(),
+    status:string(),
+    equipment_id:string(),
+    
   });
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
       name: "",
-      email: "",
-      type: "",
-
-      id: null,
+      contract: "",
+      situation: "",
+      start:"",
+      admission:"",
+      occupation:"",
+      computer:"",
+      payment:"",
+      cost_center:"",
+      MEI:"",
+      hours:"",
+      city:"",
+      coordinator:"",
+      contact:"",
+      birth:"",
+      CPF:"",
+      identity:"",
+      schooling:"",
+      mother:"",
+      sons:"",
+      emergency_contact:"",
+      responsible_emergency:"",
+      address:"",
+      email:"",
+      status:"",
+      equipment_id:"",
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -139,9 +184,9 @@ const AddEditEmployee = () => {
       <ContainerForm>
         <form onSubmit={formik.handleSubmit}>
           {location.pathname == `/editarColaborador/${id}` ? (
-            <h2>Editar funcionário</h2>
+            <h2>Editar Colaborador</h2>
           ) : (
-            <h2>Cadastrar novo funcionário</h2>
+            <h2>Cadastrar novo Colaborador</h2>
           )}
           <GridForm>
             <TextField
@@ -149,7 +194,7 @@ const AddEditEmployee = () => {
               type="text"
               name="name"
               id="name"
-              label="Nome do funcionário"
+              label="Nome do Colaborador"
               onChange={formik.handleChange}
               value={formik.values.name}
               error={formik.touched.name && Boolean(formik.errors.name)}
@@ -186,7 +231,7 @@ const AddEditEmployee = () => {
           <ContainerButtons>
             <Button
               id="CancelButton"
-              onClick={() => navigate("/listarFuncionarios")}
+              onClick={() => navigate("/listarColaboradores")}
               type="reset"
               size="large"
             >
