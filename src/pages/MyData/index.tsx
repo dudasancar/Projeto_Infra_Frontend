@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Container, ContainerForm, DataDiv } from "./style";
+import { Container, ContainerForm} from "./style";
 import { useUser } from "../../context/UserContext";
 import jwt_decode from "jwt-decode";
 import { object, string } from "yup";
 import { useFormik } from "formik";
 import { useMessage } from "../../context/MessageContext";
 import { ChangeEmployeePassword } from "../../services/Employees/changeEmployeePassword";
-import { Form } from "formik";
+
 import { Button, TextField } from "@mui/material";
-import { Navigate } from "react-router-dom";
 
 interface IToken {
   exp: number;
@@ -26,19 +25,19 @@ interface IValues {
 const MyData = () => {
   const { user } = useUser();
   const { setMessage } = useMessage();
-
   const decryptToken: IToken = jwt_decode(user.token);
 
-  const sendChangePasswordRequest = async (values: IValues) => {
+  
+  const sendChangePasswordRequest = (values: IValues) => {
     ChangeEmployeePassword(values)
       .then(() => {
         setMessage({
-          content: `Senha alterada com sucesso!`,
+          content: "Senha alterada com sucesso!",
           display: true,
           severity: "success",
         });
       })
-      .catch((err) =>
+      .catch((err: string) =>
         setMessage({
           content: `O seguinte erro ocorreu: ${err}`,
           display: true,
@@ -68,6 +67,7 @@ const MyData = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
+      console.log(values);
       values.id = decryptToken.id;
       sendChangePasswordRequest(values);
     },
@@ -75,12 +75,11 @@ const MyData = () => {
 
   return (
     <Container>
-      <DataDiv>
+      <div>
         <h1>Dados da conta</h1>
-
         <p>Nome: {user.name}</p>
         <p>E-mail: {user.email}</p>
-      </DataDiv>
+      </div>
 
       <form onSubmit={formik.handleSubmit}>
         <ContainerForm>
@@ -100,44 +99,42 @@ const MyData = () => {
             }
             helperText={formik.touched.oldPassword && formik.errors.oldPassword}
           />
-    
-            <TextField
-              fullWidth
-              size="small"
-              variant="outlined"
-              type="text"
-              name="newPassword"
-              id="newPassword"
-              label="Senha nova"
-              onChange={formik.handleChange}
-              value={formik.values.newPassword}
-              error={
-                formik.touched.newPassword && Boolean(formik.errors.newPassword)
-              }
-              helperText={
-                formik.touched.newPassword && formik.errors.newPassword
-              }
-            />
-            <TextField
-              fullWidth
-              size="small"
-              variant="outlined"
-              type="text"
-              name="confirmNewPassword"
-              id="confirmNewPassword"
-              label="Confirmar nova senha"
-              onChange={formik.handleChange}
-              value={formik.values.confirmNewPassword}
-              error={
-                formik.touched.confirmNewPassword &&
-                Boolean(formik.errors.confirmNewPassword)
-              }
-              helperText={
-                formik.touched.confirmNewPassword &&
-                formik.errors.confirmNewPassword
-              }
-            />
-     
+
+          <TextField
+            fullWidth
+            size="small"
+            variant="outlined"
+            type="text"
+            name="newPassword"
+            id="newPassword"
+            label="Senha nova"
+            onChange={formik.handleChange}
+            value={formik.values.newPassword}
+            error={
+              formik.touched.newPassword && Boolean(formik.errors.newPassword)
+            }
+            helperText={formik.touched.newPassword && formik.errors.newPassword}
+          />
+          <TextField
+            fullWidth
+            size="small"
+            variant="outlined"
+            type="text"
+            name="confirmNewPassword"
+            id="confirmNewPassword"
+            label="Confirmar nova senha"
+            onChange={formik.handleChange}
+            value={formik.values.confirmNewPassword}
+            error={
+              formik.touched.confirmNewPassword &&
+              Boolean(formik.errors.confirmNewPassword)
+            }
+            helperText={
+              formik.touched.confirmNewPassword &&
+              formik.errors.confirmNewPassword
+            }
+          />
+
           <Button fullWidth type="submit" variant="contained" size="large">
             Confirmar
           </Button>

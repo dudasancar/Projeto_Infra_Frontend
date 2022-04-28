@@ -36,7 +36,7 @@ export const Container = styled.div`
   }
 `;
 
-export const DataDiv = styled.div``;
+
 
 export const ContainerForm = styled.div`
   display: flex;
