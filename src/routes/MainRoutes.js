@@ -11,7 +11,7 @@ import { useUser } from "../context/UserContext/index";
 import NoAccessHelper from "../components/NoAccessHelper";
 import Hardwares from "../pages/Hardwares";
 import CollaboratorsList from "../pages/CollaboratorsList";
-
+import SendEmail from "../pages/ForgotPassword/SendEmail";
 
 const MainRoutes = () => {
   const { user } = useUser();
@@ -31,6 +31,7 @@ const MainRoutes = () => {
       <GlobalStyle />
       <Routes>
         <Route path="/" element={<Login />} />
+        <Route path="/esqueciSenha" element={<SendEmail />} />
         <Route
           path="/listarFuncionarios"
           element={
