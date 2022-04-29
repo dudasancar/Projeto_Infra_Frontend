@@ -12,6 +12,7 @@ import NoAccessHelper from "../components/NoAccessHelper";
 import Hardwares from "../pages/Hardwares";
 import CollaboratorsList from "../pages/CollaboratorsList";
 import SendEmail from "../pages/ForgotPassword/SendEmail";
+import ChooseNewPassword from "../pages/ForgotPassword/ChooseNewPassword";
 
 const MainRoutes = () => {
   const { user } = useUser();
@@ -32,6 +33,7 @@ const MainRoutes = () => {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/esqueciSenha" element={<SendEmail />} />
+        <Route path="/escolherNovaSenha" element={<ChooseNewPassword />} />
         <Route
           path="/listarFuncionarios"
           element={

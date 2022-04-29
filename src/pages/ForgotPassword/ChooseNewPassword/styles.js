@@ -19,7 +19,7 @@ export const ContainerForm = styled.div`
   color: #3e4756;
   display: flex;
   flex-flow: column nowrap;
-  gap: 1.2rem;
+  
   @media (max-width: 1200px) {
     width: 420px;
   }
@@ -36,7 +36,7 @@ export const ContainerForm = styled.div`
   form {
     height: 100%;
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: column nowrap;
     gap: 1rem;
   }
 `;

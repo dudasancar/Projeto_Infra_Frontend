@@ -24,7 +24,7 @@ const Login = () => {
   const validationSchema = object({
     email: string().email("Email inválido").required("E-mail obrigatório"),
     password: string()
-      .min(6, "A senha deve possuír no mínimo 8 caracteres")
+      .min(6, "A senha deve possuír no mínimo 6 caracteres")
       .required("Senha obrigatória"),
   });
 
@@ -84,7 +84,7 @@ const Login = () => {
             error={formik.touched.password && Boolean(formik.errors.password)}
             helperText={formik.touched.password && formik.errors.password}
           />
-          <Link to="/">Esqueci minha senha</Link>
+          <Link to="/esqueciSenha">Esqueci minha senha</Link>
           <Button type="submit" variant="contained" fullWidth size="large">
             ENTRAR
           </Button>
