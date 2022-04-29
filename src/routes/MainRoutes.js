@@ -12,7 +12,6 @@ import NoAccessHelper from "../components/NoAccessHelper";
 import Hardwares from "../pages/Hardwares";
 import CollaboratorsList from "../pages/CollaboratorsList";
 
-
 const MainRoutes = () => {
   const { user } = useUser();
   const { message } = useMessage();
@@ -80,7 +79,14 @@ const MainRoutes = () => {
             </IdPrivateRoute>
           }
         />
-        <Route path="/cadastroEquipamentos" element={<Hardwares />} />
+        <Route
+          path="/cadastroEquipamento"
+          element={
+            <IdPrivateRoute>
+              <Hardwares />
+            </IdPrivateRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
