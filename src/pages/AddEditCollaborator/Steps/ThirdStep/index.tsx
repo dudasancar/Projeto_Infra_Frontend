@@ -39,6 +39,7 @@ export default function ThirdStep({formik}: IProps) {
         name="start"
         id="start"
         label="Data de Inicio"
+        InputLabelProps={{ shrink: true }}
         onChange={formik.handleChange}
         value={formik.values.start}
         error={formik.touched.start && Boolean(formik.errors.start)}
@@ -50,6 +51,7 @@ export default function ThirdStep({formik}: IProps) {
         name="admission"
         id="admission"
         label="Data de Admissão"
+        InputLabelProps={{ shrink: true }}
         onChange={formik.handleChange}
         value={formik.values.admission}
         error={formik.touched.admission && Boolean(formik.errors.admission)}
@@ -94,6 +96,7 @@ export default function ThirdStep({formik}: IProps) {
         name="hours"
         id="hours"
         label="Horas"
+        InputLabelProps={{ shrink: true }}
         onChange={formik.handleChange}
         value={formik.values.hours}
         error={formik.touched.hours && Boolean(formik.errors.hours)}

@@ -10,13 +10,13 @@ import { useMessage } from "../../context/MessageContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { ContainerForm } from "./Styles";
 import { useLocation } from "react-router-dom";
-import { editEmployees } from "../../services/Employees/editEmployees";
-import { addEmployees } from "../../services/Employees/addEmployees";
 import { initialValues, validationSchema} from './validation';
 import { ICollaborator } from "./interfaces";
 import FirstStep from "./Steps/FirstStep";
 import SecondStep from "./Steps/SecondStep";
 import ThirdStep from "./Steps/ThirdStep";
+import { editCollaborator } from "../../services/Collaborators/editCollaborator";
+import { addCollaborator } from "../../services/Collaborators/addCollaborator";
 
 
 const steps = ["Dados Pessoais", "Dados Profissionais", "Empresa"];
@@ -33,7 +33,7 @@ const CollaboratorFormStepper = () => {
   const { id } = useParams();
 
   const isStepOptional = (step: number) => {
-    return step === 1;
+    return step === 4;
   };
 
   const isStepSkipped = (step: number) => {
@@ -120,9 +120,7 @@ const CollaboratorFormStepper = () => {
       console.log(values)
     },
   });
-
-
-
+  
   return (
     <ContainerForm>
       <Stepper activeStep={activeStep}>

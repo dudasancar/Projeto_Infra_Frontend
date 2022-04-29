@@ -50,6 +50,7 @@ export default function FirstStep({formik}: IProps) {
         name="birth"
         id="birth"
         label="Data de Nascimento"
+        InputLabelProps={{ shrink: true }}
         onChange={formik.handleChange}
         value={formik.values.birth}
         error={formik.touched.birth && Boolean(formik.errors.birth)}
