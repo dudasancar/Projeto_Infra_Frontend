@@ -4,9 +4,12 @@ import React from "react";
 import { object, string } from "yup";
 import { Container, ContainerForm } from "./styles";
 import { useNavigate } from "react-router-dom";
+import { sendEmailRequest } from "../../../services/Employees/ForgotPassword/sendEmailRequest";
+import { useMessage } from "../../../context/MessageContext";
 
 const SendEmail = () => {
   const navigate = useNavigate();
+  const { setMessage } = useMessage();
   const validationSchema = object({
     email: string().email("Email inválido").required("E-mail obrigatório"),
   });
@@ -17,7 +20,22 @@ const SendEmail = () => {
     },
     validationSchema: validationSchema,
     onSubmit: async (values: { email: string }) => {
-      navigate("/escolherNovaSenha")
+      sendEmailRequest(values)
+        .then(() => {
+          setMessage({
+            content: "E-mail enviado com sucesso",
+            display: true,
+            severity: "success",
+          });
+           navigate("/");
+        })
+        .catch(() => {
+          setMessage({
+            content: "Ocorreu um erro ao enviar o e-mail",
+            display: true,
+            severity: "error",
+          });
+        });
     },
   });
 

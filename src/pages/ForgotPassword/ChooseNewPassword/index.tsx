@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { object, string } from "yup";
 import { useMessage } from "../../../context/MessageContext";
 import { useUser } from "../../../context/UserContext";
-import { forgotPassword } from "../../../services/Employees/forgotPassword";
+import { forgotPassword } from "../../../services/Employees/ForgotPassword/forgotPassword";
 import { Container, ContainerForm } from "./styles";
 
 const ChooseNewPassword = () => {
