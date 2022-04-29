@@ -36,7 +36,7 @@ const MenuNavigation = ({ children }: Props) => {
     <ContainerPage>
       <ContainerMenu>
         <nav>
-          <img src={`${logo}`} />
+          <img src={`${logo}`} title="logo" alt="Gx2" />
           <div>
             <Link
               to="/listarFuncionarios"
@@ -44,7 +44,10 @@ const MenuNavigation = ({ children }: Props) => {
             >
               <ManageAccountsIcon /> Funcionários
             </Link>
-            <Link to="/listarColaboradores" style={{ color: "#3e4756", textDecoration: "none" }}>
+            <Link
+              to="/listarColaboradores"
+              style={{ color: "#3e4756", textDecoration: "none" }}
+            >
               <PeopleAltIcon /> Colaboradores
             </Link>
 
@@ -77,7 +80,14 @@ const MenuNavigation = ({ children }: Props) => {
               "aria-labelledby": "user-info",
             }}
           >
-            <MenuItem onClick={handleClose}>Meus dados</MenuItem>
+            <MenuItem onClick={handleClose}>
+              <Link
+                to="/meusDados"
+                style={{ color: "#3e4756", textDecoration: "none" }}
+              >
+                Meus dados
+              </Link>
+            </MenuItem>
             <MenuItem onClick={handleLogOut}>
               <Link to="/" style={{ color: "#3e4756", textDecoration: "none" }}>
                 Sair
