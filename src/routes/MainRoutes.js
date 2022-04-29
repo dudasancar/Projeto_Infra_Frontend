@@ -32,7 +32,7 @@ const MainRoutes = () => {
       <GlobalStyle />
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/esqueciSenha" element={<SendEmail />} />
+        <Route path="/esqueciSenha/:token" element={<SendEmail />} />
         <Route path="/escolherNovaSenha" element={<ChooseNewPassword />} />
         <Route
           path="/listarFuncionarios"

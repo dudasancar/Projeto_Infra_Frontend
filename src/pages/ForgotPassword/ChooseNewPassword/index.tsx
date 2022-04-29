@@ -1,21 +1,23 @@
 import { Button, TextField } from "@mui/material";
 import { useFormik } from "formik";
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { object, string } from "yup";
 import { useMessage } from "../../../context/MessageContext";
+import { useUser } from "../../../context/UserContext";
 import { forgotPassword } from "../../../services/Employees/forgotPassword";
 import { Container, ContainerForm } from "./styles";
 
 const ChooseNewPassword = () => {
   const { setMessage } = useMessage();
+  const { token } = useParams();
   const navigate = useNavigate();
-  
+
   const setNewPassword = (values: {
     password: string;
     confirmPassword: string;
   }) => {
-    forgotPassword(values)
+    forgotPassword(values, token)
       .then(() => {
         setMessage({
           content: "Senha alterada com sucesso",
