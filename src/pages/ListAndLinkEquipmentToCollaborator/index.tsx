@@ -41,10 +41,13 @@ const ListAndLinkEquipmentToCollaborator = () => {
   return (
     <Container>
       <AddEquipmentContainer>
+        <h1>Vincular novo equipamento ao colaborador</h1>
         <form>
-          <TextField />
+          <TextField size="small" />
 
-          <Button></Button>
+          <Button variant="contained" type="submit" value="SALVAR" >
+            VINCULAR
+          </Button>
         </form>
       </AddEquipmentContainer>
 
@@ -61,7 +64,6 @@ const ListAndLinkEquipmentToCollaborator = () => {
               render: (equipment: IEquipment) => (
                 <Tooltip title="Inativar">
                   <DeleteForeverIcon
-                   
                     style={{
                       cursor: "pointer",
                       color: "red",

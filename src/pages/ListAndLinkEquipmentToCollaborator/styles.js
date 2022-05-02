@@ -1,5 +1,37 @@
-import styled  from "styled-components";
+import styled from "styled-components";
 
-export const Container = styled.section``;
+export const Container = styled.section`
+  width: 80%;
+  margin: 40px auto;
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 20px;
+`;
 
-export const AddEquipmentContainer = styled.div``;
+export const AddEquipmentContainer = styled.div`
+  width: 100%;
+  box-sizing: border-box;
+  background-color: white;
+  border: solid thin #e6e6e6;
+  padding: 2rem;
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 1rem;
+
+  h1 {
+    font-size: 1.5rem;
+    margin: 0;
+    padding: 0;
+    color: #3e4756;
+  }
+
+  form {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    button {
+      padding: 7.5px 20px;
+    }
+  }
+`;
