@@ -27,11 +27,12 @@ export const AddEquipmentContainer = styled.div`
 
   form {
     display: flex;
-    align-items: center;
+
     gap: 1rem;
 
-    button {
-      padding: 7.5px 20px;
+    div {
+      width: 180px;
     }
+
   }
 `;

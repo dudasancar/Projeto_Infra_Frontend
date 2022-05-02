@@ -1,4 +1,4 @@
-import { Button, TextField, Tooltip } from "@mui/material";
+import { Button, MenuItem, TextField, Tooltip } from "@mui/material";
 import MaterialTable from "material-table";
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -6,6 +6,9 @@ import { useMessage } from "../../context/MessageContext";
 import { getCollaborator } from "../../services/Collaborators/getCollaborator";
 import { AddEquipmentContainer, Container } from "./styles";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { useFormik } from "formik";
+import { equipament } from "../Hardwares/helper";
+import { listEquipments } from "../../services/Equipments/ListEquipments";
 
 interface IEquipment {
   id: string;
@@ -16,44 +19,85 @@ interface IEquipment {
   stituation: string;
   status: string;
   created_at: Date;
-  collaborator: {};
+  collaborator_id: string;
 }
 
 const ListAndLinkEquipmentToCollaborator = () => {
   const { id } = useParams();
   const { setMessage } = useMessage();
-  const [equipments, setEquipments] = React.useState();
+  const [otherEquipments, setOtherEquipments] = React.useState<
+    IEquipment[] | null
+  >();
+  const [collaboratorEquipments, setCollaboratorEquipments] = React.useState<
+    IEquipment[] | null
+  >();
 
   useEffect(() => {
     getCollaborator(id)
       .then((response: any) => {
-        setEquipments(response.data.equipments);
+      setCollaboratorEquipments(response.data.equipments)
       })
       .catch((err) =>
         setMessage({
           content: `O seguinte erro ocorreu ao buscar os equipamentos vinculados: ${err}`,
           display: true,
           severity: "error",
-        })
+        })   
       );
+
+      listEquipments()
+        .then((response: any) => {
+         setOtherEquipments(response.data);
+        })
+        .catch((err) =>
+          setMessage({
+            content: `O seguinte erro ocorreu ao buscar os equipamentos vinculados: ${err}`,
+            display: true,
+            severity: "error",
+          })
+        );
   }, []);
+
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      equipment: "",
+    },
+    onSubmit: (values) => {},
+  });
 
   return (
     <Container>
       <AddEquipmentContainer>
         <h1>Vincular novo equipamento ao colaborador</h1>
         <form>
-          <TextField size="small" />
+          <TextField
+            id="equipment"
+            size="small"
+            select
+            name="equipment"
+            label="Equipamento"
+            variant="outlined"
+            InputLabelProps={{ shrink: true }}
+            value={formik.values.equipment}
+            onChange={formik.handleChange}
+          >
+            {otherEquipments?.map((equipment) => (
+              <MenuItem key={equipment.name} value={equipment.name}>
+                {equipment.name}
+              </MenuItem>
+            ))}
+          </TextField>
 
-          <Button variant="contained" type="submit" value="SALVAR" >
+          <Button variant="contained" type="submit" value="SALVAR">
             VINCULAR
           </Button>
         </form>
       </AddEquipmentContainer>
 
-      {equipments && (
+      {collaboratorEquipments && (
         <MaterialTable
-          data={equipments}
+          data={collaboratorEquipments}
           title="Lista de Equipmanetos"
           columns={[
             { title: "Nome", field: "name" },
@@ -88,6 +132,7 @@ const ListAndLinkEquipmentToCollaborator = () => {
           }}
         />
       )}
+      <h3>{id}</h3>
     </Container>
   );
 };
