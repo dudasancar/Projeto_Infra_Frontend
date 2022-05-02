@@ -1,5 +1,5 @@
 import React from "react";
-import { TextField } from "@mui/material";
+import { MenuItem, TextField } from "@mui/material";
 import { FormikProps } from "formik";
 import { ICollaborator } from "../../interfaces"
 import { GridForm } from "../../Styles";
@@ -7,6 +7,21 @@ import { GridForm } from "../../Styles";
 interface IProps{
     formik: FormikProps<ICollaborator>
 }
+
+const status = [
+  {
+    value: "ativo",
+    label: "Ativo",
+  },
+  {
+    value: "inativo",
+    label: "Inativo",
+  },
+];
+
+
+
+
 export default function ThirdStep({formik}: IProps) {
 
   return (
@@ -116,6 +131,7 @@ export default function ThirdStep({formik}: IProps) {
       <TextField
         variant="outlined"
         type="text"
+        select
         name="status"
         id="status"
         label="Status"
@@ -123,7 +139,13 @@ export default function ThirdStep({formik}: IProps) {
         value={formik.values.status}
         error={formik.touched.status && Boolean(formik.errors.status)}
         helperText={formik.touched.status && formik.errors.status}
-      />
+        >
+        {status.map((stat) => (
+          <MenuItem key={stat.value} value={stat.value}>
+            {stat.label}
+          </MenuItem>
+        ))}
+      </TextField>
       <TextField
         variant="outlined"
         type="text"

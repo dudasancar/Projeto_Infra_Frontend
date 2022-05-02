@@ -1,18 +1,10 @@
 import api from "../api";
+import { ICollaborator } from "../../pages/AddEditCollaborator/interfaces"
 
-export const addCollaborator = async (
-  name: string,
-  email: string,
-  type: string,
-) => {
+export const addCollaborator = async (values: ICollaborator) => {
   try {
-    api.post(`collaborator`, {
-      name: name,
-      email: email,
-      type: type,
-      password: "12345678",
-      status: "ativo",
-    });
+    api.post(`collaborator`, values
+    );
   } catch (error) {
     return Promise.reject(error);
   }

@@ -17,9 +17,10 @@ import SecondStep from "./Steps/SecondStep";
 import ThirdStep from "./Steps/ThirdStep";
 import { editCollaborator } from "../../services/Collaborators/editCollaborator";
 import { addCollaborator } from "../../services/Collaborators/addCollaborator";
+import { getCollaborator } from "../../services/Collaborators/getCollaborator";
 
 
-const steps = ["Dados Pessoais", "Dados Profissionais", "Empresa"];
+const steps = ["Dados Pessoais", "Dados Profissionais", "Empresa", "Enviar"];
 
 const CollaboratorFormStepper = () => {
 
@@ -72,10 +73,27 @@ const CollaboratorFormStepper = () => {
     setActiveStep(0);
   };
 
+  React.useEffect(() => {
+    alert("Entrei aqui nesse useEfect")
+    if (location.pathname == `/editarColaborador/${id}`) {
+      getCollaborator(id)
+        .then((response: any) => {
+          setEditedCollaborator(response.data);
+          console.log(response.data);
+          formik.setValues(response.data);
+        })
+        .catch((err) =>
+          setMessage({
+            content: `O seguinte erro ocorreu ao buscar os dados do usuário: ${err}`,
+            display: true,
+            severity: "error",
+          })
+        );
+    }
+  }, []);
+
   const CreateOrEditCollaborator = (values: ICollaborator) => {
-    if (location.pathname == `/editarColaborador/${id}` && editedCollaborator) {
-      console.log(editedCollaborator.name);
-      values.name = editedCollaborator!.name;
+    if (location.pathname == `/editarColaborador/${id}` && editedCollaborator){
       editCollaborator(values)
         .then(() => {
           setMessage({
@@ -100,7 +118,7 @@ const CollaboratorFormStepper = () => {
             display: true,
             severity: "success",
           });
-          navigate("/listarColaborador");
+          navigate("/listarColaboradores");
         })
         .catch((err: string) =>
           setMessage({
@@ -117,6 +135,7 @@ const CollaboratorFormStepper = () => {
     initialValues,
     validationSchema,
     onSubmit: (values) => {
+      CreateOrEditCollaborator(values)
       console.log(values)
     },
   });
@@ -165,6 +184,7 @@ const CollaboratorFormStepper = () => {
           {activeStep == 0 && <FirstStep formik={formik}/>}
           {activeStep == 1 && <SecondStep formik={formik}/>}
           {activeStep == 2 && <ThirdStep formik={formik}/>}
+          {activeStep == 3 && <Button type="submit">Enviar</Button>}
 
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Button
@@ -181,13 +201,10 @@ const CollaboratorFormStepper = () => {
                 Pular
               </Button>
             )}
-            {activeStep === steps.length - 1 ? <Button type="submit">
-             Enviar
-            </Button>
-            :
             <Button onClick={handleNext}>
              Próximo
-            </Button>}
+            </Button>
+          
           </Box>
           </form>
         </div>

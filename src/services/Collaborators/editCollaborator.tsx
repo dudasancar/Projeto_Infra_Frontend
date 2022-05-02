@@ -1,19 +1,9 @@
 import api from "../api";
+import { ICollaborator } from "../../pages/AddEditCollaborator/interfaces";
 
-interface IEmployee {
-  name: string;
-  email: string;
-  type: string;
-  id?: string | null;
-}
-
-export const editCollaborator = async ({ email, name, type, id }: IEmployee) => {
+export const editCollaborator = async (values: ICollaborator) => {
   try {
-    api.put(`employee/${id}`, {
-      name,
-      email,
-      type,
-    });
+    api.put(`collaborator/${values.id}`, values);
   } catch (error) {
     return Promise.reject(error);
   }

@@ -1,4 +1,5 @@
 interface ICollaborator {
+    id: string;
     name: string;
     contract: string;
     situation: string;
@@ -14,7 +15,7 @@ interface ICollaborator {
     coordinator: string;
     contact: string;
     birth: string;
-    CPF: string;
+    CPF: any;
     identity: string;
     schooling: string;
     mother: string;

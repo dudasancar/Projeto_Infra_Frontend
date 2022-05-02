@@ -1,14 +1,33 @@
 import React from "react";
-import { TextField } from "@mui/material";
+import { MenuItem, TextField } from "@mui/material";
 import { FormikProps } from "formik";
-import { ICollaborator } from "../../interfaces"
+import { ICollaborator } from "../../interfaces";
 import { GridForm } from "../../Styles";
 
-interface IProps{
-    formik: FormikProps<ICollaborator>
+interface IProps {
+  formik: FormikProps<ICollaborator>;
 }
-export default function FirstStep({formik}: IProps) {
 
+const sons = [
+  {
+    value: "não",
+    label: "Não",
+  },
+  {
+    value: "1 ou mais",
+    label: "1 ou Mais",
+  },
+  {
+    value: "3 ou mais",
+    label: "3 ou Mais",
+  },
+  {
+    value: "5 ou mais",
+    label: "5 ou Mais",
+  },
+];
+
+export default function FirstStep({ formik }: IProps) {
   return (
     <GridForm>
       <TextField
@@ -44,7 +63,7 @@ export default function FirstStep({formik}: IProps) {
         error={formik.touched.contact && Boolean(formik.errors.contact)}
         helperText={formik.touched.contact && formik.errors.contact}
       />
-       <TextField
+      <TextField
         variant="outlined"
         type="date"
         name="birth"
@@ -91,7 +110,7 @@ export default function FirstStep({formik}: IProps) {
       />
       <TextField
         variant="outlined"
-        type="text"
+        select
         name="sons"
         id="sons"
         label="Possui Filhos?"
@@ -99,7 +118,13 @@ export default function FirstStep({formik}: IProps) {
         value={formik.values.sons}
         error={formik.touched.sons && Boolean(formik.errors.sons)}
         helperText={formik.touched.sons && formik.errors.sons}
-      />
+        >
+        {sons.map((son) => (
+          <MenuItem key={son.value} value={son.value}>
+            {son.label}
+          </MenuItem>
+        ))}
+      </TextField>
       <TextField
         variant="outlined"
         type="text"
@@ -108,8 +133,13 @@ export default function FirstStep({formik}: IProps) {
         label="Contato de Emergencia"
         onChange={formik.handleChange}
         value={formik.values.emergency_contact}
-        error={formik.touched.emergency_contact && Boolean(formik.errors.emergency_contact)}
-        helperText={formik.touched.emergency_contact && formik.errors.emergency_contact}
+        error={
+          formik.touched.emergency_contact &&
+          Boolean(formik.errors.emergency_contact)
+        }
+        helperText={
+          formik.touched.emergency_contact && formik.errors.emergency_contact
+        }
       />
       <TextField
         variant="outlined"
@@ -119,8 +149,14 @@ export default function FirstStep({formik}: IProps) {
         label="Nome do Contato de Emergencia"
         onChange={formik.handleChange}
         value={formik.values.responsible_emergency}
-        error={formik.touched.responsible_emergency && Boolean(formik.errors.responsible_emergency)}
-        helperText={formik.touched.responsible_emergency && formik.errors.responsible_emergency}
+        error={
+          formik.touched.responsible_emergency &&
+          Boolean(formik.errors.responsible_emergency)
+        }
+        helperText={
+          formik.touched.responsible_emergency &&
+          formik.errors.responsible_emergency
+        }
       />
       <TextField
         variant="outlined"
