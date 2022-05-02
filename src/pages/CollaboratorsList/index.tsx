@@ -53,7 +53,7 @@ const CollaboratorsList = () => {
     navigate(`/editarColaborador/${id}`);
   };
   const handleClickLinkedEquipments = (id: string) => {
-    navigate(`/listarEquipmanetoVinculado/${id}`);
+    navigate(`/listarEquipamentosVinculados/${id}`);
   };
 
   const handleOpenModalDeleteConfirmation = (user: Collaborator) => {

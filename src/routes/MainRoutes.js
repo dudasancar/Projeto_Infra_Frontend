@@ -11,6 +11,7 @@ import { useUser } from "../context/UserContext/index";
 import NoAccessHelper from "../components/NoAccessHelper";
 import Hardwares from "../pages/Hardwares";
 import CollaboratorsList from "../pages/CollaboratorsList";
+import ListAndLinkEquipmentToCollaborator from "../pages/ListAndLinkEquipmentToCollaborator";
 
 
 const MainRoutes = () => {
@@ -44,6 +45,14 @@ const MainRoutes = () => {
           element={
             <IdPrivateRoute>
               <CollaboratorsList />
+            </IdPrivateRoute>
+          }
+        />
+        <Route
+          path="/listarEquipamentosVinculados"
+          element={
+            <IdPrivateRoute>
+              <ListAndLinkEquipmentToCollaborator />
             </IdPrivateRoute>
           }
         />
