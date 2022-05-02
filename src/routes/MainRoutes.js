@@ -13,7 +13,6 @@ import Hardwares from "../pages/Hardwares";
 import CollaboratorsList from "../pages/CollaboratorsList";
 import ListAndLinkEquipmentToCollaborator from "../pages/ListAndLinkEquipmentToCollaborator";
 
-
 const MainRoutes = () => {
   const { user } = useUser();
   const { message } = useMessage();
@@ -49,7 +48,7 @@ const MainRoutes = () => {
           }
         />
         <Route
-          path="/listarEquipamentosVinculados"
+          path="/listarEquipamentosVinculados/:id"
           element={
             <IdPrivateRoute>
               <ListAndLinkEquipmentToCollaborator />
