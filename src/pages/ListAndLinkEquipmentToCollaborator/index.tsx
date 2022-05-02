@@ -18,7 +18,7 @@ const ListAndLinkEquipmentToCollaborator = () => {
       })
       .catch((err) =>
         setMessage({
-          content: `O seguinte erro ocorreu ao buscar os dados do usuário: ${err}`,
+          content: `O seguinte erro ocorreu ao buscar os equipamentos vinculados: ${err}`,
           display: true,
           severity: "error",
         })
