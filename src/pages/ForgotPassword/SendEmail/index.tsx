@@ -10,6 +10,26 @@ import { useMessage } from "../../../context/MessageContext";
 const SendEmail = () => {
   const navigate = useNavigate();
   const { setMessage } = useMessage();
+
+  const handleSendEmail = (values: { email: string }) => {
+    sendEmailRequest(values)
+      .then(() => {
+        setMessage({
+          content: "E-mail enviado com sucesso",
+          display: true,
+          severity: "success",
+        });
+        navigate("/");
+      })
+      .catch(() => {
+        setMessage({
+          content: "Ocorreu um erro ao enviar o e-mail",
+          display: true,
+          severity: "error",
+        });
+      });
+  };
+
   const validationSchema = object({
     email: string().email("Email inválido").required("E-mail obrigatório"),
   });
@@ -20,22 +40,7 @@ const SendEmail = () => {
     },
     validationSchema: validationSchema,
     onSubmit: async (values: { email: string }) => {
-      sendEmailRequest(values)
-        .then(() => {
-          setMessage({
-            content: "E-mail enviado com sucesso",
-            display: true,
-            severity: "success",
-          });
-           navigate("/");
-        })
-        .catch(() => {
-          setMessage({
-            content: "Ocorreu um erro ao enviar o e-mail",
-            display: true,
-            severity: "error",
-          });
-        });
+      handleSendEmail(values);
     },
   });
 
