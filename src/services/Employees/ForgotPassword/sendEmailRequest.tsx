@@ -1,12 +1,10 @@
 import api from "../../api";
 
-interface Iemail {
-  email: string
-}
-
-export const sendEmailRequest = async ({ email }: Iemail) => {
+export const sendEmailRequest = async (email: string) => {
   try {
-    return Promise.resolve;
+    api.post(`employee/forgotPassword`, {
+      email: email,
+    });
   } catch (error) {
     return Promise.reject(error);
   }

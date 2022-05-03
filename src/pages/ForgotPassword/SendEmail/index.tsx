@@ -15,7 +15,7 @@ const SendEmail = () => {
   const [emailToShow, setEmailToShow] = React.useState<string>();
 
   const handleSendEmail = (values: { email: string }) => {
-    sendEmailRequest(values)
+    sendEmailRequest(values.email)
       .then(() => {
         setMessage({
           content: "E-mail enviado com sucesso",
