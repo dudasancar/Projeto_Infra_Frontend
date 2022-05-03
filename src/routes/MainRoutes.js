@@ -11,7 +11,7 @@ import { useUser } from "../context/UserContext/index";
 import NoAccessHelper from "../components/NoAccessHelper";
 import Hardwares from "../pages/Hardwares";
 import CollaboratorsList from "../pages/CollaboratorsList";
-import MyData from "../pages/MyData";
+import ChangePassword from "../pages/ChangePassword";
 
 const MainRoutes = () => {
   const { user } = useUser();
@@ -36,7 +36,7 @@ const MainRoutes = () => {
           path="/meusDados"
           element={
             <IdPrivateRoute>
-              <MyData />
+              <ChangePassword />
             </IdPrivateRoute>
           }
         />

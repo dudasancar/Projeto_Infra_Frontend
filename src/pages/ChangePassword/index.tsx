@@ -22,7 +22,7 @@ interface IValues {
   id: string;
 }
 
-const MyData = () => {
+const ChangePassword = () => {
   const { user } = useUser();
   const { setMessage } = useMessage();
   const decryptToken: IToken = jwt_decode(user.token);
@@ -144,4 +144,4 @@ const MyData = () => {
   );
 };
 
-export default MyData;
+export default ChangePassword;
