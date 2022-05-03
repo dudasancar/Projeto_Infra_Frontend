@@ -20,53 +20,26 @@ import { addCollaborator } from "../../services/Collaborators/addCollaborator";
 import { getCollaborator } from "../../services/Collaborators/getCollaborator";
 
 
-const steps = ["Dados Pessoais", "Dados Profissionais", "Empresa", "Enviar"];
+const steps = ["Dados Pessoais", "Dados Profissionais", "Empresa"];
 
 const CollaboratorFormStepper = () => {
 
   const [editedCollaborator, setEditedCollaborator] = React.useState<ICollaborator>();
   const { setMessage } = useMessage();
   const [activeStep, setActiveStep] = React.useState(0);
-  const [skipped, setSkipped] = React.useState(new Set<number>());
   const navigate = useNavigate();
   const location = useLocation();
 
   const { id } = useParams();
 
-  const isStepOptional = (step: number) => {
-    return step === 4;
-  };
-
-  const isStepSkipped = (step: number) => {
-    return skipped.has(step);
-  };
-
   const handleNext = () => {
-    let newSkipped = skipped;
-    if (isStepSkipped(activeStep)) {
-      newSkipped = new Set(newSkipped.values());
-      newSkipped.delete(activeStep);
-    }
-
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped(newSkipped);
+    console.log('aqui no next')
+    if(activeStep < 2)
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleSkip = () => {
-    if (!isStepOptional(activeStep)) {
-      throw new Error("You can't skip a step that isn't optional.");
-    }
-
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped((prevSkipped) => {
-      const newSkipped = new Set(prevSkipped.values());
-      newSkipped.add(activeStep);
-      return newSkipped;
-    });
   };
 
   const handleReset = () => {
@@ -74,7 +47,6 @@ const CollaboratorFormStepper = () => {
   };
 
   React.useEffect(() => {
-    alert("Entrei aqui nesse useEfect")
     if (location.pathname == `/editarColaborador/${id}`) {
       getCollaborator(id)
         .then((response: any) => {
@@ -92,23 +64,27 @@ const CollaboratorFormStepper = () => {
     }
   }, []);
 
-  const CreateOrEditCollaborator = (values: ICollaborator) => {
+  const CreateOrEditCollaborator = async (values: ICollaborator) => {
     if (location.pathname == `/editarColaborador/${id}` && editedCollaborator){
-      editCollaborator(values)
-        .then(() => {
-          setMessage({
+      
+      await editCollaborator(values)
+        .then((response:any) => {
+          if(response) setMessage({
             content: "Colaborador editado com sucesso!",
             display: true,
             severity: "success",
           });
           navigate("/listarColaboradores");
         })
-        .catch((err: string) =>
+        .catch((err: string) =>{
+          console.log(err)
           setMessage({
             content: `O seguinte erro ocorreu ao tentar editar o Colaborador: ${err}`,
             display: true,
             severity: "error",
           })
+        }
+
         );
     } else {
       addCollaborator(values)
@@ -135,6 +111,7 @@ const CollaboratorFormStepper = () => {
     initialValues,
     validationSchema,
     onSubmit: (values) => {
+      console.log(formik.errors)
       CreateOrEditCollaborator(values)
       console.log(values)
     },
@@ -148,14 +125,7 @@ const CollaboratorFormStepper = () => {
           const labelProps: {
             optional?: React.ReactNode;
           } = {};
-          if (isStepOptional(index)) {
-            labelProps.optional = (
-              <Typography variant="caption">Optional</Typography>
-            );
-          }
-          if (isStepSkipped(index)) {
-            stepProps.completed = false;
-          }
+         
           return (
             <Step key={label} {...stepProps}>
               <StepLabel {...labelProps}>{label}</StepLabel>
@@ -175,7 +145,11 @@ const CollaboratorFormStepper = () => {
         </React.Fragment>
       ) : (
         <div>
-          <form onSubmit={formik.handleSubmit}>
+          <form onSubmit={(e)=> {
+            e.preventDefault()
+              console.log('aqui');
+            formik.handleSubmit()
+            return false}}>
           {location.pathname == `/editarColaborador/${id}` ? (
             <h2>Editar Colaborador</h2>
           ) : (
@@ -184,7 +158,6 @@ const CollaboratorFormStepper = () => {
           {activeStep == 0 && <FirstStep formik={formik}/>}
           {activeStep == 1 && <SecondStep formik={formik}/>}
           {activeStep == 2 && <ThirdStep formik={formik}/>}
-          {activeStep == 3 && <Button type="submit">Enviar</Button>}
 
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Button
@@ -196,15 +169,15 @@ const CollaboratorFormStepper = () => {
               Voltar
             </Button>
             <Box sx={{ flex: "1 1 auto" }} />
-            {isStepOptional(activeStep) && (
-              <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                Pular
-              </Button>
-            )}
-            <Button onClick={handleNext}>
-             Próximo
+            {activeStep === steps.length - 1 ?
+            <Button type="submit">
+              Enviar
             </Button>
-          
+            :
+            <button type="button" onClick={handleNext}>
+              Próximo
+            </button>
+            }
           </Box>
           </form>
         </div>

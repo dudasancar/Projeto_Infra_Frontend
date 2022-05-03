@@ -27,7 +27,9 @@ const sons = [
   },
 ];
 
+
 export default function FirstStep({ formik }: IProps) {
+
   return (
     <GridForm>
       <TextField
@@ -71,7 +73,7 @@ export default function FirstStep({ formik }: IProps) {
         label="Data de Nascimento"
         InputLabelProps={{ shrink: true }}
         onChange={formik.handleChange}
-        value={formik.values.birth}
+        value={formik.values.birth?.split('T')[0]}
         error={formik.touched.birth && Boolean(formik.errors.birth)}
         helperText={formik.touched.birth && formik.errors.birth}
       />
