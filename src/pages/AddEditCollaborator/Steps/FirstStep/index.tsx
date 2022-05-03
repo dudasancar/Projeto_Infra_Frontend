@@ -56,7 +56,7 @@ export default function FirstStep({ formik }: IProps) {
       />
       <TextField
         variant="outlined"
-        type="text"
+        type="number"
         name="contact"
         id="contact"
         label="Telefone para Contato"
@@ -79,7 +79,7 @@ export default function FirstStep({ formik }: IProps) {
       />
       <TextField
         variant="outlined"
-        type="text"
+        type="number"
         name="CPF"
         id="CPF"
         label="CPF"
@@ -90,7 +90,7 @@ export default function FirstStep({ formik }: IProps) {
       />
       <TextField
         variant="outlined"
-        type="text"
+        type="number"
         name="identity"
         id="identity"
         label="RG"
@@ -129,7 +129,7 @@ export default function FirstStep({ formik }: IProps) {
       </TextField>
       <TextField
         variant="outlined"
-        type="text"
+        type="number"
         name="emergency_contact"
         id="emergency_contact"
         label="Contato de Emergencia"

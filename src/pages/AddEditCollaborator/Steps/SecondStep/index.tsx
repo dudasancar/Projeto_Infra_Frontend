@@ -49,7 +49,7 @@ export default function SecondStep({formik}: IProps) {
       />
       <TextField
         variant="outlined"
-        type="text"
+        type="number"
         name="MEI"
         id="MEI"
         label="MEI"

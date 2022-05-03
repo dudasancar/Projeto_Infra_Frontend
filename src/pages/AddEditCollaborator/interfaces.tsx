@@ -15,7 +15,7 @@ interface ICollaborator {
     coordinator: string;
     contact: string;
     birth: string;
-    CPF: any;
+    CPF: string;
     identity: string;
     schooling: string;
     mother: string;

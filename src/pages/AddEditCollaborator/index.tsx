@@ -51,7 +51,6 @@ const CollaboratorFormStepper = () => {
       getCollaborator(id)
         .then((response: any) => {
           setEditedCollaborator(response.data);
-          console.log(response.data);
           formik.setValues(response.data);
         })
         .catch((err) =>
@@ -77,7 +76,6 @@ const CollaboratorFormStepper = () => {
           navigate("/listarColaboradores");
         })
         .catch((err: string) =>{
-          console.log(err)
           setMessage({
             content: `O seguinte erro ocorreu ao tentar editar o Colaborador: ${err}`,
             display: true,
@@ -111,9 +109,7 @@ const CollaboratorFormStepper = () => {
     initialValues,
     validationSchema,
     onSubmit: (values) => {
-      console.log(formik.errors)
       CreateOrEditCollaborator(values)
-      console.log(values)
     },
   });
   

@@ -56,7 +56,7 @@ export default function ThirdStep({formik}: IProps) {
         label="Data de Inicio"
         InputLabelProps={{ shrink: true }}
         onChange={formik.handleChange}
-        value={formik.values.start}
+        value={formik.values.start?.split('T')[0]}
         error={formik.touched.start && Boolean(formik.errors.start)}
         helperText={formik.touched.start && formik.errors.start}
       />
@@ -85,7 +85,7 @@ export default function ThirdStep({formik}: IProps) {
       />
       <TextField
         variant="outlined"
-        type="text"
+        type="number"
         name="payment"
         id="payment"
         label="Salário"
@@ -96,7 +96,7 @@ export default function ThirdStep({formik}: IProps) {
       />
       <TextField
         variant="outlined"
-        type="text"
+        type="number"
         name="cost_center"
         id="cost_center"
         label="Centro de Custo"
