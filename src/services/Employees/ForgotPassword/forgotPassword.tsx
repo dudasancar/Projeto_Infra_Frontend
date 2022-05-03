@@ -1,16 +1,22 @@
 import api from "../../api";
-
-interface ForgotPassword {
-  password: string;
-  confirmPassword: string ;
+interface IValues {
+  oldPassword: string;
+  newPassword: string;
+  confirmNewPassword: string;
+  id: string;
 }
-
-export const forgotPassword = async (
-  { password, confirmPassword }: ForgotPassword,
-  token: string | undefined
-) => {
+export const ChangeEmployeePassword = ({
+  oldPassword,
+  newPassword,
+  confirmNewPassword,
+  id,
+}: IValues) => {
   try {
-    return Promise.resolve;
+    return api.put(`/employee/changePassword/${id}`, {
+      oldPassword,
+      newPassword,
+      confirmNewPassword,
+    });
   } catch (error) {
     return Promise.reject(error);
   }

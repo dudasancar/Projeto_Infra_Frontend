@@ -4,8 +4,7 @@ import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { object, string } from "yup";
 import { useMessage } from "../../../context/MessageContext";
-import { useUser } from "../../../context/UserContext";
-import { forgotPassword } from "../../../services/Employees/ForgotPassword/forgotPassword";
+import { ChangeEmployeePassword } from "../../../services/Employees/ForgotPassword/forgotPassword";
 import { Container, ContainerForm } from "./styles";
 
 const ChooseNewPassword = () => {
@@ -17,7 +16,7 @@ const ChooseNewPassword = () => {
     password: string;
     confirmPassword: string;
   }) => {
-    forgotPassword(values, token)
+    ChangeEmployeePassword(values, token)
       .then(() => {
         setMessage({
           content: "Senha alterada com sucesso",
