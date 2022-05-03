@@ -35,27 +35,27 @@ const ListAndLinkEquipmentToCollaborator = () => {
   useEffect(() => {
     getCollaborator(id)
       .then((response: any) => {
-      setCollaboratorEquipments(response.data.equipments)
+        setCollaboratorEquipments(response.data.equipments);
       })
       .catch((err) =>
         setMessage({
           content: `O seguinte erro ocorreu ao buscar os equipamentos vinculados: ${err}`,
           display: true,
           severity: "error",
-        })   
+        })
       );
 
-      listEquipments()
-        .then((response: any) => {
-         setOtherEquipments(response.data);
+    listEquipments()
+      .then((response: any) => {
+        setOtherEquipments(response.data);
+      })
+      .catch((err) =>
+        setMessage({
+          content: `O seguinte erro ocorreu ao buscar os equipamentos vinculados: ${err}`,
+          display: true,
+          severity: "error",
         })
-        .catch((err) =>
-          setMessage({
-            content: `O seguinte erro ocorreu ao buscar os equipamentos vinculados: ${err}`,
-            display: true,
-            severity: "error",
-          })
-        );
+      );
   }, []);
 
   const formik = useFormik({
