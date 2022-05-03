@@ -56,8 +56,8 @@ const SendEmail = () => {
         <ContainerForm>
           <h1>Esqueceu sua senha?</h1>
           <p>
-            Digite o seu e-mail cadastrado para que possamos enviar uma mensagem
-            de recuperação
+            Digite o seu e-mail cadastrado para que possamos enviar um link para
+            recuperação da senha
           </p>
           <form onSubmit={formik.handleSubmit}>
             <TextField
