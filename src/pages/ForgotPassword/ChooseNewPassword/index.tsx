@@ -1,57 +1,23 @@
 import { Button, TextField } from "@mui/material";
 import { useFormik } from "formik";
-import React, { useEffect } from "react";
+import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { object, string } from "yup";
 import { useMessage } from "../../../context/MessageContext";
-import { ChangeEmployeePassword } from "../../../services/Employees/ForgotPassword/forgotPassword";
+import { SetEmployeeNewPassword } from "../../../services/Employees/ForgotPassword/setEmployeeNewPassword";
 import { Container, ContainerForm } from "./styles";
-import jwt_decode from "jwt-decode";
-import { getEmployee } from "../../../services/Employees/getEmployee";
-
-interface IToken {
-  exp: number;
-  iat: number;
-  id: string;
-}
-
-interface IEmployee {
-  name: string;
-  id: string;
-  password: string;
-  type: string;
-  status: string;
-  created_at: Date;
-}
 
 const ChooseNewPassword = () => {
   const { setMessage } = useMessage();
   const { token } = useParams();
   const navigate = useNavigate();
-  const decryptToken = jwt_decode<IToken>(token!);
-  const [employee, setEmployee] = React.useState<IEmployee>();
-
-  useEffect(() => {
-    getEmployee(decryptToken.id)
-      .then((response: any) => {
-        setEmployee(response.data);
-      })
-      .catch((err) =>
-        setMessage({
-          content: `O seguinte erro ocorreu ao buscar os dados do usuário: ${err}`,
-          display: true,
-          severity: "error",
-        })
-      );
-  }, []);
 
   const setNewPassword = (values: {
-    id: string;
-    oldPassword: string;
+    token: string;
     newPassword: string;
     confirmNewPassword: string;
   }) => {
-    ChangeEmployeePassword(values)
+    SetEmployeeNewPassword(values)
       .then(() => {
         setMessage({
           content: "Senha alterada com sucesso",
@@ -73,27 +39,24 @@ const ChooseNewPassword = () => {
     newPassword: string()
       .min(6, "A senha deve possuír no mínimo 6 caracteres")
       .required("Senha obrigatória"),
-   confirmNewPassword: string()
+    confirmNewPassword: string()
       .min(6, "A senha deve possuír no mínimo 6 caracteres")
       .required("Confirmação da senha obrigatória"),
   });
 
   const formik = useFormik({
     initialValues: {
-      oldPassword: "",
       newPassword: "",
       confirmNewPassword: "",
-      id: "",
+      token: "",
     },
     validationSchema: validationSchema,
     onSubmit: (values: {
-      id: string;
-      oldPassword: string;
+      token: string;
       newPassword: string;
-     confirmNewPassword: string;
+      confirmNewPassword: string;
     }) => {
-      values.oldPassword = employee!.password;
-      values.id = decryptToken.id;
+      values.token = token!;
       setNewPassword(values);
     },
   });
@@ -101,7 +64,7 @@ const ChooseNewPassword = () => {
   return (
     <Container>
       <ContainerForm>
-        <h1>Esolha sua nova senha</h1>
+        <h1>Escolha sua nova senha</h1>
         <p></p>
         <form onSubmit={formik.handleSubmit}>
           <TextField
@@ -112,7 +75,9 @@ const ChooseNewPassword = () => {
             label="Nova senha"
             onChange={formik.handleChange}
             value={formik.values.newPassword}
-            error={formik.touched.newPassword && Boolean(formik.errors.newPassword)}
+            error={
+              formik.touched.newPassword && Boolean(formik.errors.newPassword)
+            }
             helperText={formik.touched.newPassword && formik.errors.newPassword}
           />
           <TextField
@@ -128,7 +93,8 @@ const ChooseNewPassword = () => {
               Boolean(formik.errors.confirmNewPassword)
             }
             helperText={
-              formik.touched.confirmNewPassword && formik.errors.confirmNewPassword
+              formik.touched.confirmNewPassword &&
+              formik.errors.confirmNewPassword
             }
           />
           <Button type="submit" variant="contained" size="large">

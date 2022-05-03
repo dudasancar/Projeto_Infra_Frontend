@@ -9,9 +9,7 @@ const EmailSent = (props: Props) => {
   return (
     <ContainerForm>
       <p>
-        {" "}
-        Foi enviado um e-mail para o endereço {props.email} com o token de
-        acesso para recuperaçãoda conta
+        Foi enviado um e-mail para o endereço de e-mail {props.email} com o link para redefinição da senha
       </p>
     </ContainerForm>
   );

@@ -1,19 +1,16 @@
 import api from "../../api";
 interface IValues {
-  oldPassword: string;
   newPassword: string;
   confirmNewPassword: string;
-  id: string;
+  token: string;
 }
-export const ChangeEmployeePassword = ({
-  oldPassword,
+export const SetEmployeeNewPassword = ({
   newPassword,
   confirmNewPassword,
-  id,
+  token,
 }: IValues) => {
   try {
-    return api.put(`/employee/changePassword/${id}`, {
-      oldPassword,
+    return api.put(`/employee/resetPassword/${token}`, {
       newPassword,
       confirmNewPassword,
     });
