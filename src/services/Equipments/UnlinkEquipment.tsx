@@ -18,7 +18,6 @@ export const unLinkEquipments = async ({
   name,
   serial_number,
   status,
-  stituation,
   type,
 }: IEquipment) => {
   try {
@@ -28,7 +27,7 @@ export const unLinkEquipments = async ({
       name,
       serial_number,
       status,
-      stituation,
+      situation: "Disponível",
       type,
     });
   } catch (error) {

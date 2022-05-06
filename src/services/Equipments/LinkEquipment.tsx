@@ -6,13 +6,13 @@ interface IEquipment {
   serial_number: string;
   model: string;
   type: string;
-  stituation: string;
+  sittuation: string;
   status: string;
   created_at: Date;
 }
 
 export const LinkEquipments = async (
-  { id, model, name, serial_number, status, stituation, type }: IEquipment,
+  { id, model, name, serial_number, status, type }: IEquipment,
   collaborator_id: string
 ) => {
   try {
@@ -22,7 +22,7 @@ export const LinkEquipments = async (
       name,
       serial_number,
       status,
-      stituation,
+      situation: "Indisponível",
       type,
     });
   } catch (error) {
