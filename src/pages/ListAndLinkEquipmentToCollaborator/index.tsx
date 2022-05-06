@@ -11,12 +11,19 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useMessage } from "../../context/MessageContext";
 import { getCollaborator } from "../../services/Collaborators/getCollaborator";
-import { AddEquipmentContainer, Container, styleModal } from "./styles";
+import {
+  AddEquipmentContainer,
+  Container,
+  styleModal,
+  ButtonDiv,
+} from "./styles";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { useFormik } from "formik";
 
 import { listEquipments } from "../../services/Equipments/ListEquipments";
 import { unLinkEquipments } from "../../services/Equipments/UnlinkEquipment";
+import { LinkEquipments } from "../../services/Equipments/LinkEquipment";
+import { getEquipment } from "../../services/Equipments/getEquipment";
 
 interface IEquipment {
   id: string;
@@ -51,7 +58,7 @@ const ListAndLinkEquipmentToCollaborator = () => {
       })
       .catch((err) =>
         setMessage({
-          content: `O seguinte erro ocorreu ao buscar os equipamentos vinculados: ${err}`,
+          content: `O seguinte erro ocorreu ao buscar o colaborador: ${err}`,
           display: true,
           severity: "error",
         })
@@ -80,9 +87,23 @@ const ListAndLinkEquipmentToCollaborator = () => {
       equipment_id: "",
     },
     onSubmit: (values) => {
-      
-
-
+      getEquipment(values.equipment_id)
+        .then((response) => {
+          LinkEquipments(response.data, id!).then(() =>
+            setMessage({
+              content: `Equipamento vinculado com sucesso`,
+              display: true,
+              severity: "success",
+            })
+          );
+        })
+        .catch((error) =>
+          setMessage({
+            content: `O seguinte erro ocorreu ao buscar o equipamento para vinculação: ${error}`,
+            display: true,
+            severity: "error",
+          })
+        );
     },
   });
 
@@ -106,13 +127,11 @@ const ListAndLinkEquipmentToCollaborator = () => {
     setHandleUseEffect(!handleUseEffect);
   }
 
- 
-
   return (
     <Container>
       <AddEquipmentContainer>
         <h1>Vincular novo equipamento ao colaborador</h1>
-        <form>
+        <form onSubmit={formik.handleSubmit}>
           <TextField
             id="equipment_id"
             size="small"
@@ -178,33 +197,33 @@ const ListAndLinkEquipmentToCollaborator = () => {
           }}
         />
       )}
-      <h3>{id}</h3>
 
       {openModal && (
         <Modal open={openModal} onClose={() => setOpenModal(false)}>
           <Box sx={styleModal}>
             <p>Você realmente deseja desvincular o equipamento do usuário?</p>
-
-            <Button
-              type="reset"
-              value="desvincular"
-              onClick={() => {
-                setOpenModal(false);
-              }}
-            >
-              CANCELAR
-            </Button>
-            <Button
-              type="submit"
-              variant="contained"
-              value="desvincular"
-              onClick={() => {
-                setOpenModal(false);
-                handleUnlinkEquipment(equipmentToUnlink!);
-              }}
-            >
-              DESVINCULAR
-            </Button>
+            <ButtonDiv>
+              <Button
+                type="reset"
+                value="desvincular"
+                onClick={() => {
+                  setOpenModal(false);
+                }}
+              >
+                CANCELAR
+              </Button>
+              <Button
+                type="submit"
+                variant="contained"
+                value="desvincular"
+                onClick={() => {
+                  setOpenModal(false);
+                  handleUnlinkEquipment(equipmentToUnlink!);
+                }}
+              >
+                DESVINCULAR
+              </Button>
+            </ButtonDiv>
           </Box>
         </Modal>
       )}
