@@ -1,14 +1,22 @@
-import { Button, MenuItem, TextField, Tooltip } from "@mui/material";
+import {
+  Box,
+  Button,
+  MenuItem,
+  Modal,
+  TextField,
+  Tooltip,
+} from "@mui/material";
 import MaterialTable from "material-table";
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useMessage } from "../../context/MessageContext";
 import { getCollaborator } from "../../services/Collaborators/getCollaborator";
-import { AddEquipmentContainer, Container } from "./styles";
+import { AddEquipmentContainer, Container, styleModal } from "./styles";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { useFormik } from "formik";
-import { equipament } from "../Hardwares/helper";
+
 import { listEquipments } from "../../services/Equipments/ListEquipments";
+import { unLinkEquipments } from "../../services/Equipments/UnlinkEquipment";
 
 interface IEquipment {
   id: string;
@@ -25,6 +33,10 @@ interface IEquipment {
 const ListAndLinkEquipmentToCollaborator = () => {
   const { id } = useParams();
   const { setMessage } = useMessage();
+  const [equipmentToUnlink, setEquipmentToUnlink] =
+    React.useState<IEquipment>();
+  const [handleUseEffect, setHandleUseEffect] = React.useState<boolean>();
+  const [openModal, setOpenModal] = React.useState<boolean>(false);
   const [otherEquipments, setOtherEquipments] = React.useState<
     IEquipment[] | null
   >();
@@ -47,7 +59,11 @@ const ListAndLinkEquipmentToCollaborator = () => {
 
     listEquipments()
       .then((response: any) => {
-        setOtherEquipments(response.data);
+        setOtherEquipments(
+          response.data.filter(
+            (equipment: IEquipment) => equipment.collaborator_id == null
+          )
+        );
       })
       .catch((err) =>
         setMessage({
@@ -56,15 +72,41 @@ const ListAndLinkEquipmentToCollaborator = () => {
           severity: "error",
         })
       );
-  }, []);
+  }, [handleUseEffect]);
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      equipment: "",
+      equipment_id: "",
     },
-    onSubmit: (values) => {},
+    onSubmit: (values) => {
+      
+
+
+    },
   });
+
+  function handleUnlinkEquipment(equipment: IEquipment) {
+    unLinkEquipments(equipment)
+      .then(() =>
+        setMessage({
+          content: `Equipamento desvinculado com sucesso`,
+          display: true,
+          severity: "success",
+        })
+      )
+      .catch((err) =>
+        setMessage({
+          content: `O seguinte erro ocorreu ao buscar os equipamentos vinculados: ${err}`,
+          display: true,
+          severity: "error",
+        })
+      );
+    setOpenModal(false);
+    setHandleUseEffect(!handleUseEffect);
+  }
+
+ 
 
   return (
     <Container>
@@ -72,18 +114,18 @@ const ListAndLinkEquipmentToCollaborator = () => {
         <h1>Vincular novo equipamento ao colaborador</h1>
         <form>
           <TextField
-            id="equipment"
+            id="equipment_id"
             size="small"
             select
-            name="equipment"
+            name="equipment_id"
             label="Equipamento"
             variant="outlined"
             InputLabelProps={{ shrink: true }}
-            value={formik.values.equipment}
+            value={formik.values.equipment_id}
             onChange={formik.handleChange}
           >
             {otherEquipments?.map((equipment) => (
-              <MenuItem key={equipment.name} value={equipment.name}>
+              <MenuItem key={equipment.name} value={equipment.id}>
                 {equipment.name}
               </MenuItem>
             ))}
@@ -112,6 +154,10 @@ const ListAndLinkEquipmentToCollaborator = () => {
                       cursor: "pointer",
                       color: "red",
                     }}
+                    onClick={() => {
+                      setEquipmentToUnlink(equipment);
+                      setOpenModal(true);
+                    }}
                   />
                 </Tooltip>
               ),
@@ -133,6 +179,35 @@ const ListAndLinkEquipmentToCollaborator = () => {
         />
       )}
       <h3>{id}</h3>
+
+      {openModal && (
+        <Modal open={openModal} onClose={() => setOpenModal(false)}>
+          <Box sx={styleModal}>
+            <p>Você realmente deseja desvincular o equipamento do usuário?</p>
+
+            <Button
+              type="reset"
+              value="desvincular"
+              onClick={() => {
+                setOpenModal(false);
+              }}
+            >
+              CANCELAR
+            </Button>
+            <Button
+              type="submit"
+              variant="contained"
+              value="desvincular"
+              onClick={() => {
+                setOpenModal(false);
+                handleUnlinkEquipment(equipmentToUnlink!);
+              }}
+            >
+              DESVINCULAR
+            </Button>
+          </Box>
+        </Modal>
+      )}
     </Container>
   );
 };
