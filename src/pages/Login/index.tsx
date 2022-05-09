@@ -25,7 +25,7 @@ const Login = () => {
   const validationSchema = object({
     email: string().email("Email inválido").required("E-mail obrigatório"),
     password: string()
-      .min(6, "A senha deve possuír no mínimo 8 caracteres")
+      .min(6, "A senha deve possuír no mínimo 6 caracteres")
       .required("Senha obrigatória"),
   });
 
@@ -76,6 +76,7 @@ const Login = () => {
           />
           <TextField
             fullWidth
+            data-testid="input-password"
             variant="outlined"
             type="text"
             name="password"
