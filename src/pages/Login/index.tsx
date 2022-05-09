@@ -60,7 +60,7 @@ const Login = () => {
     <Container>
       <ContainerLoginForm>
         <form onSubmit={formik.handleSubmit}>
-          <img src={`${logo}`} />
+          <img src={`${logo}`} alt="logo" title="logo" />
           <TextField
             data-testid="input-email"
             fullWidth
