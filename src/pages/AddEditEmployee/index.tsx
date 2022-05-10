@@ -54,7 +54,6 @@ const AddEditEmployee = () => {
       getEmployee(id)
         .then((response: any) => {
           setEditedEmployee(response.data);
-          console.log(response.data);
           formik.setValues({
             name: response.data.name,
             email: response.data.email,

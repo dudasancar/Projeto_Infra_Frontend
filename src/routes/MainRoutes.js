@@ -13,6 +13,8 @@ import Hardwares from "../pages/Hardwares";
 import CollaboratorsList from "../pages/CollaboratorsList";
 import AddEditCollaborator from "../pages/AddEditCollaborator";
 
+import ListAndLinkEquipmentToCollaborator from "../pages/ListAndLinkEquipmentToCollaborator";
+import MyData from "../pages/MyData";
 
 const MainRoutes = () => {
   const { user } = useUser();
@@ -32,6 +34,15 @@ const MainRoutes = () => {
       <GlobalStyle />
       <Routes>
         <Route path="/" element={<Login />} />
+
+        <Route
+          path="/meusDados"
+          element={
+            <IdPrivateRoute>
+              <MyData />
+            </IdPrivateRoute>
+          }
+        />
         <Route
           path="/listarFuncionarios"
           element={
@@ -45,6 +56,14 @@ const MainRoutes = () => {
           element={
             <IdPrivateRoute>
               <CollaboratorsList />
+            </IdPrivateRoute>
+          }
+        />
+        <Route
+          path="/listarEquipamentosVinculados/:id"
+          element={
+            <IdPrivateRoute>
+              <ListAndLinkEquipmentToCollaborator />
             </IdPrivateRoute>
           }
         />
@@ -73,7 +92,7 @@ const MainRoutes = () => {
             </IdPrivateRoute>
           }
         />
-                <Route
+        <Route
           path="/editarColaborador/:id"
           element={
             <IdPrivateRoute>
@@ -97,7 +116,14 @@ const MainRoutes = () => {
             </IdPrivateRoute>
           }
         />
-        <Route path="/cadastroEquipamentos" element={<Hardwares />} />
+        <Route
+          path="/cadastroEquipamento"
+          element={
+            <IdPrivateRoute>
+              <Hardwares />
+            </IdPrivateRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
