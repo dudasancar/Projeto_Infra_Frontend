@@ -13,6 +13,7 @@ import { listCollaborators } from "../../services/Collaborators/listCollaborator
 import { inactiveCollaborator } from "../../services/Collaborators/inactiveCollaborator";
 import { getCollaborator } from "../../services/Collaborators/getCollaborators";
 
+import DevicesIcon from "@mui/icons-material/Devices";
 interface Collaborator {
   id: string;
   name: string;
@@ -53,6 +54,9 @@ const CollaboratorsList = () => {
 
   const handleClickCollaboratorDetail = (id: string) => {
     navigate(`/editarColaborador/${id}`);
+  };
+  const handleClickLinkedEquipments = (id: string) => {
+    navigate(`/listarEquipamentosVinculados/${id}`);
   };
 
   const handleOpenModalDeleteConfirmation = (user: Collaborator) => {
@@ -122,7 +126,19 @@ const CollaboratorsList = () => {
             {
               title: "",
               render: (collaborator: Collaborator) => (
-                <div style={{ display: "flex" }}>
+                <div style={{ display: "flex", gap: "2px" }}>
+                  <Tooltip title="Equipamentos vinculados">
+                    <DevicesIcon
+                      onClick={() =>
+                        handleClickLinkedEquipments(collaborator.id)
+                      }
+                      style={{
+                        marginRight: "5px",
+                        cursor: "pointer",
+                        color: "black",
+                      }}
+                    />
+                  </Tooltip>
                   <Tooltip title="Mais Detalhes">
                     <AssignmentIcon
                       onClick={() =>
