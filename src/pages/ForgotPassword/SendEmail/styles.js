@@ -9,44 +9,36 @@ export const Container = styled.section`
   align-items: center;
 `;
 
-export const ContainerLoginForm = styled.div`
-  width: 30%;
+export const ContainerForm = styled.div`
+  width: 34%;
   max-width: 800px;
   background-color: white;
   box-sizing: border-box;
   padding: 3rem;
   box-shadow: 0px 0px 10px #00000029;
-
-  @media (max-width: 1150px) {
-    width: 400px;
+  color: #3e4756;
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 1.2rem;
+  @media (max-width: 1200px) {
+    width: 420px;
   }
 
   @media (max-width: 450px) {
     width: 90%;
   }
 
+  h1 {
+    padding: 0;
+    margin: 0;
+  }
 
   form {
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: center;
-    align-items: center;
     height: 100%;
-    gap: 25px;
+    display: flex;
+    flex-flow: row wrap;
+    gap: 1rem;
 
-    img {
-      align-self: center;
-      width: 160px;
-      margin-bottom: 10%;
-    }
-
-    a {
-      align-self: end;
-      color: #1976d2;
-    }
-
-    button {
-      padding: 12px;
-    }
+ 
   }
 `;

@@ -10,6 +10,7 @@ import { useLocation } from "react-router-dom";
 import { useMessage } from "../../context/MessageContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { getEmployee } from "../../services/Employees/getEmployee";
+
 interface IEmployee {
   id: string | null;
   name: string;
@@ -53,7 +54,6 @@ const AddEditEmployee = () => {
       getEmployee(id)
         .then((response: any) => {
           setEditedEmployee(response.data);
-          console.log(response.data);
           formik.setValues({
             name: response.data.name,
             email: response.data.email,

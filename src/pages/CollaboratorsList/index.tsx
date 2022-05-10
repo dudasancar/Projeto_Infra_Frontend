@@ -10,7 +10,10 @@ import { useMessage } from "../../context/MessageContext";
 import { Button } from "@mui/material";
 import { Container } from "./style";
 import { listCollaborators } from "../../services/Collaborators/listCollaborators";
+import { inactiveCollaborator } from "../../services/Collaborators/inactiveCollaborator";
+import { getCollaborator } from "../../services/Collaborators/getCollaborators";
 
+import DevicesIcon from "@mui/icons-material/Devices";
 interface Collaborator {
   id: string;
   name: string;
@@ -52,6 +55,9 @@ const CollaboratorsList = () => {
   const handleClickCollaboratorDetail = (id: string) => {
     navigate(`/editarColaborador/${id}`);
   };
+  const handleClickLinkedEquipments = (id: string) => {
+    navigate(`/listarEquipamentosVinculados/${id}`);
+  };
 
   const handleOpenModalDeleteConfirmation = (user: Collaborator) => {
     setOpenDeleteConfirmationModal(true);
@@ -62,11 +68,23 @@ const CollaboratorsList = () => {
   };
 
   const handleDeleteCollaborator = () => {
-    setMessage({
-      content: "Colaborador inativado com Sucesso",
-      display: true,
-      severity: "success",
-    });
+    userTobeDeleted &&
+      inactiveCollaborator(userTobeDeleted.id)
+        .then(() => {
+          setMessage({
+            content: "Colaborador inativado com sucesso!",
+            display: true,
+            severity: "success",
+          });
+          navigate("/listarColaboradores");
+        })
+        .catch((err: string) =>
+          setMessage({
+            content: `O seguinte erro ocorreu ao tentar inativar o colaborador: ${err}`,
+            display: true,
+            severity: "error",
+          })
+        );
   };
 
   useEffect(() => {
@@ -108,7 +126,19 @@ const CollaboratorsList = () => {
             {
               title: "",
               render: (collaborator: Collaborator) => (
-                <div style={{ display: "flex" }}>
+                <div style={{ display: "flex", gap: "2px" }}>
+                  <Tooltip title="Equipamentos vinculados">
+                    <DevicesIcon
+                      onClick={() =>
+                        handleClickLinkedEquipments(collaborator.id)
+                      }
+                      style={{
+                        marginRight: "5px",
+                        cursor: "pointer",
+                        color: "black",
+                      }}
+                    />
+                  </Tooltip>
                   <Tooltip title="Mais Detalhes">
                     <AssignmentIcon
                       onClick={() =>

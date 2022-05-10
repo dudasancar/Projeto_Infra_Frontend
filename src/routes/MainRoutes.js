@@ -11,7 +11,11 @@ import { useUser } from "../context/UserContext/index";
 import NoAccessHelper from "../components/NoAccessHelper";
 import Hardwares from "../pages/Hardwares";
 import CollaboratorsList from "../pages/CollaboratorsList";
-import ChangePassword from "../pages/ChangePassword";
+import SendEmail from "../pages/ForgotPassword/SendEmail";
+import ChooseNewPassword from "../pages/ForgotPassword/ChooseNewPassword";
+import ListAndLinkEquipmentToCollaborator from "../pages/ListAndLinkEquipmentToCollaborator";
+import MyData from "../pages/MyData";
+import AddEditCollaborator from "../pages/AddEditCollaborator";
 
 const MainRoutes = () => {
   const { user } = useUser();
@@ -31,6 +35,8 @@ const MainRoutes = () => {
       <GlobalStyle />
       <Routes>
         <Route path="/" element={<Login />} />
+        <Route path="/esqueciSenha" element={<SendEmail />} />
+        <Route path="/recuperarSenha/:token" element={<ChooseNewPassword />} />
 
         <Route
           path="/meusDados"
@@ -53,6 +59,14 @@ const MainRoutes = () => {
           element={
             <IdPrivateRoute>
               <CollaboratorsList />
+            </IdPrivateRoute>
+          }
+        />
+        <Route
+          path="/listarEquipamentosVinculados/:id"
+          element={
+            <IdPrivateRoute>
+              <ListAndLinkEquipmentToCollaborator />
             </IdPrivateRoute>
           }
         />
@@ -82,6 +96,22 @@ const MainRoutes = () => {
           }
         />
         <Route
+          path="/editarColaborador/:id"
+          element={
+            <IdPrivateRoute>
+              <AddEditCollaborator />
+            </IdPrivateRoute>
+          }
+        />
+        <Route
+          path="/cadastroColaborador"
+          element={
+            <IdPrivateRoute>
+              <AddEditCollaborator />
+            </IdPrivateRoute>
+          }
+        />
+        <Route
           path="/edicaoEquipamentos/:id"
           element={
             <IdPrivateRoute>
@@ -89,7 +119,14 @@ const MainRoutes = () => {
             </IdPrivateRoute>
           }
         />
-        <Route path="/cadastroEquipamentos" element={<Hardwares />} />
+        <Route
+          path="/cadastroEquipamento"
+          element={
+            <IdPrivateRoute>
+              <Hardwares />
+            </IdPrivateRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
