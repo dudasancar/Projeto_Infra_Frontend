@@ -12,6 +12,7 @@ import NoAccessHelper from "../components/NoAccessHelper";
 import Hardwares from "../pages/Hardwares";
 import CollaboratorsList from "../pages/CollaboratorsList";
 import ListAndLinkEquipmentToCollaborator from "../pages/ListAndLinkEquipmentToCollaborator";
+import MyData from "../pages/MyData";
 
 const MainRoutes = () => {
   const { user } = useUser();
@@ -31,6 +32,15 @@ const MainRoutes = () => {
       <GlobalStyle />
       <Routes>
         <Route path="/" element={<Login />} />
+
+        <Route
+          path="/meusDados"
+          element={
+            <IdPrivateRoute>
+              <MyData />
+            </IdPrivateRoute>
+          }
+        />
         <Route
           path="/listarFuncionarios"
           element={
@@ -88,7 +98,14 @@ const MainRoutes = () => {
             </IdPrivateRoute>
           }
         />
-        <Route path="/cadastroEquipamentos" element={<Hardwares />} />
+        <Route
+          path="/cadastroEquipamento"
+          element={
+            <IdPrivateRoute>
+              <Hardwares />
+            </IdPrivateRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
