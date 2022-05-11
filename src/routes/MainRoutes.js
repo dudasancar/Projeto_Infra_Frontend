@@ -14,8 +14,8 @@ import CollaboratorsList from "../pages/CollaboratorsList";
 import SendEmail from "../pages/ForgotPassword/SendEmail";
 import ChooseNewPassword from "../pages/ForgotPassword/ChooseNewPassword";
 import ListAndLinkEquipmentToCollaborator from "../pages/ListAndLinkEquipmentToCollaborator";
-import MyData from "../pages/MyData";
 import AddEditCollaborator from "../pages/AddEditCollaborator";
+import ChangePassword from "../pages/ChangePassword"
 
 const MainRoutes = () => {
   const { user } = useUser();
