@@ -9,8 +9,8 @@ import {
 import MaterialTable from "material-table";
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useMessage } from "../../context/MessageContext";
-import { getCollaborator } from "../../services/Collaborators/getCollaborator";
+import { useMessage } from "../../../context/MessageContext";
+import { getCollaborator } from "../../../services/Collaborators/getCollaborator";
 import {
   AddEquipmentContainer,
   Container,
@@ -20,10 +20,10 @@ import {
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { useFormik } from "formik";
 
-import { listEquipments } from "../../services/Equipments/ListEquipments";
-import { unLinkEquipments } from "../../services/Equipments/UnlinkEquipment";
-import { LinkEquipments } from "../../services/Equipments/LinkEquipment";
-import { getEquipment } from "../../services/Equipments/getEquipment";
+import { listEquipments } from "../../../services/Equipments/listEquipments";
+import { unLinkEquipments } from "../../../services/Equipments/unlinkEquipment";
+import { LinkEquipments } from "../../../services/Equipments/linkEquipment";
+import { getEquipment } from "../../../services/Equipments/getEquipment";
 
 interface IEquipment {
   id: string;

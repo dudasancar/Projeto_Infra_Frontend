@@ -1,55 +1,69 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MaterialTable from "material-table";
+import { listEmployees } from "../../../services/Employees/listEmployees";
 import Tooltip from "@mui/material/Tooltip";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import ModalConfirmationHelper from "../../components/ModalConfirmationHelper";
-import { listEquipments } from "../../services/Equipments/ListEquipments";
-import { useMessage } from "../../context/MessageContext";
-import { Container } from "./style";
+import ModalConfirmationHelper from "../../../components/ModalConfirmationHelper";
+import { useMessage } from "../../../context/MessageContext";
 import { Button } from "@mui/material";
+import { Container } from "./style";
+import { inactiveEmployee } from "../../../services/Employees/inactiveEmployee";
 
-interface Equipment {
+interface Employee {
   id: string;
   name: string;
   email: string;
   type: string;
+  local: string;
 }
 
-const EquipmentsList = () => {
-  const { setMessage } = useMessage();
+const EmployeesList = () => {
   const navigate = useNavigate();
+  const { setMessage } = useMessage();
 
-  const [equipmentsList, setEquipmentsList] = useState<Equipment[]>();
-  const [equipmentTobeDeleted, setEquipmentTobeDeleted] = useState<Equipment>();
+  const [employeesList, setEmployeesList] = useState<Employee[]>();
+  const [userTobeDeleted, setUserTobeDeleted] = useState<Employee>();
   const [openDeleteConfirmationModal, setOpenDeleteConfirmationModal] =
     useState<boolean>(false);
 
-  const handleClickEquipmentDetail = (id: string) => {
+  const handleClickEmployeeDetail = (id: string) => {
     navigate(`/editarFuncionario/${id}`);
   };
 
-  const handleOpenModalDeleteConfirmation = (equipment: Equipment) => {
+  const handleOpenModalDeleteConfirmation = (user: Employee) => {
     setOpenDeleteConfirmationModal(true);
-    setEquipmentTobeDeleted(equipment);
+    setUserTobeDeleted(user);
   };
   const handleCloseModalDeleteConfirmation = () => {
     setOpenDeleteConfirmationModal(false);
   };
 
-  const handleDeleteEquipment = () => {
-    setMessage({
-      content: "Equipamento Inativado com Sucesso",
-      display: true,
-      severity: "success",
-    });
+  const handleDeleteEmployee = () => {
+    userTobeDeleted &&
+      inactiveEmployee(userTobeDeleted.id)
+        .then(() => {
+          setMessage({
+            content: "Funcionário inativado com sucesso!",
+            display: true,
+            severity: "success",
+          });
+          navigate("/listarFuncionarios");
+        })
+        .catch((err: string) =>
+          setMessage({
+            content: `O seguinte erro ocorreu ao tentar inativar o funcionário: ${err}`,
+            display: true,
+            severity: "error",
+          })
+        );
   };
 
   useEffect(() => {
-    listEquipments()
-      .then((response: any) => setEquipmentsList(response.data))
-      .catch((error) => {
+    listEmployees()
+      .then((response: any) => setEmployeesList(response.data))
+      .catch((error?) => {
         setMessage({
           content: "Ocorreu um erro ao tentar carregar a tabela!",
           display: true,
@@ -60,25 +74,26 @@ const EquipmentsList = () => {
 
   return (
     <Container>
-        <Button
+      <Button
         variant="contained"
-        onClick={() => navigate("/cadastroEquipamento")}
-      >Cadastrar equipamento</Button>
-      {equipmentsList && (
+        onClick={() => navigate("/cadastroFuncionario")}
+      >
+        Cadastrar funcionário
+      </Button>
+      {employeesList && (
         <MaterialTable
-          title="Lista de Equipamentos"
+          title="Lista de Funcionarios"
           columns={[
-            { title: "Nome", field: "name"},
-            { title: "Modelo", field: "model"},
-            { title: "Tipo", field: "type"},
-            { title: "Situação", field: "situation"},
+            { title: "Nome", field: "name" },
+            { title: "Email", field: "email" },
+            { title: "Cargo", field: "type" },
             {
               title: "",
-              render: (equipment: Equipment) => (
+              render: (employee: Employee) => (
                 <div style={{ display: "flex" }}>
                   <Tooltip title="Mais Detalhes">
                     <AssignmentIcon
-                      onClick={() => handleClickEquipmentDetail(equipment.id)}
+                      onClick={() => handleClickEmployeeDetail(employee.id)}
                       style={{
                         cursor: "pointer",
                         color: "black",
@@ -87,7 +102,9 @@ const EquipmentsList = () => {
                   </Tooltip>
                   <Tooltip title="Inativar">
                     <DeleteForeverIcon
-                      onClick={()=>{handleOpenModalDeleteConfirmation(equipment)}}
+                      onClick={() => {
+                        handleOpenModalDeleteConfirmation(employee);
+                      }}
                       style={{
                         cursor: "pointer",
                         color: "red",
@@ -98,7 +115,7 @@ const EquipmentsList = () => {
               ),
             },
           ]}
-          data={equipmentsList}
+          data={employeesList}
           options={{
             filtering: true,
             search: true,
@@ -116,11 +133,12 @@ const EquipmentsList = () => {
       )}
       <ModalConfirmationHelper
         open={openDeleteConfirmationModal}
-        message={`Você Tem certeza que deseja Inativar este Equipamento?\n
-              ${equipmentTobeDeleted && equipmentTobeDeleted.name}`}
+        message={`Atenção!\n\n
+              Você Tem certeza que deseja Inativar este Funcionário?
+              ${userTobeDeleted && userTobeDeleted.name}`}
         onCancel={handleCloseModalDeleteConfirmation}
         onApprove={() => {
-          handleDeleteEquipment();
+          handleDeleteEmployee();
           handleCloseModalDeleteConfirmation();
         }}
       />
@@ -128,4 +146,4 @@ const EquipmentsList = () => {
   );
 };
 
-export default EquipmentsList;
+export default EmployeesList;

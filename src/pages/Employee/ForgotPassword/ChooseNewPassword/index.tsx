@@ -3,8 +3,8 @@ import { useFormik } from "formik";
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { object, string } from "yup";
-import { useMessage } from "../../../context/MessageContext";
-import { SetEmployeeNewPassword } from "../../../services/Employees/ForgotPassword/setEmployeeNewPassword";
+import { useMessage } from "../../../../context/MessageContext";
+import { SetEmployeeNewPassword } from "../../../../services/Employees/ForgotPassword/setEmployeeNewPassword";
 import { Container, ContainerForm } from "./styles";
 
 const ChooseNewPassword = () => {

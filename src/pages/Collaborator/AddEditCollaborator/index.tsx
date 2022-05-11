@@ -6,7 +6,7 @@ import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useFormik } from "formik";
-import { useMessage } from "../../context/MessageContext";
+import { useMessage } from "../../../context/MessageContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { ContainerForm } from "./Styles";
 import { useLocation } from "react-router-dom";
@@ -15,9 +15,9 @@ import { ICollaborator } from "./interfaces";
 import FirstStep from "./Steps/FirstStep";
 import SecondStep from "./Steps/SecondStep";
 import ThirdStep from "./Steps/ThirdStep";
-import { editCollaborator } from "../../services/Collaborators/editCollaborator";
-import { addCollaborator } from "../../services/Collaborators/addCollaborator";
-import { getCollaborator } from "../../services/Collaborators/getCollaborator";
+import { editCollaborator } from "../../../services/Collaborators/editCollaborator";
+import { addCollaborator } from "../../../services/Collaborators/addCollaborator";
+import { getCollaborator } from "../../../services/Collaborators/getCollaborator";
 
 
 const steps = ["Dados Pessoais", "Dados Profissionais", "Empresa"];
