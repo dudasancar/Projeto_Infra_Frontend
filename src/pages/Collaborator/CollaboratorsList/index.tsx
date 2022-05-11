@@ -120,8 +120,6 @@ const CollaboratorsList = () => {
               field: "start",
             },
             { title: "Contato", field: "contact" },
-            { title: "Endereço", field: "address" },
-            { title: "Computador", field: "computer" },
             {
               title: "",
               render: (collaborator: Collaborator) => (
