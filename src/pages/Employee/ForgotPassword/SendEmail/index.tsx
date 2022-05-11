@@ -4,8 +4,8 @@ import React from "react";
 import { object, string } from "yup";
 import { Container, ContainerForm } from "./styles";
 import { useNavigate } from "react-router-dom";
-import { sendEmailRequest } from "../../../services/Employees/ForgotPassword/sendEmailRequest";
-import { useMessage } from "../../../context/MessageContext";
+import { sendEmailRequest } from "../../../../services/Employees/ForgotPassword/sendEmailRequest";
+import { useMessage } from "../../../../context/MessageContext";
 import EmailSent from "./EmailSent";
 
 const SendEmail = () => {

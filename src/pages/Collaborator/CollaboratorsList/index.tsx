@@ -5,13 +5,12 @@ import MaterialTable from "material-table";
 import Tooltip from "@mui/material/Tooltip";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import ModalConfirmationHelper from "../../components/ModalConfirmationHelper";
-import { useMessage } from "../../context/MessageContext";
+import ModalConfirmationHelper from "../../../components/ModalConfirmationHelper";
+import { useMessage } from "../../../context/MessageContext";
 import { Button } from "@mui/material";
 import { Container } from "./style";
-import { listCollaborators } from "../../services/Collaborators/listCollaborators";
-import { inactiveCollaborator } from "../../services/Collaborators/inactiveCollaborator";
-import { getCollaborator } from "../../services/Collaborators/getCollaborators";
+import { listCollaborators } from "../../../services/Collaborators/listCollaborators";
+import { inactiveCollaborator } from "../../../services/Collaborators/inactiveCollaborator";
 
 import DevicesIcon from "@mui/icons-material/Devices";
 interface Collaborator {

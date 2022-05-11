@@ -3,7 +3,7 @@ import api from "../api";
 export const addEmployees = async (
   name: string,
   email: string,
-  type: string,
+  type: string
 ) => {
   try {
     api.post(`employee/`, {

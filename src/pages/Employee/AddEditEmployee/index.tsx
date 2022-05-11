@@ -3,13 +3,13 @@ import { Container, ContainerButtons, ContainerForm, GridForm } from "./Style";
 import { Button, MenuItem, TextField } from "@mui/material";
 import { useFormik } from "formik";
 import { object, string } from "yup";
-import { addEmployees } from "../../services/Employees/addEmployees";
-import { editEmployees } from "../../services/Employees/editEmployees";
+import { addEmployees } from "../../../services/Employees/addEmployees";
+import { editEmployees } from "../../../services/Employees/editEmployees";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { useMessage } from "../../context/MessageContext";
+import { useMessage } from "../../../context/MessageContext";
 import { useNavigate, useParams } from "react-router-dom";
-import { getEmployee } from "../../services/Employees/getEmployee";
+import { getEmployee } from "../../../services/Employees/getEmployee";
 
 interface IEmployee {
   id: string | null;
@@ -61,7 +61,7 @@ const AddEditEmployee = () => {
             id: null,
           });
         })
-        .catch((err) =>
+        .catch((err: any) =>
           setMessage({
             content: `O seguinte erro ocorreu ao buscar os dados do usuário: ${err}`,
             display: true,

@@ -1,69 +1,55 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MaterialTable from "material-table";
-import { listEmployees } from "../../services/Employees/ListEmployees";
 import Tooltip from "@mui/material/Tooltip";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import ModalConfirmationHelper from "../../components/ModalConfirmationHelper";
-import { useMessage } from "../../context/MessageContext";
-import { Button } from "@mui/material";
+import ModalConfirmationHelper from "../../../components/ModalConfirmationHelper";
+import { listEquipments } from "../../../services/Equipments/listEquipments";
+import { useMessage } from "../../../context/MessageContext";
 import { Container } from "./style";
-import { inactiveEmployee } from "../../services/Employees/inactiveEmployee";
+import { Button } from "@mui/material";
 
-interface Employee {
+interface Equipment {
   id: string;
   name: string;
   email: string;
   type: string;
-  local: string;
 }
 
-const EmployeesList = () => {
-  const navigate = useNavigate();
+const EquipmentsList = () => {
   const { setMessage } = useMessage();
+  const navigate = useNavigate();
 
-  const [employeesList, setEmployeesList] = useState<Employee[]>();
-  const [userTobeDeleted, setUserTobeDeleted] = useState<Employee>();
+  const [equipmentsList, setEquipmentsList] = useState<Equipment[]>();
+  const [equipmentTobeDeleted, setEquipmentTobeDeleted] = useState<Equipment>();
   const [openDeleteConfirmationModal, setOpenDeleteConfirmationModal] =
     useState<boolean>(false);
 
-  const handleClickEmployeeDetail = (id: string) => {
+  const handleClickEquipmentDetail = (id: string) => {
     navigate(`/editarFuncionario/${id}`);
   };
 
-  const handleOpenModalDeleteConfirmation = (user: Employee) => {
+  const handleOpenModalDeleteConfirmation = (equipment: Equipment) => {
     setOpenDeleteConfirmationModal(true);
-    setUserTobeDeleted(user);
+    setEquipmentTobeDeleted(equipment);
   };
   const handleCloseModalDeleteConfirmation = () => {
     setOpenDeleteConfirmationModal(false);
   };
 
-  const handleDeleteEmployee = () => {
-    userTobeDeleted &&
-      inactiveEmployee(userTobeDeleted.id)
-        .then(() => {
-          setMessage({
-            content: "Funcionário inativado com sucesso!",
-            display: true,
-            severity: "success",
-          });
-          navigate("/listarFuncionarios");
-        })
-        .catch((err: string) =>
-          setMessage({
-            content: `O seguinte erro ocorreu ao tentar inativar o funcionário: ${err}`,
-            display: true,
-            severity: "error",
-          })
-        );
+  const handleDeleteEquipment = () => {
+    setMessage({
+      content: "Equipamento Inativado com Sucesso",
+      display: true,
+      severity: "success",
+    });
   };
 
   useEffect(() => {
-    listEmployees()
-      .then((response: any) => setEmployeesList(response.data))
-      .catch((error?) => {
+    listEquipments()
+      .then((response: any) => setEquipmentsList(response.data))
+      .catch((error) => {
         setMessage({
           content: "Ocorreu um erro ao tentar carregar a tabela!",
           display: true,
@@ -76,24 +62,25 @@ const EmployeesList = () => {
     <Container>
       <Button
         variant="contained"
-        onClick={() => navigate("/cadastroFuncionario")}
+        onClick={() => navigate("/cadastroEquipamento")}
       >
-        Cadastrar funcionário
+        Cadastrar equipamento
       </Button>
-      {employeesList && (
+      {equipmentsList && (
         <MaterialTable
-          title="Lista de Funcionarios"
+          title="Lista de Equipamentos"
           columns={[
             { title: "Nome", field: "name" },
-            { title: "Email", field: "email" },
-            { title: "Cargo", field: "type" },
+            { title: "Modelo", field: "model" },
+            { title: "Tipo", field: "type" },
+            { title: "Situação", field: "situation" },
             {
               title: "",
-              render: (employee: Employee) => (
+              render: (equipment: Equipment) => (
                 <div style={{ display: "flex" }}>
                   <Tooltip title="Mais Detalhes">
                     <AssignmentIcon
-                      onClick={() => handleClickEmployeeDetail(employee.id)}
+                      onClick={() => handleClickEquipmentDetail(equipment.id)}
                       style={{
                         cursor: "pointer",
                         color: "black",
@@ -103,7 +90,7 @@ const EmployeesList = () => {
                   <Tooltip title="Inativar">
                     <DeleteForeverIcon
                       onClick={() => {
-                        handleOpenModalDeleteConfirmation(employee);
+                        handleOpenModalDeleteConfirmation(equipment);
                       }}
                       style={{
                         cursor: "pointer",
@@ -115,7 +102,7 @@ const EmployeesList = () => {
               ),
             },
           ]}
-          data={employeesList}
+          data={equipmentsList}
           options={{
             filtering: true,
             search: true,
@@ -133,12 +120,11 @@ const EmployeesList = () => {
       )}
       <ModalConfirmationHelper
         open={openDeleteConfirmationModal}
-        message={`Atenção!\n\n
-              Você Tem certeza que deseja Inativar este Funcionário?
-              ${userTobeDeleted && userTobeDeleted.name}`}
+        message={`Você Tem certeza que deseja Inativar este Equipamento?\n
+              ${equipmentTobeDeleted && equipmentTobeDeleted.name}`}
         onCancel={handleCloseModalDeleteConfirmation}
         onApprove={() => {
-          handleDeleteEmployee();
+          handleDeleteEquipment();
           handleCloseModalDeleteConfirmation();
         }}
       />
@@ -146,4 +132,4 @@ const EmployeesList = () => {
   );
 };
 
-export default EmployeesList;
+export default EquipmentsList;

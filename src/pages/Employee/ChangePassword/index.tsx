@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Container, ContainerForm} from "./style";
-import { useUser } from "../../context/UserContext";
+import { useUser } from "../../../context/UserContext";
 import jwt_decode from "jwt-decode";
 import { object, string } from "yup";
 import { useFormik } from "formik";
-import { useMessage } from "../../context/MessageContext";
-import { ChangeEmployeePassword } from "../../services/Employees/changeEmployeePassword";
+import { useMessage } from "../../../context/MessageContext";
+import { ChangeEmployeePassword } from "../../../services/Employees/changeEmployeePassword";
 
 import { Button, TextField } from "@mui/material";
 
