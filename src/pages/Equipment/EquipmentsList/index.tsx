@@ -27,7 +27,7 @@ const EquipmentsList = () => {
     useState<boolean>(false);
 
   const handleClickEquipmentDetail = (id: string) => {
-    navigate(`/editarFuncionario/${id}`);
+    navigate(`/editarEquipamento/${id}`);
   };
 
   const handleOpenModalDeleteConfirmation = (equipment: Equipment) => {
