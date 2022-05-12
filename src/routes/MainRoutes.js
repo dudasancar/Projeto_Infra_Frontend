@@ -1,23 +1,18 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import GlobalStyle from "../styles/GlobalStyle";
-import AddEditEmployee from "../pages/AddEditEmployee";
-import EmployeesList from "../pages/EmployeesList/index";
-import EquipmentsList from "../pages/EquipmentsList/index";
-import Login from "../pages/Login";
 import ModalMessage from "../components/ModalHelper";
 import { useMessage } from "../context/MessageContext";
 import MenuNavigation from "../components/MenuNavigation";
 import { useUser } from "../context/UserContext/index";
 import NoAccessHelper from "../components/NoAccessHelper";
-import Hardwares from "../pages/Hardwares";
-import CollaboratorsList from "../pages/CollaboratorsList";
-import MyData from "../pages/MyData";
+import PublicRoutes from "./PublicRoutes/PublicRoutes";
+import PrivateRoutes from "./PrivateRoutes/PrivateRoutes";
 
 const MainRoutes = () => {
   const { user } = useUser();
   const { message } = useMessage();
 
-  function IdPrivateRoute({ children }) {
+  function PrivateRouteVerification({ children }) {
     return user.token ? (
       <MenuNavigation> {children} </MenuNavigation>
     ) : (
@@ -29,75 +24,10 @@ const MainRoutes = () => {
     <BrowserRouter>
       {message.display && <ModalMessage />}
       <GlobalStyle />
-      <Routes>
-        <Route path="/" element={<Login />} />
-
-        <Route
-          path="/meusDados"
-          element={
-            <IdPrivateRoute>
-              <MyData />
-            </IdPrivateRoute>
-          }
-        />
-        <Route
-          path="/listarFuncionarios"
-          element={
-            <IdPrivateRoute>
-              <EmployeesList />
-            </IdPrivateRoute>
-          }
-        />
-        <Route
-          path="/listarColaboradores"
-          element={
-            <IdPrivateRoute>
-              <CollaboratorsList />
-            </IdPrivateRoute>
-          }
-        />
-        <Route
-          path="/listarEquipamentos"
-          element={
-            <IdPrivateRoute>
-              <EquipmentsList />
-            </IdPrivateRoute>
-          }
-        />
-
-        <Route
-          path="/editarFuncionario/:id"
-          element={
-            <IdPrivateRoute>
-              <AddEditEmployee />
-            </IdPrivateRoute>
-          }
-        />
-        <Route
-          path="/cadastroFuncionario"
-          element={
-            <IdPrivateRoute>
-              <AddEditEmployee />
-            </IdPrivateRoute>
-          }
-        />
-        <Route
-          path="/edicaoEquipamentos/:id"
-          element={
-            <IdPrivateRoute>
-              <Hardwares />
-            </IdPrivateRoute>
-          }
-        />
-        <Route
-          path="/cadastroEquipamento"
-          element={
-            <IdPrivateRoute>
-              <Hardwares />
-            </IdPrivateRoute>
-          }
-        />
-      </Routes>
+      <PublicRoutes />
+      <PrivateRouteVerification>
+        <PrivateRoutes />
+      </PrivateRouteVerification>
     </BrowserRouter>
   );
 };
