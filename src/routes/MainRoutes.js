@@ -9,25 +9,19 @@ import PublicRoutes from "./PublicRoutes/PublicRoutes";
 import PrivateRoutes from "./PrivateRoutes/PrivateRoutes";
 
 const MainRoutes = () => {
-  const { user } = useUser();
+ 
   const { message } = useMessage();
 
-  function PrivateRouteVerification({ children }) {
-    return user.token ? (
-      <MenuNavigation> {children} </MenuNavigation>
-    ) : (
-      <NoAccessHelper />
-    );
-  }
+ 
 
   return (
     <BrowserRouter>
       {message.display && <ModalMessage />}
       <GlobalStyle />
       <PublicRoutes />
-      <PrivateRouteVerification>
+    
         <PrivateRoutes />
-      </PrivateRouteVerification>
+     
     </BrowserRouter>
   );
 };

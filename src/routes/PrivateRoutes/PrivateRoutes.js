@@ -9,23 +9,119 @@ import EmployeesList from "../../pages/Employee/EmployeesList";
 import AddEditEquipment from "../../pages/Equipment/AddEditEquipment";
 import EquipmentsList from "../../pages/Equipment/EquipmentsList";
 import EquipmentHistory from "../../pages/Equipment/EquipmentHistoryList";
+import { useUser } from "../../context/UserContext";
+import MenuNavigation from "../../components/MenuNavigation";
+import NoAccessHelper from "../../components/NoAccessHelper";
 
 const PrivateRoutes = () => {
+  const { user } = useUser();
+
+  function PrivateRouteVerification({ children }) {
+    return user.token ? (
+      <MenuNavigation> {children} </MenuNavigation>
+    ) : (
+      <NoAccessHelper />
+    );
+  }
+
   return (
     <Routes>
-       
-        <Route path="/meusDados" element={<ChangePassword />} />
-        <Route path="/listarFuncionarios" element={<EmployeesList />} />
-        <Route path="/listarColaboradores" element={<CollaboratorsList />} />
-        <Route path="/listarEquipamentosVinculados/:id" element={<ListAndLinkEquipmentToCollaborator />}/>
-        <Route path="/listarEquipamentos" element={<EquipmentsList />} />
-        <Route path="/cadastroEquipamento" element={<AddEditEquipment/>}/>
-        <Route path="/editarEquipamento/:id" element={<AddEditEquipment/>}/>
-        <Route path="/editarFuncionario/:id" element={<AddEditEmployee />} />
-        <Route path="/cadastroFuncionario" element={<AddEditEmployee />} />
-        <Route path="/editarColaborador/:id" element={<CollaboratorFormStepper />}/>
-        <Route path="/cadastroColaborador" element={<CollaboratorFormStepper />}/>
-        <Route path="/historicoEquipamento/:id" element={<EquipmentHistory />} />
+      <Route
+        path="/meusDados"
+        element={
+          <PrivateRouteVerification>
+            <ChangePassword />
+          </PrivateRouteVerification>
+        }
+      />
+      <Route
+        path="/listarFuncionarios"
+        element={
+          <PrivateRouteVerification>
+            <EmployeesList />
+          </PrivateRouteVerification>
+        }
+      />
+      <Route
+        path="/listarColaboradores"
+        element={
+          <PrivateRouteVerification>
+            <CollaboratorsList />
+          </PrivateRouteVerification>
+        }
+      />
+      <Route
+        path="/listarEquipamentosVinculados/:id"
+        element={
+          <PrivateRouteVerification>
+            <ListAndLinkEquipmentToCollaborator />
+          </PrivateRouteVerification>
+        }
+      />
+      <Route
+        path="/listarEquipamentos"
+        element={
+          <PrivateRouteVerification>
+            <EquipmentsList />
+          </PrivateRouteVerification>
+        }
+      />
+      <Route
+        path="/cadastroEquipamento"
+        element={
+          <PrivateRouteVerification>
+            <AddEditEquipment />
+          </PrivateRouteVerification>
+        }
+      />
+      <Route
+        path="/editarEquipamento/:id"
+        element={
+          <PrivateRouteVerification>
+            <AddEditEquipment />
+          </PrivateRouteVerification>
+        }
+      />
+      <Route
+        path="/editarFuncionario/:id"
+        element={
+          <PrivateRouteVerification>
+            <AddEditEmployee />
+          </PrivateRouteVerification>
+        }
+      />
+      <Route
+        path="/cadastroFuncionario"
+        element={
+          <PrivateRouteVerification>
+            <AddEditEmployee />
+          </PrivateRouteVerification>
+        }
+      />
+      <Route
+        path="/editarColaborador/:id"
+        element={
+          <PrivateRouteVerification>
+            <CollaboratorFormStepper />
+          </PrivateRouteVerification>
+        }
+      />
+      <Route
+        path="/cadastroColaborador"
+        element={
+          <PrivateRouteVerification>
+            <CollaboratorFormStepper />
+          </PrivateRouteVerification>
+        }
+      />
+      <Route
+        path="/historicoEquipamento/:id"
+        element={
+          <PrivateRouteVerification>
+            <EquipmentHistory />
+          </PrivateRouteVerification>
+        }
+      />
     </Routes>
   );
 };

@@ -1,12 +1,13 @@
 import styled from "styled-components";
 
 export const Container = styled.section`
-  width: 100vw;
+ 
   height: 100vh;
   background-color: #f7f7f7;
   display: flex;
   justify-content: center;
   align-items: center;
+ 
 `;
 
 export const ContainerLoginForm = styled.div`
@@ -24,7 +25,6 @@ export const ContainerLoginForm = styled.div`
   @media (max-width: 450px) {
     width: 90%;
   }
-
 
   form {
     display: flex;
