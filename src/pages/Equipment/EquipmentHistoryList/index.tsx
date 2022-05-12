@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import MaterialTable from "material-table";
 import Tooltip from "@mui/material/Tooltip";
-import AssignmentIcon from "@mui/icons-material/Assignment";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ModalConfirmationHelper from "../../../components/ModalConfirmationHelper";
-import { listEquipments } from "../../../services/Equipments/listEquipments";
 import { useMessage } from "../../../context/MessageContext";
-import { Container } from "./style";
-import { Button } from "@mui/material";
-import HistoryIcon from "@mui/icons-material/History";
+import { Container } from "./styles";
+import { getEquipmentHistory } from "../../../services/Equipments/getEquipmentHistory";
+import { inactiveEquipment } from "../../../services/Equipments/inactiveEquipment";
 
 interface Equipment {
   id: string;
@@ -18,22 +16,29 @@ interface Equipment {
   type: string;
 }
 
-const EquipmentsList = () => {
-  const { setMessage } = useMessage();
+const EquipmentHistory = () => {
   const navigate = useNavigate();
+  const { setMessage } = useMessage();
+  const { id } = useParams();
 
-  const [equipmentsList, setEquipmentsList] = useState<Equipment[]>();
+  const [equipmentHistory, setEquipmentHistory] = useState<Equipment[]>();
   const [equipmentTobeDeleted, setEquipmentTobeDeleted] = useState<Equipment>();
   const [openDeleteConfirmationModal, setOpenDeleteConfirmationModal] =
     useState<boolean>(false);
 
-  const handleClickEquipmentDetail = (id: string) => {
-    navigate(`/editarFuncionario/${id}`);
-  };
-
-  const handleClickEquipmentHistory = (id: string) => {
-    navigate(`/historicoEquipamento/${id}`);
-  };
+  useEffect(() => {
+    getEquipmentHistory(id)
+      .then((response: any) => {
+        setEquipmentHistory(response.data.collaborators);
+      })
+      .catch((err) =>
+        setMessage({
+          content: `O seguinte erro ocorreu ao buscar os dados do equipamento: ${err}`,
+          display: true,
+          severity: "error",
+        }),
+      );
+  }, []);
 
   const handleOpenModalDeleteConfirmation = (equipment: Equipment) => {
     setOpenDeleteConfirmationModal(true);
@@ -44,63 +49,38 @@ const EquipmentsList = () => {
   };
 
   const handleDeleteEquipment = () => {
-    setMessage({
-      content: "Equipamento Inativado com Sucesso",
-      display: true,
-      severity: "success",
-    });
+    equipmentTobeDeleted &&
+      inactiveEquipment(equipmentTobeDeleted.id)
+        .then(() => {
+          setMessage({
+            content: "Equipamento inativado com sucesso!",
+            display: true,
+            severity: "success",
+          });
+          navigate("/listarEquipamentos");
+        })
+        .catch((err: string) =>
+          setMessage({
+            content: `O seguinte erro ocorreu ao tentar inativar o funcionário: ${err}`,
+            display: true,
+            severity: "error",
+          }),
+        );
   };
-
-  useEffect(() => {
-    listEquipments()
-      .then((response: any) => setEquipmentsList(response.data))
-      .catch((error) => {
-        setMessage({
-          content: "Ocorreu um erro ao tentar carregar a tabela!",
-          display: true,
-          severity: "error",
-        });
-      });
-  }, []);
 
   return (
     <Container>
-      <Button
-        variant="contained"
-        onClick={() => navigate("/cadastroEquipamento")}
-      >
-        Cadastrar equipamento
-      </Button>
-      {equipmentsList && (
+      {equipmentHistory && (
         <MaterialTable
-          title="Lista de Equipamentos"
+          title="Histórico de Usuários"
           columns={[
             { title: "Nome", field: "name" },
-            { title: "Modelo", field: "model" },
-            { title: "Tipo", field: "type" },
-            { title: "Situação", field: "situation" },
+            { title: "Email", field: "email" },
+            { title: "Cargo", field: "type" },
             {
               title: "",
               render: (equipment: Equipment) => (
                 <div style={{ display: "flex" }}>
-                  <Tooltip title="Histórico de Usuários">
-                    <HistoryIcon
-                      onClick={() => handleClickEquipmentHistory(equipment.id)}
-                      style={{
-                        cursor: "pointer",
-                        color: "black",
-                      }}
-                    />
-                  </Tooltip>
-                  <Tooltip title="Mais Detalhes">
-                    <AssignmentIcon
-                      onClick={() => handleClickEquipmentDetail(equipment.id)}
-                      style={{
-                        cursor: "pointer",
-                        color: "black",
-                      }}
-                    />
-                  </Tooltip>
                   <Tooltip title="Inativar">
                     <DeleteForeverIcon
                       onClick={() => {
@@ -116,7 +96,7 @@ const EquipmentsList = () => {
               ),
             },
           ]}
-          data={equipmentsList}
+          data={equipmentHistory}
           options={{
             filtering: true,
             search: true,
@@ -134,7 +114,8 @@ const EquipmentsList = () => {
       )}
       <ModalConfirmationHelper
         open={openDeleteConfirmationModal}
-        message={`Você Tem certeza que deseja Inativar este Equipamento?\n
+        message={`Atenção!\n\n
+              Você Tem certeza que deseja Inativar este Funcionário?
               ${equipmentTobeDeleted && equipmentTobeDeleted.name}`}
         onCancel={handleCloseModalDeleteConfirmation}
         onApprove={() => {
@@ -146,4 +127,4 @@ const EquipmentsList = () => {
   );
 };
 
-export default EquipmentsList;
+export default EquipmentHistory;
