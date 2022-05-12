@@ -75,7 +75,7 @@ const Login = () => {
           <TextField
             fullWidth
             variant="outlined"
-            type="text"
+            type="password"
             name="password"
             id="password"
             label="Senha"

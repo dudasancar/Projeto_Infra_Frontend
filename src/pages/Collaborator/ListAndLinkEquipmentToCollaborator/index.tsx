@@ -19,7 +19,6 @@ import {
 } from "./styles";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { useFormik } from "formik";
-
 import { listEquipments } from "../../../services/Equipments/listEquipments";
 import { unLinkEquipments } from "../../../services/Equipments/unlinkEquipment";
 import { LinkEquipments } from "../../../services/Equipments/linkEquipment";
@@ -61,15 +60,15 @@ const ListAndLinkEquipmentToCollaborator = () => {
           content: `O seguinte erro ocorreu ao buscar o colaborador: ${err}`,
           display: true,
           severity: "error",
-        })
+        }),
       );
 
     listEquipments()
       .then((response: any) => {
         setOtherEquipments(
           response.data.filter(
-            (equipment: IEquipment) => equipment.collaborator_id == null
-          )
+            (equipment: IEquipment) => equipment.collaborator_id == null,
+          ),
         );
       })
       .catch((err) =>
@@ -77,7 +76,7 @@ const ListAndLinkEquipmentToCollaborator = () => {
           content: `O seguinte erro ocorreu ao buscar os equipamentos vinculados: ${err}`,
           display: true,
           severity: "error",
-        })
+        }),
       );
   }, [handleUseEffect]);
 
@@ -94,7 +93,7 @@ const ListAndLinkEquipmentToCollaborator = () => {
               content: `Equipamento vinculado com sucesso`,
               display: true,
               severity: "success",
-            })
+            }),
           );
         })
         .catch((error) =>
@@ -102,7 +101,7 @@ const ListAndLinkEquipmentToCollaborator = () => {
             content: `O seguinte erro ocorreu ao buscar o equipamento para vinculação: ${error}`,
             display: true,
             severity: "error",
-          })
+          }),
         );
     },
   });
@@ -114,14 +113,14 @@ const ListAndLinkEquipmentToCollaborator = () => {
           content: `Equipamento desvinculado com sucesso`,
           display: true,
           severity: "success",
-        })
+        }),
       )
       .catch((err) =>
         setMessage({
           content: `O seguinte erro ocorreu ao buscar os equipamentos vinculados: ${err}`,
           display: true,
           severity: "error",
-        })
+        }),
       );
     setOpenModal(false);
     setHandleUseEffect(!handleUseEffect);

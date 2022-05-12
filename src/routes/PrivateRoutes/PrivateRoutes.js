@@ -8,6 +8,7 @@ import ChangePassword from "../../pages/Employee/ChangePassword";
 import EmployeesList from "../../pages/Employee/EmployeesList";
 import AddEditEquipment from "../../pages/Equipment/AddEditEquipment";
 import EquipmentsList from "../../pages/Equipment/EquipmentsList";
+import EquipmentHistory from "../../pages/Equipment/EquipmentHistoryList";
 
 const PrivateRoutes = () => {
   return (
@@ -24,6 +25,7 @@ const PrivateRoutes = () => {
         <Route path="/cadastroFuncionario" element={<AddEditEmployee />} />
         <Route path="/editarColaborador/:id" element={<CollaboratorFormStepper />}/>
         <Route path="/cadastroColaborador" element={<CollaboratorFormStepper />}/>
+        <Route path="/historicoEquipamento/:id" element={<EquipmentHistory />} />
     </Routes>
   );
 };
