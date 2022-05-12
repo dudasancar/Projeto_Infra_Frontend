@@ -4,9 +4,9 @@ import "@testing-library/jest-dom";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 import { MemoryRouter } from "react-router-dom";
-import { useMessage } from "../../context/MessageContext";
+import { useMessage } from "../../../../context/MessageContext";
 
-import Login from "./";
+import Login from "..";
 import {
   act,
   fireEvent,
@@ -15,7 +15,7 @@ import {
   waitFor,
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-jest.mock("../../context/MessageContext");
+jest.mock("../../../../context/MessageContext");
 
 const hook = { useMessage };
 const STATE_SPY = jest.spyOn(hook, "useMessage");
@@ -60,13 +60,13 @@ describe("Login unit tests and integration tests", () => {
 
     await waitFor(() => {
       expect(
-        screen.getByText("A senha deve possuír no mínimo 6 caracteres")
+        screen.getByText("A senha deve possuír no mínimo 6 caracteres"),
       ).toBeInTheDocument();
     });
   });
 
   it.todo(
-    "should show an error if none or at least one of the inputs are blank"
+    "should show an error if none or at least one of the inputs are blank",
   );
   it.todo('should call another page when "Esqueci minha senha" is clicked');
   it.todo('should call an api when "entrar" is cliqued');
@@ -74,7 +74,7 @@ describe("Login unit tests and integration tests", () => {
     const server = setupServer(
       rest.post(`*/auth/login`, (req, res, ctx) => {
         return res(ctx.status(200));
-      })
+      }),
     );
 
     server.listen();
