@@ -33,7 +33,6 @@ const CollaboratorFormStepper = () => {
   const { id } = useParams();
 
   const handleNext = () => {
-    console.log('aqui no next')
     if(activeStep < 2)
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
@@ -143,7 +142,6 @@ const CollaboratorFormStepper = () => {
         <div>
           <form onSubmit={(e)=> {
             e.preventDefault()
-              console.log('aqui');
             formik.handleSubmit()
             return false}}>
           {location.pathname == `/editarColaborador/${id}` ? (
