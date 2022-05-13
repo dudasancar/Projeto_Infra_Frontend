@@ -5,7 +5,8 @@ import { rest } from "msw";
 import { setupServer } from "msw/node";
 import { MemoryRouter } from "react-router-dom";
 import { useMessage } from "../../../../context/MessageContext";
-
+import { createMemoryHistory } from "history";
+import { Router } from "react-router-dom";
 import Login from "..";
 import {
   act,
@@ -15,7 +16,8 @@ import {
   waitFor,
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-jest.mock("../../context/MessageContext");
+import AddEditEmployee from "..";
+jest.mock("../../../../context/MessageContext");
 
 const hook = { useMessage };
 const STATE_SPY = jest.spyOn(hook, "useMessage");
@@ -25,25 +27,25 @@ STATE_SPY.mockReturnValue({
   setMessage: CLICK_HANDLER,
 });
 
-describe("Add and edit of employee tests", () => {
+describe("Edit of employee tests", () => {
   it("should test if input email textfield doesnt accept fields that are not emails", () => {
-    render(<Login />, { wrapper: MemoryRouter });
+    render(<AddEditEmployee />, { wrapper: MemoryRouter });
 
     const input = screen.getByTestId("input-email").querySelector("input");
     expect(input.type).toBe("email");
   });
 
-  it("should test if email and password are required fields", async () => {
-    render(<Login />, { wrapper: MemoryRouter });
+  it("should test if name and email are required fields", async () => {
+    render(<AddEditEmployee />, { wrapper: MemoryRouter });
 
-    userEvent.click(screen.getByText("ENTRAR"));
+    userEvent.click(screen.getByText("SALVAR"));
 
     await waitFor(() => {
-      expect(screen.getByText("E-mail obrigatório")).toBeInTheDocument();
+      expect(screen.getByText("Nome obrigatório")).toBeInTheDocument();
     });
 
     await waitFor(() => {
-      expect(screen.getByText("Senha obrigatória")).toBeInTheDocument();
+      expect(screen.getByText("E-mail obrigatório")).toBeInTheDocument();
     });
   });
 
@@ -65,38 +67,32 @@ describe("Add and edit of employee tests", () => {
     });
   });
 
-  it.todo(
-    "should show an error if none or at least one of the inputs are blank"
-  );
-  it.todo('should call another page when "Esqueci minha senha" is clicked');
-  it.todo('should call an api when "entrar" is cliqued');
-  it('should show an error when "entrar" is clicked and service is broken', async () => {
+  it('should show an error when "salvar" is clicked and service is broken', async () => {
     const server = setupServer(
-      rest.post(`*/auth/login`, (req, res, ctx) => {
-        return res(ctx.status(200));
+      rest.put(`*/equipment/id`, (req, res, ctx) => {
+        return res(ctx.status(400), ctx.json("Employee does not exists"));
       })
     );
 
     server.listen();
-    render(<Login />, { wrapper: MemoryRouter });
+    render(<AddEditEmployee />, { wrapper: MemoryRouter });
 
     const inputEmail = screen.getByTestId("input-email").querySelector("input");
-    const inputPassword = screen
-      .getByTestId("input-password")
-      .querySelector("input");
+    const inputName = screen.getByTestId("input-name").querySelector("input");
+    const inputType = screen.getByTestId("input-type").querySelector("input");
 
     fireEvent.change(inputEmail, {
       target: { value: "email@email.com" },
     });
-    fireEvent.change(inputPassword, { target: { value: "123456" } });
-
+    fireEvent.change(inputName, { target: { value: "mateus" } });
+    fireEvent.change(inputType, { target: { value: "dp" } });
     act(() => {
-      userEvent.click(screen.getByText("ENTRAR"));
+      userEvent.click(screen.getByText("SALVAR"));
     });
 
     await waitFor(() => {
       expect(CLICK_HANDLER).toHaveBeenCalledWith({
-        content: "Ocorreu um erro ao tentar efetuar o login!",
+        content: "O seguinte erro ocorreu ao tentar editar o Funcionário: {",
         display: true,
         severity: "error",
       });
@@ -104,7 +100,4 @@ describe("Add and edit of employee tests", () => {
 
     server.close();
   });
-  it.todo("should call an api when keyboard enter is pressed");
-  it.todo("should show an error whene input email is incorrct");
-  it.todo("should show an error when input password is correct");
 });

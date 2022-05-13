@@ -61,19 +61,19 @@ const AddEditEmployee = () => {
             id: null,
           });
         })
-        .catch((err: any) =>
+        .catch((err: any) => {
           setMessage({
             content: `O seguinte erro ocorreu ao buscar os dados do usuário: ${err}`,
             display: true,
             severity: "error",
-          })
-        );
+          });
+          navigate("/listarFuncionarios");
+        });
     }
   }, []);
 
   const CreateOrEditEmployee = (values: IEmployee) => {
     if (location.pathname == `/editarFuncionario/${id}` && editedEmployee) {
-      console.log(editedEmployee.id);
       values.id = editedEmployee!.id;
       editEmployees(values)
         .then(() => {
@@ -112,9 +112,9 @@ const AddEditEmployee = () => {
   };
 
   const validationSchema = object({
-    name: string().required("O nome é obrigatório"),
+    name: string().required("Nome obrigatório"),
     email: string().email("Email inválido").required("E-mail obrigatório"),
-    type: string().required("O tipo de usuário é obrigatório"),
+    type: string().required("Tipo de usuário é obrigatório"),
   });
 
   const formik = useFormik({
@@ -123,7 +123,6 @@ const AddEditEmployee = () => {
       name: "",
       email: "",
       type: "",
-
       id: null,
     },
     validationSchema: validationSchema,
@@ -143,6 +142,7 @@ const AddEditEmployee = () => {
           )}
           <GridForm>
             <TextField
+              data-testid="input-name"
               variant="outlined"
               type="text"
               name="name"
@@ -154,6 +154,7 @@ const AddEditEmployee = () => {
               helperText={formik.touched.name && formik.errors.name}
             />
             <TextField
+              data-testid="input-email"
               variant="outlined"
               type="text"
               name="email"
@@ -165,6 +166,7 @@ const AddEditEmployee = () => {
               helperText={formik.touched.email && formik.errors.email}
             />
             <TextField
+              data-testid="input-name"
               id="type"
               select
               name="type"
