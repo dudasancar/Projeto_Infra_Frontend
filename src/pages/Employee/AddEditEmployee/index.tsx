@@ -61,12 +61,13 @@ const AddEditEmployee = () => {
             id: null,
           });
         })
-        .catch((err: any) =>
+        .catch((err: any) =>{
           setMessage({
             content: `O seguinte erro ocorreu ao buscar os dados do usuário: ${err}`,
             display: true,
             severity: "error",
-          })
+          });
+        navigate("/listarFuncionarios")}
         );
     }
   }, []);
