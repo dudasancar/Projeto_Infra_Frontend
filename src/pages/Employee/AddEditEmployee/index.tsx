@@ -156,7 +156,7 @@ const AddEditEmployee = () => {
             <TextField
               data-testid="input-email"
               variant="outlined"
-              type="text"
+              type="email"
               name="email"
               id="email"
               label="E-mail"
@@ -166,7 +166,7 @@ const AddEditEmployee = () => {
               helperText={formik.touched.email && formik.errors.email}
             />
             <TextField
-              data-testid="input-name"
+              data-testid="input-type"
               id="type"
               select
               name="type"
