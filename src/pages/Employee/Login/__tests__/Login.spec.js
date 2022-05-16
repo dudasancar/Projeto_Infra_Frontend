@@ -71,13 +71,13 @@ describe("Login unit tests and integration tests", () => {
   it.todo('should call another page when "Esqueci minha senha" is clicked');
   it.todo('should call an api when "entrar" is cliqued');
   it('should show an error when "entrar" is clicked and service is broken', async () => {
-    const server = setupServer(
+    const serverlog = setupServer(
       rest.post(`*/auth/login`, (req, res, ctx) => {
         return res(ctx.status(200));
       }),
     );
 
-    server.listen();
+    serverlog.listen();
     render(<Login />, { wrapper: MemoryRouter });
 
     const inputEmail = screen.getByTestId("input-email").querySelector("input");
@@ -102,7 +102,7 @@ describe("Login unit tests and integration tests", () => {
       });
     });
 
-    server.close();
+    serverlog.close();
   });
   it.todo("should call an api when keyboard enter is pressed");
   it.todo("should show an error whene input email is incorrct");

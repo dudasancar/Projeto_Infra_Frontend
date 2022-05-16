@@ -103,7 +103,7 @@ const AddEditEmployee = () => {
         })
         .catch((err: string) =>
           setMessage({
-            content: `O seguinte erro ocorreu ao tentar cadastrar o funcionário: ${err}`,
+            content: `Ocorreu um erro ao tentar cadastrar o funcionário`,
             display: true,
             severity: "error",
           })

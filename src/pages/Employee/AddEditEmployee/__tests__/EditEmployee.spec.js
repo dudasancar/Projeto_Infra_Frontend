@@ -5,9 +5,6 @@ import { rest } from "msw";
 import { setupServer } from "msw/node";
 import { MemoryRouter } from "react-router-dom";
 import { useMessage } from "../../../../context/MessageContext";
-import { createMemoryHistory } from "history";
-import { BrowserRouter } from "react-router-dom";
-import Login from "..";
 import {
   act,
   fireEvent,
@@ -19,11 +16,9 @@ import userEvent from "@testing-library/user-event";
 import AddEditEmployee from "..";
 
 jest.mock("../../../../context/MessageContext");
-
 const hook = { useMessage };
 const STATE_SPY = jest.spyOn(hook, "useMessage");
 const CLICK_HANDLER = jest.fn();
-
 STATE_SPY.mockReturnValue({
   setMessage: CLICK_HANDLER,
 });
@@ -34,36 +29,37 @@ jest.mock("react-router-dom", () => ({
   useNavigate: () => mockedUsedNavigate,
 }));
 
-describe("Edit of employee tests", () => {
-  it("should test if input email textfield doesnt accept fields that are not emails", () => {
-    render(<AddEditEmployee />, { wrapper: MemoryRouter });
+const server = setupServer(
+  rest.get(`*/employee/id`, (req, res, ctx) => {
+    return res(ctx.status(400));
+  })
+);
 
-    const input = screen.getByTestId("input-email").querySelector("input");
-    expect(input.type).toBe("email");
-  });
+beforeAll(() => server.listen());
+afterAll(() => server.close());
 
-  it("should test if name and email are required fields", async () => {
+describe("Add employee tests", () => {
+  it("should require name and email before send", async () => {
     render(<AddEditEmployee />, { wrapper: MemoryRouter });
 
     userEvent.click(screen.getByText("SALVAR"));
 
     await waitFor(() => {
-      expect(screen.getByText("Nome obrigatório")).toBeInTheDocument();
+      expect(screen.getByText("E-mail obrigatório")).toBeInTheDocument();
     });
 
     await waitFor(() => {
-      expect(screen.getByText("E-mail obrigatório")).toBeInTheDocument();
+      expect(screen.getByText("Nome obrigatório")).toBeInTheDocument();
     });
   });
 
-  it("should show sucess message when everything is okay", async () => {
-    const server = setupServer(
-      rest.put(`*/equipment/id`, (req, res, ctx) => {
-        return res(ctx.status(200));
+  it("should show success modal and navigate", async () => {
+    server.use(
+      rest.post(`*/employee`, (req, res, ctx) => {
+        return res(ctx.status(400));
       })
     );
 
-    server.listen();
     render(<AddEditEmployee />, { wrapper: MemoryRouter });
 
     const inputEmail = screen.getByTestId("input-email").querySelector("input");
@@ -75,6 +71,7 @@ describe("Edit of employee tests", () => {
     });
     fireEvent.change(inputName, { target: { value: "mateus" } });
     fireEvent.change(inputType, { target: { value: "dp" } });
+
     act(() => {
       userEvent.click(screen.getByText("SALVAR"));
     });
@@ -85,38 +82,7 @@ describe("Edit of employee tests", () => {
         display: true,
         severity: "success",
       });
-    });
-
-    server.close();
-  });
-
-  it("should navigate to list of employees after success", async () => {
-    const server = setupServer(
-      rest.put(`*/equipment/id`, (req, res, ctx) => {
-        return res(ctx.status(200));
-      })
-    );
-
-    server.listen();
-    render(
-      <AddEditEmployee />,{ wrapper: MemoryRouter }
-    );
-
-    const inputEmail = screen.getByTestId("input-email").querySelector("input");
-    const inputName = screen.getByTestId("input-name").querySelector("input");
-    const inputType = screen.getByTestId("input-type").querySelector("input");
-
-    fireEvent.change(inputEmail, {
-      target: { value: "email@email.com" },
-    });
-    fireEvent.change(inputName, { target: { value: "mateus" } });
-    fireEvent.change(inputType, { target: { value: "dp" } });
-    act(() => {
-      userEvent.click(screen.getByText("SALVAR"));
-    });
-
-    await waitFor(() => {
-      expect(mockedUsedNavigate).toBeCalledTimes(1);
+      expect(mockedUsedNavigate).toHaveBeenCalledWith("/listarFuncionarios");
     });
   });
 });

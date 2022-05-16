@@ -10,7 +10,7 @@ import { useMessage } from "../../../context/MessageContext";
 import { Button } from "@mui/material";
 import { Container } from "./style";
 import { inactiveEmployee } from "../../../services/Employees/inactiveEmployee";
-
+import React from "react";
 interface Employee {
   id: string;
   name: string;
