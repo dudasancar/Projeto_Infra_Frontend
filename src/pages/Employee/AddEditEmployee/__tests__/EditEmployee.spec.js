@@ -56,7 +56,7 @@ describe("Add employee tests", () => {
   it("should show success modal and navigate", async () => {
     server.use(
       rest.post(`*/employee`, (req, res, ctx) => {
-        return res(ctx.status(400));
+        return res(ctx.status(200));
       })
     );
 
