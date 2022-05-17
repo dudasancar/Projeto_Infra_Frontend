@@ -1,4 +1,3 @@
-
 /* eslint-disable testing-library/no-node-access */
 import React from "react";
 import "@testing-library/jest-dom";
@@ -24,6 +23,25 @@ const CLICK_HANDLER = jest.fn();
 
 STATE_SPY.mockReturnValue({
   setMessage: CLICK_HANDLER,
+});
+
+const homepageErrors = console.error.bind(console.error);
+beforeAll(() => {
+  console.error = (errormessage) => {
+    /*
+      if error is a proptype error and includes the following string: `Warning: Failed prop type:`
+      suppress the error and don't show it
+      if it is not a proptype error, we show it
+    */
+    const suppressedErrors = errormessage
+      .toString()
+      .includes("Warning: Failed prop type:");
+
+    !suppressedErrors && homepageErrors(errormessage);
+  };
+});
+afterAll(() => {
+  console.error = homepageErrors;
 });
 
 describe("Login unit tests and integration tests", () => {
@@ -61,24 +79,24 @@ describe("Login unit tests and integration tests", () => {
 
     await waitFor(() => {
       expect(
-        screen.getByText("A senha deve possuír no mínimo 6 caracteres"),
+        screen.getByText("A senha deve possuír no mínimo 6 caracteres")
       ).toBeInTheDocument();
     });
   });
 
   it.todo(
-    "should show an error if none or at least one of the inputs are blank",
+    "should show an error if none or at least one of the inputs are blank"
   );
   it.todo('should call another page when "Esqueci minha senha" is clicked');
   it.todo('should call an api when "entrar" is cliqued');
   it('should show an error when "entrar" is clicked and service is broken', async () => {
-    const serverlog = setupServer(
+    const server = setupServer(
       rest.post(`*/auth/login`, (req, res, ctx) => {
         return res(ctx.status(200));
-      }),
+      })
     );
 
-    serverlog.listen();
+    server.listen();
     render(<Login />, { wrapper: MemoryRouter });
 
     const inputEmail = screen.getByTestId("input-email").querySelector("input");
@@ -103,7 +121,7 @@ describe("Login unit tests and integration tests", () => {
       });
     });
 
-    serverlog.close();
+    server.close();
   });
   it.todo("should call an api when keyboard enter is pressed");
   it.todo("should show an error whene input email is incorrct");
