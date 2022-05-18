@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, ContainerForm} from "./style";
+import { Container, ContainerForm } from "./style";
 import { useUser } from "../../../context/UserContext";
 import jwt_decode from "jwt-decode";
 import { object, string } from "yup";
@@ -27,10 +27,9 @@ const ChangePassword = () => {
   const { setMessage } = useMessage();
   const decryptToken: IToken = jwt_decode(user.token);
 
-  
   const sendChangePasswordRequest = (values: IValues) => {
     ChangeEmployeePassword(values)
-      .then(() => {
+      .then((response) => {
         setMessage({
           content: "Senha alterada com sucesso!",
           display: true,
@@ -48,14 +47,14 @@ const ChangePassword = () => {
 
   const validationSchema = object({
     oldPassword: string()
-      .min(6, "A senha antiga deve possuír no mínimo 6 caracteres")
+      .min(6, "A senha antiga deve possuir no mínimo 6 caracteres")
       .required("Senha antiga obrigatória"),
     newPassword: string()
-      .min(6, "A nova senha deve possuír no mínimo 6 caracteres")
+      .min(6, "A nova senha deve possuir no mínimo 6 caracteres")
       .required("Nova senha obrigatória"),
     confirmNewPassword: string()
-      .min(6, "A nova senha deve possuír no mínimo 6 caracteres")
-      .required("Senha obrigatória"),
+      .min(6, "A confirmação da nova senha deve possuir no mínimo 6 caracteres")
+      .required("Confirmação da senha obrigatória"),
   });
 
   const formik = useFormik({
@@ -67,7 +66,7 @@ const ChangePassword = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log(values);
+      alert("test");
       values.id = decryptToken.id;
       sendChangePasswordRequest(values);
     },
@@ -89,6 +88,7 @@ const ChangePassword = () => {
             size="small"
             variant="outlined"
             type="text"
+            data-testid="input-oldPassword"
             name="oldPassword"
             id="oldPassword"
             label="Senha antiga"
@@ -105,6 +105,7 @@ const ChangePassword = () => {
             size="small"
             variant="outlined"
             type="text"
+            data-testid="input-newPassword"
             name="newPassword"
             id="newPassword"
             label="Senha nova"
@@ -121,6 +122,7 @@ const ChangePassword = () => {
             variant="outlined"
             type="text"
             name="confirmNewPassword"
+            data-testid="input-confirmNewPassword"
             id="confirmNewPassword"
             label="Confirmar nova senha"
             onChange={formik.handleChange}
@@ -136,7 +138,7 @@ const ChangePassword = () => {
           />
 
           <Button fullWidth type="submit" variant="contained" size="large">
-            Confirmar
+            CONFIRMAR
           </Button>
         </ContainerForm>
       </form>

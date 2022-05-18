@@ -1,4 +1,3 @@
-
 /* eslint-disable testing-library/no-node-access */
 import React from "react";
 import "@testing-library/jest-dom";
@@ -16,6 +15,7 @@ import {
   waitFor,
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+
 jest.mock("../../../../context/MessageContext");
 
 const hook = { useMessage };
@@ -61,13 +61,13 @@ describe("Login unit tests and integration tests", () => {
 
     await waitFor(() => {
       expect(
-        screen.getByText("A senha deve possuír no mínimo 6 caracteres"),
+        screen.getByText("A senha deve possuír no mínimo 6 caracteres")
       ).toBeInTheDocument();
     });
   });
 
   it.todo(
-    "should show an error if none or at least one of the inputs are blank",
+    "should show an error if none or at least one of the inputs are blank"
   );
   it.todo('should call another page when "Esqueci minha senha" is clicked');
   it.todo('should call an api when "entrar" is cliqued');
@@ -75,7 +75,7 @@ describe("Login unit tests and integration tests", () => {
     const serverlog = setupServer(
       rest.post(`*/auth/login`, (req, res, ctx) => {
         return res(ctx.status(200));
-      }),
+      })
     );
 
     serverlog.listen();
