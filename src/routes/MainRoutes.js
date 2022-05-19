@@ -13,7 +13,6 @@ const MainRoutes = () => {
       {message.display && <ModalMessage />}
       <GlobalStyle />
       <PublicRoutes />
-
       <PrivateRoutes />
     </BrowserRouter>
   );
