@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, ContainerForm} from "./style";
+import { Container, ContainerForm } from "./style";
 import { useUser } from "../../../context/UserContext";
 import jwt_decode from "jwt-decode";
 import { object, string } from "yup";
@@ -27,7 +27,6 @@ const ChangePassword = () => {
   const { setMessage } = useMessage();
   const decryptToken: IToken = jwt_decode(user.token);
 
-  
   const sendChangePasswordRequest = (values: IValues) => {
     ChangeEmployeePassword(values)
       .then(() => {
@@ -39,7 +38,7 @@ const ChangePassword = () => {
       })
       .catch((err: string) =>
         setMessage({
-          content: `O seguinte erro ocorreu: ${err}`,
+          content: `O seguinte erro ocorreu: ${err}`,hh
           display: true,
           severity: "error",
         })

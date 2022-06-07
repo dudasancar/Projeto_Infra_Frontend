@@ -1,5 +1,5 @@
 import React from "react";
-import { MenuItem, TextField } from "@mui/material";
+import { Button, MenuItem, TextField } from "@mui/material";
 import { FormikProps } from "formik";
 import { ICollaborator } from "../../interfaces";
 import { GridForm } from "../../Styles";
@@ -8,7 +8,7 @@ interface IProps {
   formik: FormikProps<ICollaborator>;
 }
 
-const sons = [
+const status = [
   {
     value: "não",
     label: "Não",
@@ -27,9 +27,7 @@ const sons = [
   },
 ];
 
-
 export default function FirstStep({ formik }: IProps) {
-
   return (
     <GridForm>
       <TextField
@@ -73,7 +71,7 @@ export default function FirstStep({ formik }: IProps) {
         label="Data de Nascimento"
         InputLabelProps={{ shrink: true }}
         onChange={formik.handleChange}
-        value={formik.values.birth?.split('T')[0]}
+        value={formik.values.birth?.split("T")[0]}
         error={formik.touched.birth && Boolean(formik.errors.birth)}
         helperText={formik.touched.birth && formik.errors.birth}
       />
@@ -120,7 +118,7 @@ export default function FirstStep({ formik }: IProps) {
         value={formik.values.sons}
         error={formik.touched.sons && Boolean(formik.errors.sons)}
         helperText={formik.touched.sons && formik.errors.sons}
-        >
+      >
         {sons.map((son) => (
           <MenuItem key={son.value} value={son.value}>
             {son.label}
@@ -182,6 +180,7 @@ export default function FirstStep({ formik }: IProps) {
         error={formik.touched.address && Boolean(formik.errors.address)}
         helperText={formik.touched.address && formik.errors.address}
       />
+   
     </GridForm>
   );
 }

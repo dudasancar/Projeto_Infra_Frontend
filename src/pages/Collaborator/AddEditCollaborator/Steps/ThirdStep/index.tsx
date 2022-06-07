@@ -1,11 +1,11 @@
 import React from "react";
 import { MenuItem, TextField } from "@mui/material";
 import { FormikProps } from "formik";
-import { ICollaborator } from "../../interfaces"
+import { ICollaborator } from "../../interfaces";
 import { GridForm } from "../../Styles";
 
-interface IProps{
-    formik: FormikProps<ICollaborator>
+interface IProps {
+  formik: FormikProps<ICollaborator>;
 }
 
 const status = [
@@ -19,11 +19,7 @@ const status = [
   },
 ];
 
-
-
-
-export default function ThirdStep({formik}: IProps) {
-
+export default function ThirdStep({ formik }: IProps) {
   return (
     <GridForm>
       <TextField
@@ -56,7 +52,7 @@ export default function ThirdStep({formik}: IProps) {
         label="Data de Inicio"
         InputLabelProps={{ shrink: true }}
         onChange={formik.handleChange}
-        value={formik.values.start?.split('T')[0]}
+        value={formik.values.start?.split("T")[0]}
         error={formik.touched.start && Boolean(formik.errors.start)}
         helperText={formik.touched.start && formik.errors.start}
       />
@@ -105,7 +101,7 @@ export default function ThirdStep({formik}: IProps) {
         error={formik.touched.cost_center && Boolean(formik.errors.cost_center)}
         helperText={formik.touched.cost_center && formik.errors.cost_center}
       />
-        <TextField
+      <TextField
         variant="outlined"
         type="time"
         name="hours"
@@ -139,7 +135,7 @@ export default function ThirdStep({formik}: IProps) {
         value={formik.values.status}
         error={formik.touched.status && Boolean(formik.errors.status)}
         helperText={formik.touched.status && formik.errors.status}
-        >
+      >
         {status.map((stat) => (
           <MenuItem key={stat.value} value={stat.value}>
             {stat.label}
@@ -154,7 +150,9 @@ export default function ThirdStep({formik}: IProps) {
         label="ID do Equipamento"
         onChange={formik.handleChange}
         value={formik.values.equipment_id}
-        error={formik.touched.equipment_id && Boolean(formik.errors.equipment_id)}
+        error={
+          formik.touched.equipment_id && Boolean(formik.errors.equipment_id)
+        }
         helperText={formik.touched.equipment_id && formik.errors.equipment_id}
       />
     </GridForm>

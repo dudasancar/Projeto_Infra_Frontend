@@ -7,18 +7,20 @@ import { setupWorker, rest } from "msw";
 import { setupServer } from "msw/node";
 
 const equipmentpageErrors = console.error.bind(console.error);
-beforeAll(() => {
-  console.error = (errormessage) => {
-    const suppressedErrors = errormessage.toString().includes("Warning:");
-
-    !suppressedErrors && equipmentpageErrors(errormessage);
-  };
-});
-afterAll(() => {
-  console.error = equipmentpageErrors;
-});
 
 describe("EquipmentsList unit tests and integration tests", () => {
+  beforeAll(() => {
+    console.error = (errormessage) => {
+      const suppressedErrors = errormessage.toString().includes("Warning:");
+
+      !suppressedErrors && equipmentpageErrors(errormessage);
+    };
+  });
+
+  afterAll(() => {
+    console.error = equipmentpageErrors;
+  });
+
   it("should mock data Indisponivel tobeInDocument 1 times", async () => {
     const server = setupServer(
       rest.get(`*/equipment`, (req, res, ctx) => {
@@ -43,10 +45,45 @@ describe("EquipmentsList unit tests and integration tests", () => {
     );
 
     server.listen();
+
     render(<EquipmentsList />, { wrapper: MemoryRouter });
 
     await waitFor(() => {
-      expect(screen.getByText("Indisponivel")).toBeInTheDocument();
+      expect(screen.getAllByText("Indisponivel")).toHaveLength(1);
+    });
+
+    server.close();
+  });
+
+  it("should not show undefined when a value is passed as undefined", async () => {
+    const server = setupServer(
+      rest.get(`*/equipment`, (req, res, ctx) => {
+        return res(
+          ctx.json([
+            {
+              collaborator: null,
+              collaborator_id: null,
+              collaborators: [],
+              created_at: "2022-05-16T19:58:53.728Z",
+              id: "19a6ab4f-c0f2-42b8-8843-b4d6ab9b60ef",
+              model: undefined,
+              name: undefined,
+              serial_number: "ADFYRTE654453GSYE0",
+              situation: undefined,
+              status: undefined,
+              type: undefined,
+            },
+          ])
+        );
+      })
+    );
+
+    server.listen();
+
+    render(<EquipmentsList />, { wrapper: MemoryRouter });
+
+    await waitFor(() => {
+      expect(screen.queryByText("undefined")).toBeNull();
     });
 
     server.close();
