@@ -85,4 +85,36 @@ describe("Add employee tests", () => {
       expect(mockedUsedNavigate).toHaveBeenCalledWith("/listarFuncionarios");
     });
   });
+   it("should show success modal and navigate", async () => {
+    server.use(
+      rest.post(`*/employee`, (req, res, ctx) => {
+        return res(ctx.status(200));
+      })
+    );
+
+    render(<AddEditEmployee />, { wrapper: MemoryRouter });
+
+    const inputEmail = screen.getByTestId("input-email").querySelector("input");
+    const inputName = screen.getByTestId("input-name").querySelector("input");
+    const inputType = screen.getByTestId("input-type").querySelector("input");
+
+    fireEvent.change(inputEmail, {
+      target: { value: "email@email.com" },
+    });
+    fireEvent.change(inputName, { target: { value: "mateus" } });
+    fireEvent.change(inputType, { target: { value: "dp" } });
+
+    act(() => {
+      userEvent.click(screen.getByText("SALVAR"));
+    });
+
+    await waitFor(() => {
+      expect(CLICK_HANDLER).toHaveBeenCalledWith({
+        content: "Funcionário cadastrado com sucesso!",
+        display: true,
+        severity: "success",
+      });
+      expect(mockedUsedNavigate).toHaveBeenCalledWith("/listarFuncionarios");
+    });
+  });
 });
