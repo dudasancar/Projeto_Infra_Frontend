@@ -1,18 +1,22 @@
+import { IEquipment } from "../../interfaces/equipment";
 import api from "../api";
 
-interface IEquipment {
-  id: string;
-  name: string;
-  serial_number: string;
-  model: string;
-  type: string;
-  sittuation: string;
-  status: string;
-  created_at: Date;
-}
-
-export const LinkEquipments = async (
-  { id, model, name, serial_number, status, type }: IEquipment,
+export const linkEquipments = async (
+  {
+    id,
+    model,
+    name,
+    serial_number,
+    status,
+    type,
+    department,
+    processor,
+    memory,
+    storage,
+    system,
+    office,
+    purchase,
+  }: IEquipment,
   collaborator_id: string
 ) => {
   try {
@@ -22,8 +26,15 @@ export const LinkEquipments = async (
       name,
       serial_number,
       status,
-      situation: "Indisponível",
+      situation: "Em uso",
       type,
+      department,
+      processor,
+      memory,
+      storage,
+      system,
+      office,
+      purchase,
     });
   } catch (error) {
     return Promise.reject(error);

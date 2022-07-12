@@ -8,21 +8,16 @@ import { useMessage } from "../../../context/MessageContext";
 import { Container } from "./styles";
 import { getEquipmentHistory } from "../../../services/Equipments/getEquipmentHistory";
 import { inactiveEquipment } from "../../../services/Equipments/inactiveEquipment";
-
-interface Equipment {
-  id: string;
-  name: string;
-  email: string;
-  type: string;
-}
+import { IEquipment } from "../../../interfaces/equipment";
 
 const EquipmentHistory = () => {
   const navigate = useNavigate();
   const { setMessage } = useMessage();
   const { id } = useParams();
 
-  const [equipmentHistory, setEquipmentHistory] = useState<Equipment[]>();
-  const [equipmentTobeDeleted, setEquipmentTobeDeleted] = useState<Equipment>();
+  const [equipmentHistory, setEquipmentHistory] = useState<IEquipment[]>();
+  const [equipmentTobeDeleted, setEquipmentTobeDeleted] =
+    useState<IEquipment>();
   const [openDeleteConfirmationModal, setOpenDeleteConfirmationModal] =
     useState<boolean>(false);
 
@@ -36,11 +31,11 @@ const EquipmentHistory = () => {
           content: `O seguinte erro ocorreu ao buscar os dados do equipamento: ${err}`,
           display: true,
           severity: "error",
-        }),
+        })
       );
   }, []);
 
-  const handleOpenModalDeleteConfirmation = (equipment: Equipment) => {
+  const handleOpenModalDeleteConfirmation = (equipment: IEquipment) => {
     setOpenDeleteConfirmationModal(true);
     setEquipmentTobeDeleted(equipment);
   };
@@ -64,7 +59,7 @@ const EquipmentHistory = () => {
             content: `O seguinte erro ocorreu ao tentar inativar o funcionário: ${err}`,
             display: true,
             severity: "error",
-          }),
+          })
         );
   };
 
@@ -79,7 +74,7 @@ const EquipmentHistory = () => {
             { title: "Cargo", field: "type" },
             {
               title: "",
-              render: (equipment: Equipment) => (
+              render: (equipment: IEquipment) => (
                 <div style={{ display: "flex" }}>
                   <Tooltip title="Inativar">
                     <DeleteForeverIcon

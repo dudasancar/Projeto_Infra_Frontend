@@ -21,20 +21,9 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { useFormik } from "formik";
 import { listEquipments } from "../../../services/Equipments/listEquipments";
 import { unLinkEquipments } from "../../../services/Equipments/unlinkEquipment";
-import { LinkEquipments } from "../../../services/Equipments/linkEquipment";
+import { linkEquipments } from "../../../services/Equipments/linkEquipment";
 import { getEquipment } from "../../../services/Equipments/getEquipment";
-
-interface IEquipment {
-  id: string;
-  name: string;
-  serial_number: string;
-  model: string;
-  type: string;
-  stituation: string;
-  status: string;
-  created_at: Date;
-  collaborator_id: string;
-}
+import { IEquipment } from "../../../interfaces/equipment";
 
 const ListAndLinkEquipmentToCollaborator = () => {
   const { id } = useParams();
@@ -60,15 +49,15 @@ const ListAndLinkEquipmentToCollaborator = () => {
           content: `O seguinte erro ocorreu ao buscar o colaborador: ${err}`,
           display: true,
           severity: "error",
-        }),
+        })
       );
 
     listEquipments()
       .then((response: any) => {
         setOtherEquipments(
           response.data.filter(
-            (equipment: IEquipment) => equipment.collaborator_id == null,
-          ),
+            (equipment: IEquipment) => equipment.collaborator_id == null
+          )
         );
       })
       .catch((err) =>
@@ -76,7 +65,7 @@ const ListAndLinkEquipmentToCollaborator = () => {
           content: `O seguinte erro ocorreu ao buscar os equipamentos vinculados: ${err}`,
           display: true,
           severity: "error",
-        }),
+        })
       );
   }, [handleUseEffect]);
 
@@ -88,12 +77,12 @@ const ListAndLinkEquipmentToCollaborator = () => {
     onSubmit: (values) => {
       getEquipment(values.equipment_id)
         .then((response) => {
-          LinkEquipments(response.data, id!).then(() =>
+          linkEquipments(response.data, id!).then(() =>
             setMessage({
               content: `Equipamento vinculado com sucesso`,
               display: true,
               severity: "success",
-            }),
+            })
           );
         })
         .catch((error) =>
@@ -101,7 +90,7 @@ const ListAndLinkEquipmentToCollaborator = () => {
             content: `O seguinte erro ocorreu ao buscar o equipamento para vinculação: ${error}`,
             display: true,
             severity: "error",
-          }),
+          })
         );
     },
   });
@@ -113,14 +102,14 @@ const ListAndLinkEquipmentToCollaborator = () => {
           content: `Equipamento desvinculado com sucesso`,
           display: true,
           severity: "success",
-        }),
+        })
       )
       .catch((err) =>
         setMessage({
           content: `O seguinte erro ocorreu ao buscar os equipamentos vinculados: ${err}`,
           display: true,
           severity: "error",
-        }),
+        })
       );
     setOpenModal(false);
     setHandleUseEffect(!handleUseEffect);

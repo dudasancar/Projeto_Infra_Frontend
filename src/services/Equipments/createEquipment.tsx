@@ -1,15 +1,5 @@
+import { IEquipment } from "../../interfaces/equipment";
 import api from "../api";
-import { ICollaborator } from "../../pages/Collaborator/AddEditCollaborator/interfaces";
-
-interface IEquipment {
-  name: string;
-  serial_number: string;
-  model: string;
-  type: string;
-  situation: string;
-  status: string;
-  collaborator_id: string | null;
-}
 
 export const addEquipment = async ({
   name,
@@ -19,6 +9,13 @@ export const addEquipment = async ({
   situation,
   status,
   collaborator_id,
+  department,
+  processor,
+  memory,
+  storage,
+  system,
+  office,
+  purchase,
 }: IEquipment) => {
   try {
     api.post(`equipment`, {
@@ -29,6 +26,13 @@ export const addEquipment = async ({
       situation,
       status,
       collaborator_id,
+      department,
+      processor,
+      memory,
+      storage,
+      system,
+      office,
+      purchase,
     });
   } catch (error) {
     return Promise.reject(error);
