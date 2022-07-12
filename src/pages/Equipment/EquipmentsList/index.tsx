@@ -1,29 +1,22 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MaterialTable from "material-table";
-import Tooltip from "@mui/material/Tooltip";
-import AssignmentIcon from "@mui/icons-material/Assignment";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ModalConfirmationHelper from "../../../components/ModalConfirmationHelper";
 import { listEquipments } from "../../../services/Equipments/listEquipments";
 import { useMessage } from "../../../context/MessageContext";
 import { Container } from "./style";
 import { Button } from "@mui/material";
-import HistoryIcon from "@mui/icons-material/History";
-
-interface Equipment {
-  id: string;
-  name: string;
-  email: string;
-  type: string;
-}
+import { IEquipment } from "../../../interfaces/equipment";
+import { columns } from "./columns";
 
 const EquipmentsList = () => {
   const { setMessage } = useMessage();
   const navigate = useNavigate();
+  const options = { hour: "numeric", minute: "numeric" };
 
-  const [equipmentsList, setEquipmentsList] = useState<Equipment[]>();
-  const [equipmentTobeDeleted, setEquipmentTobeDeleted] = useState<Equipment>();
+  const [equipmentsList, setEquipmentsList] = useState<IEquipment[]>();
+  const [equipmentTobeDeleted, setEquipmentTobeDeleted] =
+    useState<IEquipment>();
   const [openDeleteConfirmationModal, setOpenDeleteConfirmationModal] =
     useState<boolean>(false);
 
@@ -35,7 +28,7 @@ const EquipmentsList = () => {
     navigate(`/historicoEquipamento/${id}`);
   };
 
-  const handleOpenModalDeleteConfirmation = (equipment: Equipment) => {
+  const handleOpenModalDeleteConfirmation = (equipment: IEquipment) => {
     setOpenDeleteConfirmationModal(true);
     setEquipmentTobeDeleted(equipment);
   };
@@ -74,48 +67,12 @@ const EquipmentsList = () => {
       {equipmentsList && (
         <MaterialTable
           title="Lista de Equipamentos"
-          columns={[
-            { title: "Nome", field: "name" },
-            { title: "Modelo", field: "model" },
-            { title: "Tipo", field: "type" },
-            { title: "Situação", field: "situation" },
-            {
-              title: "",
-              render: (equipment: Equipment) => (
-                <div style={{ display: "flex" }}>
-                  <Tooltip title="Histórico de Usuários">
-                    <HistoryIcon
-                      onClick={() => handleClickEquipmentHistory(equipment.id)}
-                      style={{
-                        cursor: "pointer",
-                        color: "black",
-                      }}
-                    />
-                  </Tooltip>
-                  <Tooltip title="Mais Detalhes">
-                    <AssignmentIcon
-                      onClick={() => handleClickEquipmentDetail(equipment.id)}
-                      style={{
-                        cursor: "pointer",
-                        color: "black",
-                      }}
-                    />
-                  </Tooltip>
-                  <Tooltip title="Inativar">
-                    <DeleteForeverIcon
-                      onClick={() => {
-                        handleOpenModalDeleteConfirmation(equipment);
-                      }}
-                      style={{
-                        cursor: "pointer",
-                        color: "red",
-                      }}
-                    />
-                  </Tooltip>
-                </div>
-              ),
-            },
-          ]}
+          columns={columns(
+            options,
+            handleClickEquipmentHistory,
+            handleClickEquipmentDetail,
+            handleOpenModalDeleteConfirmation
+          )}
           data={equipmentsList}
           options={{
             filtering: true,
