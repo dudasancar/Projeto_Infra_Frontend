@@ -2,27 +2,18 @@ import React from "react";
 import { Container, ContainerButtons, ContainerForm, GridForm } from "./styles";
 import { Button, MenuItem, TextField } from "@mui/material";
 import { useFormik } from "formik";
-import { object, string } from "yup";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useMessage } from "../../../context/MessageContext";
 import { useNavigate, useParams } from "react-router-dom";
-import { getEquipment } from "../../../services/Equipments/getEquipaments";
 import { listCollaborators } from "../../../services/Collaborators/listCollaborators";
 import { ICollaborator } from "../../Collaborator/AddEditCollaborator/interfaces";
 import { addEquipment } from "../../../services/Equipments/createEquipment";
 import { editEquipment } from "../../../services/Equipments/editEquipment";
+import { initialValues, validationSchema } from "./validation";
+import { IEquipment } from "../../../interfaces/equipment";
+import { getEquipment } from "../../../services/Equipments/getEquipment";
 
-interface IEquipment {
-  id: string;
-  name: string;
-  serial_number: string;
-  model: string;
-  type: string;
-  situation: string;
-  collaborator_id: string | null;
-  status: string;
-}
 const status = [
   {
     value: "ativo",
@@ -31,6 +22,17 @@ const status = [
   {
     value: "inativo",
     label: "Inativo",
+  },
+];
+
+const department = [
+  {
+    value: "fábrica",
+    label: "Fábrica",
+  },
+  {
+    value: "outsourcing",
+    label: "Outsourcing",
   },
 ];
 
@@ -45,9 +47,10 @@ const AddEditEquipment = () => {
   const { setMessage } = useMessage();
   const navigate = useNavigate();
   const { id } = useParams<Params>();
+  const isEditing = location.pathname.includes("editar");
 
   useEffect(() => {
-    if (location.pathname == `/editarEquipamento/${id}`) {
+    if (isEditing) {
       getEquipment(id)
         .then((response: any) => {
           setEditedEquipment(response);
@@ -60,6 +63,13 @@ const AddEditEquipment = () => {
             situation: response.situation,
             status: response.status,
             collaborator_id: response.collaborator_id,
+            department: response.department,
+            processor: response.processor,
+            memory: response.memory,
+            storage: response.storage,
+            system: response.system,
+            office: response.office,
+            purchase: response.purchase,
           });
         })
         .catch((err: any) =>
@@ -107,7 +117,7 @@ const AddEditEquipment = () => {
       addEquipment(values)
         .then(() => {
           setMessage({
-            content: "Equipamento!",
+            content: "Equipamento cadastrado com sucesso!",
             display: true,
             severity: "success",
           });
@@ -123,30 +133,16 @@ const AddEditEquipment = () => {
     }
   };
 
-  const validationSchema = object({
-    name: string().required("O nome é obrigatório"),
-    email: string().email("Email inválido").required("E-mail obrigatório"),
-    type: string().required("O tipo de usuário é obrigatório"),
-  });
-
   const formik = useFormik({
     enableReinitialize: true,
-    initialValues: {
-      name: "",
-      serial_number: "",
-      model: "",
-      type: "",
-      situation: "",
-      status: "",
-      id: "",
-      collaborator_id: "",
-    },
+    initialValues,
+    validationSchema,
     onSubmit: (values: IEquipment) => {
-      if (values.collaborator_id == "Não há vinculação") {
+      if (values.collaborator_id === "Não há vinculação") {
         values.collaborator_id = null;
         values.situation = "Disponível";
       } else {
-        values.situation = "Indisponível";
+        values.situation = "Em uso";
       }
       handleCreateOrEditEquipment(values);
     },
@@ -156,7 +152,7 @@ const AddEditEquipment = () => {
     <Container>
       <ContainerForm>
         <form onSubmit={formik.handleSubmit}>
-          {location.pathname == `/editarEquipamento/${id}` ? (
+          {isEditing ? (
             <h2>Editar equipamento</h2>
           ) : (
             <h2>Cadastrar novo equipamento</h2>
@@ -249,6 +245,91 @@ const AddEditEquipment = () => {
                   </MenuItem>
                 ))}
             </TextField>
+            <TextField
+              id="department"
+              select
+              name="department"
+              label="Departamento"
+              variant="outlined"
+              InputLabelProps={{ shrink: true }}
+              value={formik.values.department}
+              onChange={formik.handleChange}
+            >
+              {department.map((dep) => (
+                <MenuItem key={dep.value} value={dep.value}>
+                  {dep.label}
+                </MenuItem>
+              ))}
+            </TextField>
+            <TextField
+              variant="outlined"
+              type="text"
+              name="processor"
+              id="processor"
+              label="Processador"
+              onChange={formik.handleChange}
+              value={formik.values.processor}
+              error={
+                formik.touched.processor && Boolean(formik.errors.processor)
+              }
+              helperText={formik.touched.processor && formik.errors.processor}
+            />
+            <TextField
+              variant="outlined"
+              type="number"
+              name="memory"
+              id="memory"
+              label="Memória"
+              onChange={formik.handleChange}
+              value={formik.values.memory}
+              error={formik.touched.memory && Boolean(formik.errors.memory)}
+              helperText={formik.touched.memory && formik.errors.memory}
+            />
+            <TextField
+              variant="outlined"
+              type="text"
+              name="storage"
+              id="storage"
+              label="Armazenamento"
+              onChange={formik.handleChange}
+              value={formik.values.storage}
+              error={formik.touched.storage && Boolean(formik.errors.storage)}
+              helperText={formik.touched.storage && formik.errors.storage}
+            />
+            <TextField
+              variant="outlined"
+              type="text"
+              name="system"
+              id="system"
+              label="Sistema Operacional"
+              onChange={formik.handleChange}
+              value={formik.values.system}
+              error={formik.touched.system && Boolean(formik.errors.system)}
+              helperText={formik.touched.system && formik.errors.system}
+            />
+            <TextField
+              variant="outlined"
+              type="text"
+              name="office"
+              id="office"
+              label="Office"
+              onChange={formik.handleChange}
+              value={formik.values.office}
+              error={formik.touched.office && Boolean(formik.errors.office)}
+              helperText={formik.touched.office && formik.errors.office}
+            />
+            <TextField
+              variant="outlined"
+              type="date"
+              name="purchase"
+              id="purchase"
+              label="Data da compra"
+              InputLabelProps={{ shrink: true }}
+              onChange={formik.handleChange}
+              value={formik.values.purchase}
+              error={formik.touched.purchase && Boolean(formik.errors.purchase)}
+              helperText={formik.touched.purchase && formik.errors.purchase}
+            />
           </GridForm>
           <ContainerButtons>
             <Button
